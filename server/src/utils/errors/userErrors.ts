@@ -1,5 +1,7 @@
-
-// Errores referentes al modelo de usuario
+//===============================================================================
+// name: userErrors.ts
+// desc: All errrors related to the user
+//===============================================================================
 
 class UserNameNotProvided extends Error {
     statusCode : number;
