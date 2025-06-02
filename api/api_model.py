@@ -18,7 +18,7 @@ def predict():
     catDict = { 0 : "Copy Revision", 1 : "Design Issues", 2 : "Requested Change", 3 : "New Item"}
     rndNumber = np.random.randint(0,4)
 
-    prediction = {"Categoría": rndNumber}
+    prediction = {"Categoría": catDict[rndNumber]}
     return jsonify({'predictions': prediction[0]})
 
 @app.route('/v1/predictPriority', methods=['GET'])
