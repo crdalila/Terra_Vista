@@ -13,10 +13,10 @@ enum statusEnum {
 }
 
 enum priorityEnum {
-  urgent = 0,
-  high = 1,
-  normal = 2,
-  low = 3
+  urgent = 1,
+  high = 2,
+  normal = 3,
+  low = 4
 }
 
 enum deviceEnum {
