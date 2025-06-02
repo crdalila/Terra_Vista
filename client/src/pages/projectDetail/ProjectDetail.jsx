@@ -22,16 +22,10 @@ function ProjectDetail() {
             <section className="project-detail">
                 <h1>{project.Name}</h1>
                 <div className="project-detail__info">
-                    <img src={
-                        project.Image?.startsWith("http", "https")
-                            ? project.Image
-                            : `http://localhost:3003${project.Image}`}
-                        alt={project.Name} />
-
                     <div className="project-detail__info--text">
                         <h2>Your website is ready for you.</h2>
                         <p>Explore your website and observe the details.</p>
-                        <Link to='/instructions' >Read more</Link>
+                        <Link to='/instructions'>Read more</Link>
                     </div>
 
                     <div className="project-detail__info--icons">
@@ -52,7 +46,9 @@ function ProjectDetail() {
             </section>
 
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
-                <p>Tasks</p>
+                <div ref={projectTaskListRef}>
+                    <p>Tasks</p>
+                </div>
             </section>
         </article>
     );

@@ -12,9 +12,9 @@ function CreateTask() {
 
                 {/* <label htmlFor="status"></label>
                 <select name="status" id="status">
-                    <option value="new">New</option>
+                    <option value="new">To Do</option>
                     <option value="in-progress">In Progress</option>
-                    <option value="done">Done</option>
+                    <option value="done">Complete</option>
                 </select> */}
 
                 {/* <label htmlFor="request-id">Request #:</label>
