@@ -1,18 +1,19 @@
-import User from "../../models/user.js";
+import User from "../../models/user.ts";
 import { hash, compare } from "../../utils/bcrypt.ts";
 import {
-    UserNicknameNotProvided,
+    UserNameNotProvided,
     UserEmailNotProvided,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,
     UserInvalidCredentials
-} from "../../utils/errors/userErrors.js";
+} from "../../utils/errors/userErrors.ts";
 
-async function register(userData) {
+import { userInterface } from "../../models/user.ts";
 
 
-    if (!userData.nickname) {
-        throw new UserNicknameNotProvided();
+async function register(userData : userInterface) {
+    if (!userData.name) {
+        throw new UserNameNotProvided();
     }
 
     if (!userData.email) {
@@ -22,9 +23,7 @@ async function register(userData) {
     const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
     if (!pwdRegex.test(userData.password)) {
-        const error = new Error('The password must be at least 8 characters long, with letters and numbers');
-        error.statusCode = 400;
-        throw error;
+        throw new UserInvalidCredentials();
     }
 
     if (!userData.password) {
@@ -34,9 +33,7 @@ async function register(userData) {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     if (!emailRegex.test(userData.email)) {
-        const error = new Error('The email is not valid');
-        error.statusCode = 400;
-        throw error;
+        throw new UserInvalidCredentials();
     }
 
     const oldUser = await User.findOne({email: userData.email});
@@ -54,7 +51,7 @@ async function register(userData) {
     return newUser;
 }
 
-async function login(email, password) {
+async function login(email : string, password : string) {
 
     if (!email) {
         throw new UserEmailNotProvided();

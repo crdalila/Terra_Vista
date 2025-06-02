@@ -1,12 +1,16 @@
-import { createToken } from "../../utils/token.js";
-import authController from "./userController.js";
-import User from "../../models/user.js";
+import { createToken } from "../../utils/token.ts";
+import authController from "./userController.ts";
+import User from "../../models/user.ts";
+import user, { userInterface } from "../../models/user.ts";
+import { Request, Response } from 'express';
 
-async function register(req, res) {
+
+async function register(req : Request, res : Response) {
     try {
-        const result = await authController.register(req.body);
+        const userData : userInterface = req.body;
+        const result = await authController.register(userData);
         res.json(result);
-    } catch (error) {
+    } catch (error : any) {
         console.error(error);
         if (error.statusCode) {
             res.status(error.statusCode).json({ error: error.message });
@@ -15,7 +19,7 @@ async function register(req, res) {
         }
     }
 }
-async function login(req, res) {
+async function login(req : Request, res : Response) {
     try {
         const { email, password } = req.body;
         const user = await authController.login(email, password);
@@ -28,8 +32,7 @@ async function login(req, res) {
         const userData = await User.findOne({email}).select("-password");
         res.json({ token, userData });
 
-    } catch (error) {
-
+    } catch (error : any) {
         console.error(error);
         if (error.statusCode) {
             res.status(error.statusCode).json({ error: error.message });

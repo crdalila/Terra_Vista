@@ -1,6 +1,21 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+enum roleEnum {
+  projectManager = "projectManager",
+  client = "client",
+  admin = "admin",
+}
+
+interface userInterface {
+  name: string;
+  email: string;
+  password: string;
+  role: roleEnum;
+  createdAt: Date;
+  projects: [mongoose.Schema.Types.ObjectId];
+}
+
+const userSchema = new mongoose.Schema<userInterface>({
   name: {
     type: String,
     required: true,
@@ -19,9 +34,9 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["projectManager", "client", "admin"],
+    enum: roleEnum,
     required: true,
-    default: "client"
+    default: roleEnum.client
   },
   createdAt: {
     type: Date,
@@ -35,5 +50,8 @@ const userSchema = new mongoose.Schema({
     }]
   },
 });
-
-export default mongoose.model("User", userSchema)
+export default mongoose.model("User", userSchema);
+export {
+  roleEnum,
+  userInterface
+}

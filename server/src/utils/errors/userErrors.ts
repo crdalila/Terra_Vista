@@ -1,7 +1,7 @@
 
 // Errores referentes al modelo de usuario
 
-class UserNicknameNotProvided extends Error {
+class UserNameNotProvided extends Error {
     statusCode : number;
     constructor(){
         super("User name not provided");
@@ -48,7 +48,7 @@ class UserDoesNotExist extends Error {
 }
 
 export {
-    UserNicknameNotProvided,
+    UserNameNotProvided,
     UserEmailNotProvided,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,

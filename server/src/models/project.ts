@@ -1,5 +1,30 @@
 import mongoose from "mongoose"
 
+enum requestEnum {
+  copyRevision = "Copy Revision",
+  designIssues = "Design Issues",
+  newItem = "New Item",
+  requestedChange = "Requested Change"
+}
+enum statusEnum {
+  toDo = "To Do",
+  inProgress = "In Progress",
+  complete = "Complete"
+}
+
+enum priorityEnum {
+  urgent = 0,
+  high = 1,
+  normal = 2,
+  low = 3
+}
+
+enum deviceEnum {
+  mobile = "Mobile",
+  tablet = "Tablet",
+  desktop = "Desktop"
+}
+
 const taskSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -8,18 +33,18 @@ const taskSchema = new mongoose.Schema({
   },
   requestType: {
     type: String,
-    enum: ["Copy Revision", "Design Issues", "New Item", "Requested Change"],
-    default: "Copy Revision"
+    enum: requestEnum,
+    default: requestEnum.copyRevision
   },
   status: {
     type: String,
-    enum: ["To Do", "In Progress", "Complete"],
-    default: "To Do"
+    enum: statusEnum,
+    default: statusEnum.toDo
   },
   priority: {
-    type: String,
-    enum: ["Urgent", "High", "Normal", "Low"],
-    default: "Low"
+    type: Number,
+    enum: priorityEnum,
+    default: priorityEnum.low
   },
   inputDate: {
     type: Date,
@@ -32,7 +57,8 @@ const taskSchema = new mongoose.Schema({
   },
   device: {
     type: String,
-    enum: ["Mobile", "Tablet", "Desktop"],
+    enum: deviceEnum,
+    default: deviceEnum.mobile,
     required: false
   },
   browser: {
@@ -60,6 +86,7 @@ const projectSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+
   task: {
     type: [{
       type: taskSchema,
