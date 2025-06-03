@@ -1,19 +1,18 @@
 import { useContext, useState } from "react";
-// import { AuthContext } from "../../context/AuthContext";
-
-// import './auth.css';
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
-    // const { onLogin } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [error, setError] = useState("");
+    const [error, setError] = useState("");
+
+    const { onLogin } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const result = await onLogin(email, password);
-        if (result.error) {
-            setError(result.error);
+        if (result) {
+            setError(result);
         } else {
             onclose();
         }
@@ -32,9 +31,11 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                {error && <p className="error">{error}</p>}
                 <button type="submit">Login</button>
             </form>
+            {error && <p className="error">{error}</p>}
         </article>
     );
 }
+
+export default Login;

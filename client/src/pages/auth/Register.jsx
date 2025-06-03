@@ -40,3 +40,5 @@ function Register() {
         </article>
     )
 }
+
+export default Register;
