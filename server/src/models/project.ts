@@ -64,6 +64,7 @@ interface taskInterface {
  * mongoose.Schema
  */
 const taskSchema = new mongoose.Schema<taskInterface>({
+  
   name: {
     type: String,
     required: true,
@@ -130,6 +131,7 @@ const taskSchema = new mongoose.Schema<taskInterface>({
  */
 interface projectInterface {
   name: String;
+  finalize: Boolean,
   tasks: [taskInterface];
 }
 
@@ -142,6 +144,10 @@ interface projectInterface {
  * mongoose.Schema
  */
 const projectSchema = new mongoose.Schema<projectInterface>({
+  finalize: {
+    type: Boolean,
+    default: false
+  },
   name: {
     type: String,
     required: true,
