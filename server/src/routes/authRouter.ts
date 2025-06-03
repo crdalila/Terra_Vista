@@ -5,10 +5,12 @@
 import { Router } from "express";
 //=================================Common Imports================================
 import authController from "../controllers/auth/authApiController.ts";
+import { verifyToken } from "../utils/token.ts";
 //===============================================================================
 
 const router = Router();
-router.post("/register",authController.register);
+
+router.post("/register",verifyToken,authController.register);
 router.post("/login",authController.login);
 
 export default router;

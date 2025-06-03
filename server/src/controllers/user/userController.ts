@@ -4,25 +4,23 @@
 //=================================Common Imports================================
 import User from "../../models/user.ts";
 //================================Error Management===============================
-import { UserDoesNotExist } from "../../utils/errors/userErrors.js"
+import { UserDoesNotExist } from "../../utils/errors/userErrors.ts"
 //===============================================================================
 
 async function getUserById(id: string) {
-  const user = await User.findById(id).select("-password");
+  const user = await User.findById(id).populate("Project").select("-password");
   if (user === null) throw new UserDoesNotExist();
   return user;
 }
 
 async function editUser(id: string, data: object) {
-  const user = await User.findByIdAndUpdate(id, data, { new: true }).select("-password");
+  const user = await User.findByIdAndUpdate(id, data, { new: true }).populate("Project").select("-password");
   return user;
 }
 
 async function removeUser(id: string) {
   const user = await User.findByIdAndDelete(id);
-  if (user === null) {
-    throw new UserDoesNotExist();
-  }
+  if (user === null) throw new UserDoesNotExist();
   return 1;
 }
 

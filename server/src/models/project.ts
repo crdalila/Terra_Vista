@@ -42,12 +42,13 @@ enum deviceEnum {
  */
 interface taskInterface {
   name: String;
+  isSend: Boolean;
   requestType: requestEnum;
   status: statusEnum;
   priority: priorityEnum;
   inputDate: Date;
   estimateTime: Number;
-  requester: mongoose.Schema.Types.ObjectId;
+  requester: String;
   device: deviceEnum;
   browser: String;
   request: String;
@@ -69,6 +70,10 @@ const taskSchema = new mongoose.Schema<taskInterface>({
     type: String,
     required: true,
     trim: true
+  },
+  isSend : {
+    type: Boolean,
+    default : false
   },
   requestType: {
     type: String,
@@ -94,8 +99,7 @@ const taskSchema = new mongoose.Schema<taskInterface>({
     required: false
   },
   requester: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
     required: true
   },
   device: {
@@ -131,7 +135,7 @@ const taskSchema = new mongoose.Schema<taskInterface>({
  */
 interface projectInterface {
   name: String;
-  finalize: Boolean,
+  isFinalize: Boolean,
   tasks: [taskInterface];
 }
 
@@ -144,12 +148,13 @@ interface projectInterface {
  * mongoose.Schema
  */
 const projectSchema = new mongoose.Schema<projectInterface>({
-  finalize: {
+  isFinalize: {
     type: Boolean,
     default: false
   },
   name: {
     type: String,
+    default: "Project Name",
     required: true,
     trim: true
   },
