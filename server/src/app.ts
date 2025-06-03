@@ -27,7 +27,7 @@ app.use(express.json());
 app.use("/",router);
 //app.use("/clickup", clickUpRoutes);
 
-const PORT = process.env.APP_PORT || 3001;
-app.listen(PORT, () => {
+const PORT = process.env.DOCKER_PORT || 3000;
+app.listen(3000, () => {
 	console.log(`Server is running on port ${PORT}`);
 });

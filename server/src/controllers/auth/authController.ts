@@ -10,7 +10,9 @@ import {
     UserEmailNotProvided,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,
-    UserInvalidCredentials
+    UserInvalidCredentials,
+    UserInvalidEmail,
+    UserInvalidPassword,
 } from "../../utils/errors/userErrors.ts";
 //===============================================================================
 
@@ -33,14 +35,14 @@ async function register(userData: userInterface) {
     //upper case, number, symbol and at least be 8 character long
     const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/;
     //Error checking for password
-    if (!pwdRegex.test(userData.password)) throw new UserInvalidCredentials();
+    if (!pwdRegex.test(userData.password)) throw new UserInvalidPassword();
     if (!userData.password) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 
     // x@x.x
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     //Error checking for email
-    if (!emailRegex.test(userData.email)) throw new UserInvalidCredentials();
+    if (!emailRegex.test(userData.email)) throw new UserInvalidEmail();
 
     const oldUser = await User.findOne({ email: userData.email });
 

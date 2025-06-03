@@ -12,7 +12,6 @@ import catchError from '../../utils/errors/controllerError.ts';
 
 //Register a user or throws an error
 async function register(req: Request, res: Response) {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
     try {
         const userData: userInterface = req.body;
         const result = await authController.register(userData);

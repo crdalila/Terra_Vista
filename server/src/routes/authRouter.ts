@@ -8,7 +8,6 @@ import authController from "../controllers/auth/authApiController.ts";
 //===============================================================================
 
 const router = Router();
-
 router.post("/register",authController.register);
 router.post("/login",authController.login);
 
