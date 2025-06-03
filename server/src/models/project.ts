@@ -46,6 +46,7 @@ interface taskInterface {
   status: statusEnum;
   priority: priorityEnum;
   inputDate: Date;
+  estimateTime: Number;
   requester: mongoose.Schema.Types.ObjectId;
   device: deviceEnum;
   browser: String;
@@ -86,6 +87,10 @@ const taskSchema = new mongoose.Schema<taskInterface>({
   inputDate: {
     type: Date,
     default: Date.now
+  },
+  estimateTime: {
+    type: Number,
+    required: false
   },
   requester: {
     type: mongoose.Schema.Types.ObjectId,

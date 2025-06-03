@@ -21,6 +21,7 @@ enum roleEnum {
  * (to see an example go to authApiControllers register)
  */
 interface userInterface {
+  clickUpToken : string;
   name: string;
   email: string;
   password: string;
@@ -38,6 +39,11 @@ interface userInterface {
  * mongoose.Schema
  */
 const userSchema = new mongoose.Schema<userInterface>({
+  clickUpToken : {
+    type: String,
+    required: true,
+
+  },
   name: {
     type: String,
     required: true,
