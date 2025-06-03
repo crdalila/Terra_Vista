@@ -16,8 +16,14 @@ enum requestEnum {
   requestedChange = "Requested Change"
 }
 enum statusEnum {
-  toDo = "To Do",
+  onHold = "On Hold",
+  needsInput = "Needs Input",
+  assigned = "Assigned",
   inProgress = "In Progress",
+  forDevTesting = "For Dev Testing",
+  withFeedback = "With Feedback",
+  forManagerTesting = "For Manager Testing",
+  forClientReview = "For Client Review",
   complete = "Complete"
 }
 
@@ -83,7 +89,7 @@ const taskSchema = new mongoose.Schema<taskInterface>({
   status: {
     type: String,
     enum: statusEnum,
-    default: statusEnum.toDo
+    default: statusEnum.needsInput
   },
   priority: {
     type: Number,
