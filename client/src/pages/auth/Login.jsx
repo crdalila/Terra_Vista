@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -7,14 +8,15 @@ function Login() {
     const [error, setError] = useState("");
 
     const { onLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await onLogin(email, password);
-        if (result) {
-            setError(result);
+        const user = await onLogin(email, password);
+        if (user) {
+            setError(user);
         } else {
-            onclose();
+            navigate(`/user/projects/${user._id}`);
         }
     };
 

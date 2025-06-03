@@ -71,13 +71,7 @@ async function login(email: string, password: string) {
     //Error checking for email and password
     if (!email) throw new UserEmailNotProvided();
     if (!password) throw new UserPasswordNotProvided();
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH")
-    console.log(email, password);
-    const allUsers = await User.find();
-    console.log("ALL USERS", allUsers);
     const user = await User.findOne({ email });
-    console.log("User", user);
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH\n\n\n\n\n")
     //Error checking for user
     if (!user) throw new UserInvalidCredentials();
 
