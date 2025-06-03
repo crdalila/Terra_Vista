@@ -18,8 +18,8 @@ function RequestForm() {
                 <select name="request-type" id="request-type" required>
                     <option value="copy-revision">Copy Revision</option>
                     <option value="desgin-issues">Design Issues:</option>
-                    <option value="new-item">New Item:</option>
                     <option value="requested-change">Requested Change:</option>
+                    <option value="new-item">New Item:</option>
                 </select>
 
                 <label htmlFor="status"></label>
