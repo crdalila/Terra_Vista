@@ -1,44 +1,44 @@
-import { createToken } from "../../utils/token.ts";
+//===============================================================================
+// name: authApiController.ts
+// desc: Controller of auth with the register and login function with the respective try catches
+//===============================Dependency Imports==============================
+import { Request, Response } from 'express'
+//=================================Common Imports================================
 import authController from "./authController.ts";
-import User from "../../models/user.ts";
-import { userInterface } from "../../models/user.ts";
-import { Request, Response } from 'express';
+import User, { userInterface } from "../../models/user.ts";
+import { createToken } from "../../utils/token.ts";
+//================================Error Management===============================
+import catchError from '../../utils/errors/controllerError.ts';
 
-
-async function register(req : Request, res : Response) {
+//Register a user or throws an error
+async function register(req: Request, res: Response) {
     try {
-        const userData : userInterface = req.body;
+        const userData: userInterface = req.body;
         const result = await authController.register(userData);
         res.json(result);
-    } catch (error : any) {
-        console.error(error);
-        if (error.statusCode) {
-            res.status(error.statusCode).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: "Internal server error" });
-        }
+    } catch (error: any) {
+        const myError = catchError(error);
+        res.status(myError.statusCode).json(myError.message);
     }
 }
-async function login(req : Request, res : Response) {
+
+//Logs a user in or throws an error
+async function login(req: Request, res: Response) {
     try {
         const { email, password } = req.body;
         const user = await authController.login(email, password);
 
-        const payload = {
-            _id:user._id,
-        };
+        const payload = { _id: user._id };
 
         const token = createToken(payload);
-        const userData = await User.findOne({email}).select("-password");
+        /*the .select("-password") is for the 
+        login not to sends the password in the json*/
+        const userData = await User.findOne({ email }).select("-password");
         res.json({ token, userData });
 
-    } catch (error : any) {
-        console.error(error);
-        if (error.statusCode) {
-            res.status(error.statusCode).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: "Internal server error" });
-        }
+    } catch (error: any) {
+        const myError = catchError(error);
+        res.status(myError.statusCode).json(myError.message);
     }
 }
 

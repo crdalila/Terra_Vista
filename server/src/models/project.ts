@@ -1,4 +1,13 @@
-import mongoose from "mongoose"
+//===============================================================================
+// name: project.ts
+// desc: Interface, Schema and Model of the project, apart from all necessary enums
+//===============================Dependency Imports==============================
+import mongoose from "mongoose";
+//===============================================================================
+
+/** We put the enums apart from the schema to also 
+ *  use it in the interface
+ */
 
 enum requestEnum {
   copyRevision = "Copy Revision",
@@ -25,7 +34,36 @@ enum deviceEnum {
   desktop = "Desktop"
 }
 
-const taskSchema = new mongoose.Schema({
+/**
+ * Interfaces are used in TypeScript
+ * to tell a variable that they will have
+ * this variables inside of it
+ * (to see an example go to authApiControllers register)
+ */
+interface taskInterface {
+  name: String;
+  requestType: requestEnum;
+  status: statusEnum;
+  priority: priorityEnum;
+  inputDate: Date;
+  estimateTime: Number;
+  requester: mongoose.Schema.Types.ObjectId;
+  device: deviceEnum;
+  browser: String;
+  request: String;
+  page: String;
+  screenshots: String;
+}
+
+/**
+ * Due to having an interfaces, and the interface
+ * and the schema needing to have the same variables 
+ * inside of it, we force the Schema to always have
+ * the variables the interface has by writting
+ * mongoose.Schema<InterfaceName> instead of
+ * mongoose.Schema
+ */
+const taskSchema = new mongoose.Schema<taskInterface>({
   name: {
     type: String,
     required: true,
@@ -49,6 +87,10 @@ const taskSchema = new mongoose.Schema({
   inputDate: {
     type: Date,
     default: Date.now
+  },
+  estimateTime: {
+    type: Number,
+    required: false
   },
   requester: {
     type: mongoose.Schema.Types.ObjectId,
@@ -80,14 +122,33 @@ const taskSchema = new mongoose.Schema({
   },
 });
 
-const projectSchema = new mongoose.Schema({
+/**
+ * Interfaces are used in TypeScript
+ * to tell a variable that they will have
+ * this variables inside of it
+ * (to see an example go to authApiControllers register)
+ */
+interface projectInterface {
+  name: String;
+  tasks: [taskInterface];
+}
+
+/**
+ * Due to having an interfaces, and the interface
+ * and the schema needing to have the same variables 
+ * inside of it, we force the Schema to always have
+ * the variables the interface has by writting
+ * mongoose.Schema<InterfaceName> instead of
+ * mongoose.Schema
+ */
+const projectSchema = new mongoose.Schema<projectInterface>({
   name: {
     type: String,
     required: true,
     trim: true
   },
 
-  task: {
+  tasks: {
     type: [{
       type: taskSchema,
       required: true
@@ -98,3 +159,4 @@ const projectSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Project", projectSchema);
+export {taskInterface, projectInterface};

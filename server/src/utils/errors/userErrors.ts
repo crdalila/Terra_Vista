@@ -1,5 +1,7 @@
-
-// Errores referentes al modelo de usuario
+//===============================================================================
+// name: userErrors.ts
+// desc: All errrors related to the user
+//===============================================================================
 
 class UserNameNotProvided extends Error {
     statusCode : number;
@@ -39,6 +41,22 @@ class UserInvalidCredentials extends Error {
     }
 }
 
+class UserInvalidPassword extends Error {
+    statusCode : number;
+    constructor(){
+        super("Invalid password");
+        this.statusCode = 401;
+    }
+}
+
+class UserInvalidEmail extends Error {
+    statusCode : number;
+    constructor(){
+        super("Invalid email");
+        this.statusCode = 401;
+    }
+}
+
 class UserDoesNotExist extends Error {
     statusCode : number;
     constructor(){
@@ -53,5 +71,7 @@ export {
     UserPasswordNotProvided,
     UserEmailAlreadyExists,
     UserInvalidCredentials,
+    UserInvalidEmail,
+    UserInvalidPassword,
     UserDoesNotExist
 }
