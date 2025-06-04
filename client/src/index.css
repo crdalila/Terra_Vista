@@ -145,6 +145,18 @@ img {
   display: inline-block;
 }
 
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  font-size: var(--main-size);
+  font-weight: var(--main-weight);
+  font-family: var(--main-font);
+
+  color: var(--main-color);
+}
+
 /* END RESET */
 
 
@@ -188,20 +200,6 @@ body {
   overflow-x: hidden;
   overscroll-behavior: none;
   position: relative;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-  transition: transform .3s cubic-bezier(.2,0,.38,.9);
-
-  background-color: var(--text-color);
-  color: var(--main-color);
-
-  padding: 1rem 0;
 }
 
 

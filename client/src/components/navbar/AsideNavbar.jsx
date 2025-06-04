@@ -7,13 +7,13 @@ function AsideNavbar() {
     <nav className="aside-nav">
       <ul>
         <li>
-          <button className="notifications-button">Notifications</button>
+          <button className="notifications-button aside-navbar--button">Notifications</button>
         </li>
         <li>
-          <NavLink to='/projects'>Projects</NavLink>
+          <NavLink to='/projects' className='aside-navbar--button projects-button'>Projects</NavLink>
         </li>
         <li>
-          <NavLink to="/instructions">Instructions</NavLink>
+          <NavLink to="/instructions" className='aside-navbar--button instructions-button'>Instructions</NavLink>
         </li>
       </ul>
       {/* <button className="settings-button">Settings</button> */}
