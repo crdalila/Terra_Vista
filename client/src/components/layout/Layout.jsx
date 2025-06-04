@@ -7,9 +7,7 @@ const Layout = () => {
         <>
             <TopNavbar />
             <AsideNavbar />
-            <main>
-                <Outlet />
-            </main>
+            <Outlet />
         </>
     )
 };

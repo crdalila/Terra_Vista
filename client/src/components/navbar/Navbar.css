@@ -44,8 +44,9 @@
 }
 
 .aside-nav {
-    width: fit-content;
-    height: 100vh;
+    width: 10em;
+    min-height: 100vh;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -54,6 +55,7 @@
 }
 
 .aside-nav ul {
+    position: fixed;
     display: flex;
     flex-flow: column;
     justify-content: center;
