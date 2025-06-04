@@ -4,30 +4,33 @@ import clickUpApiController from "../controllers/clickUp/clickUpApiController";
 const router = express.Router();
 
 // Get spaces for a user
-router.get("/spaces/:userid/:workspaceid", clickUpApiController.getSpaces);
+router.get("/spaces/:userId", clickUpApiController.getSpaces);
+
+// Ensure Dev Folder and QA List exist
+router.get("/ensureDevFolderQAList/:userId/:spaceId", clickUpApiController.ensureDevFolderQAList);
 
 // Get folders for a space
-router.get("/folders/:userid/:spaceid", clickUpApiController.getFolders);
+router.get("/folders/:userId/:spaceId", clickUpApiController.getFolders);
 
 // Get lists for a space
-router.get("/lists/:userid/:spaceid", clickUpApiController.getLists);
+router.get("/lists/:userId/:spaceId", clickUpApiController.getLists);
 
 // Get info from a list
-router.get("/info/:userid/:listId", clickUpApiController.getClickUpInfo);
+router.get("/info/:userId/:listId", clickUpApiController.getClickUpInfo);
 
 // Create task
-router.post("/create/:userid/:listId", clickUpApiController.createTask);
+router.post("/create/:userId/:listId", clickUpApiController.createTask);
 
 // Update task
-router.put("/update/:userid/:taskId", clickUpApiController.updateTask);
+router.put("/update/:userId/:taskId", clickUpApiController.updateTask);
 
 // Delete task
-router.delete("/delete/:userid/:taskId", clickUpApiController.deleteTask);
+router.delete("/delete/:userId/:taskId", clickUpApiController.deleteTask);
 
 // Update task status
-router.put("/status/:userid/:taskid", clickUpApiController.updateTaskStatus);
+router.put("/status/:userId/:taskId", clickUpApiController.updateTaskStatus);
 
 // Sync task
-router.post("/sync/:userid", clickUpApiController.syncTask);
+router.post("/sync/:userId", clickUpApiController.syncTask);
 
 export default router;

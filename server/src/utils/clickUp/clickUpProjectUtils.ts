@@ -92,3 +92,55 @@ export const getClickUpInfo = async (listId: string, token: string) => {
 			error: error.response?.data || error.message};
 	}
 }
+
+// Search Dev Folder and QA List
+export const getDevFolderQAList = async (token: string, spaceId: string) => {
+	// Get all folders
+	const foldersResult = await getAllClickUpFolders(token, spaceId);
+	if (!foldersResult.success) throw new Error ("Failed to get folders");
+
+	let devFolder = foldersResult.data.find((folder: any) => folder.name === "Dev");
+
+	// Create Dev Folder if it doesn't exist
+	if (!devFolder) {
+		const res = await axios.post(
+			`https://api.clickup.com/api/v2/space/${spaceId}/folder`,
+			{
+				name: "Dev"
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				}
+			}
+		);
+		devFolder = res.data;
+	};
+	// Get list from Dev folder
+	const listResult = await getAllClickUpLists(token, devFolder.id);
+	if (!listResult.success) throw new Error ("Failed to get lists");
+
+	let qaList = listResult.data.lists.find((list: any) => list.name === "QA");
+
+	// Create QA List if it doesn't exist
+	if (!qaList) {
+		const res = await axios.post(
+			`https://api.clickup.com/api/v2/folder/${devFolder.id}/list`,
+			{
+				name: "QA"
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				}
+			}
+		);
+		qaList = res.data;
+	};
+	return {
+		folderId: devFolder.id,
+		listId: qaList.id
+	};
+}
