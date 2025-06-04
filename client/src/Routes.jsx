@@ -3,9 +3,6 @@ import { createBrowserRouter } from "react-router-dom";
 import CreateUser from "./pages/auth/CreateUser";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
-import Root from "./pages/root/Root";
-import Layout from "./components/layout/Layout";
-
 
 const router = createBrowserRouter([
     {
@@ -29,12 +26,15 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "/",
-/*                         loader: async () => getProjectsByUserId(), */
+                        loader: async () => getProjectsByUserId(),
                         shouldRevalidate: () => true,
-                        children: [
-                            /* TODO ELEMENTOS */
-                        ]
+                        element: <Instructions />
                     },
+                    {
+                        path: '/profile',
+                        shouldRevalidate: () => true,
+                        element: <Profile />
+                    }
                 ],
             }
         ]
