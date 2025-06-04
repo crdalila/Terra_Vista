@@ -5,16 +5,18 @@
 import Project, { projectInterface } from "../../models/project.ts";
 import Task, { taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
-
+import { ProjectDoesNotExist } from "../../utils/errors/projectError.ts";
 //===============================================================================
 
 async function getProjectById(id: string) {
   const project = await Project.findById(id).populate("Task");
+  if(!project) throw new ProjectDoesNotExist();
   return project;
 }
 
 async function getAllProject() {
   const projects = await Project.find().populate("Task");
+  if(!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   return projects;
 }
 

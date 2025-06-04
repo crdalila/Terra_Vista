@@ -17,7 +17,9 @@ router.get("/", verifyToken, projectController.getAllProject);
 router.get("/tasks/:id", verifyToken, projectController.getProjectTasks);
 router.get("/:id", verifyToken, projectController.getProjectById);
 
+router.post("/create", verifyToken, projectController.createProject);
 router.post("/project/:projectId/:taskId", verifyToken, projectController.createTaskIntoProject);
+
 router.put("/project/:projectId/:taskId", verifyToken, projectController.editTaskIntoProject);
 router.put("/finalize/:id", verifyToken, projectController.finalizeProject);
 router.put("/:id", verifyToken, projectController.editProject);
