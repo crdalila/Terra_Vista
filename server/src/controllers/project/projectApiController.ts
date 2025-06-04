@@ -9,7 +9,6 @@
 import { Request, Response } from 'express'
 //=================================Common Imports================================
 import projectController from "./projectController.ts";
-
 import { projectInterface } from '../../models/project.ts';
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';

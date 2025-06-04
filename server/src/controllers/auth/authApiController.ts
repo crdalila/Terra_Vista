@@ -6,10 +6,11 @@
 import { Request, Response } from 'express'
 //=================================Common Imports================================
 import authController from "./authController.ts";
-import User, { userInterface } from "../../models/user.ts";
 import { createToken } from "../../utils/token.ts";
+import User, { userInterface } from "../../models/user.ts";
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
+//===============================================================================
 
 //Register a user or throws an error
 async function register(req: Request, res: Response) {
