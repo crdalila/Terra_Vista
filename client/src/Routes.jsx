@@ -5,6 +5,7 @@ import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Root from "./pages/root/Root";
 import Layout from "./components/layout/Layout";
+import ProjectList from "./pages/projects/ProjectList";
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
             {
                 path: "/create-user",
                 element: <CreateUser />,
+            },
+            {
+                path: "/user/projects",
+                element: <ProjectList />,
             },
             {
                 element: <Layout />,

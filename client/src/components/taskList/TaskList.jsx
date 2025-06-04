@@ -1,10 +1,12 @@
 
 import TaskCard from "../taskCard/TaskCard";
+import { projects, tasks } from "../../utils/fakeData";
 
 // import './TaskList.css';
 
 
 function TaskList({ tasks = [] }) {
+    const project = projects[0];
 
     return (
         <article className="tasks-list">
