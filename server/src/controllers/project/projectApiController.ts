@@ -78,8 +78,19 @@ async function finalizeProject(req: Request, res: Response) {
   }
 }
 
+async function getProjectTasks(req: Request, res: Response) {
+  try {
+    const id = req.params.id;
+    const result = (await projectController.getProjectById(id));
+    res.json(result?.tasks);
+  } catch (error) {
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
 
-async function createTask(req: Request, res: Response) {
+}
+
+async function createTaskIntoProject(req: Request, res: Response) {
   try {
     const projectId = req.params.id;
     const taskData = req.body;
@@ -91,7 +102,7 @@ async function createTask(req: Request, res: Response) {
   }
 }
 
-async function editTask(req: Request, res: Response) {
+async function editTaskIntoProject(req: Request, res: Response) {
   try {
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
@@ -105,7 +116,7 @@ async function editTask(req: Request, res: Response) {
   }
 }
 
-async function deleteTask(req: Request, res: Response) {
+async function deleteTaskIntoProject(req: Request, res: Response) {
   try {
 
     const projectId = req.params.projectId;
@@ -125,11 +136,12 @@ async function deleteTask(req: Request, res: Response) {
 export default {
   getProjectById,
   getAllProject,
+  getProjectTasks,
   createProject,
   editProject,
   removeProject,
   finalizeProject,
-  createTask,
-  editTask,
-  deleteTask,
+  createTaskIntoProject,
+  editTaskIntoProject,
+  deleteTaskIntoProject,
 }

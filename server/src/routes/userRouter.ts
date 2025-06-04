@@ -19,9 +19,9 @@ router.get("/:id", verifyToken, userController.getUserById); // U
 
 router.put("/password/:id",verifyToken, userController.editUserPassword); // A & PM 
 router.put("/project/:userId/:projectId", verifyToken, userController.addProjectToUser); // A & PM
-router.put("/project/:userId/:projectId", verifyToken, userController.removeProjectToUser); // A & PM
 router.put("/:id", verifyToken, userController.editUser); // A
 
+router.delete("/project/:userId/:projectId", verifyToken, userController.removeProjectToUser); // A & PM
 router.delete("/:id", verifyToken, userController.removeUser); // A
 
 export default router;
