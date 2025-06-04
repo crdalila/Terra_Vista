@@ -8,22 +8,21 @@
 class ProjectDoesNotExist extends Error {
     statusCode : number;
     constructor(){
-        super("User does not exist");
+        super("Project does not exist");
         this.statusCode = 204;
     }
 }
 
-class ProjectAlreadyExist extends Error {
+class TaskDoesNotExist extends Error {
     statusCode : number;
     constructor(){
-        super("User does not exist");
+        super("Task does not exist");
         this.statusCode = 204;
     }
 }
-
 
 
 export {
-ProjectDoesNotExist
-
+ProjectDoesNotExist,
+TaskDoesNotExist
 }
