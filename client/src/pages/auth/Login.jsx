@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import "./auth.css";
+
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,7 +24,10 @@ function Login() {
 
     return (
         <article className="login">
-            <h2>Login</h2>
+            <div className="login-title">
+                <h2>Login</h2>
+                <img src="../../../public/images/icons-card.png" alt="icons" className="icons-card" />
+            </div>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label>Email:</label>
                 <input type="email" value={email} autoFocus required onChange={(e) => setEmail(e.target.value)} />
@@ -33,7 +38,7 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Login</button>
+                <button type="submit" className="login-button" >Login<i>!</i></button>
             </form>
             {error && <p className="error">{error}</p>}
         </article>
