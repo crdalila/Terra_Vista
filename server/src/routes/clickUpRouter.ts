@@ -1,44 +1,33 @@
 import express from "express";
-import { Request, Response } from "express";
-import {
-	getClickUpWorkspaces,
-	getClickUpSpaces,
-	getAllClickUpLists,
-	getClickUpInfo
-} from "../utils/clickUp/clickUpProjectUtils";
-
-import {
-	syncTaskToClickUp,
-	updateTaskStatusInClickUp
-} from "../utils/clickUp/taskSyncService";
-
-import Project from "../models/project";
-import User from "../models/user";
-import { userInterface } from "../models/user";
+import clickUpApiController from "../controllers/clickUp/clickUpApiController";
 
 const router = express.Router();
 
-interface WorkspaceParams {
-	userid: string;
-}
+// Get spaces for a user
+router.get("/spaces/:userid/:workspaceid", clickUpApiController.getSpaces);
 
-router.get("/clickup/workspaces/:userid", async (req: Request<WorkspaceParams>, res: Response) => {
-	try {
-		const user = (await User.findById(req.params.userid)) as userInterface || null;
-		if (!user || !user.clickUpToken) {
-			return res.status(404).json({ success: false, error: "User not found" });
-		}
-		const result = await getClickUpWorkspaces(user.clickUpToken);
-		if (result.success) {
-			return res.status(200).json({ success: true, data: result.data });
-		} else {
-			return res.status(500).json({ success: false, error: result.error });
-		}
+// Get folders for a space
+router.get("/folders/:userid/:spaceid", clickUpApiController.getFolders);
 
-	} catch (error: any) {
-		console.error("Error fetching workspaces:", error);
-		res.status(500).json({ error: "Failed to fetch workspaces" });
-	}
-});
+// Get lists for a space
+router.get("/lists/:userid/:spaceid", clickUpApiController.getLists);
+
+// Get info from a list
+router.get("/info/:userid/:listId", clickUpApiController.getClickUpInfo);
+
+// Create task
+router.post("/create/:userid/:listId", clickUpApiController.createTask);
+
+// Update task
+router.put("/update/:userid/:taskId", clickUpApiController.updateTask);
+
+// Delete task
+router.delete("/delete/:userid/:taskId", clickUpApiController.deleteTask);
+
+// Update task status
+router.put("/status/:userid/:taskid", clickUpApiController.updateTaskStatus);
+
+// Sync task
+router.post("/sync/:userid", clickUpApiController.syncTask);
 
 export default router;

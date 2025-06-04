@@ -2,8 +2,6 @@ import axios from 'axios';
 import { getClickUpInfo } from './clickUpProjectUtils';
 
 
-
-
 // Get all tasks
 export const getAllClickUpTasks = async (listId: string, token: string) => {
 	try {

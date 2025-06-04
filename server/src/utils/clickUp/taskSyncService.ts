@@ -56,13 +56,13 @@ export const syncTaskToClickUp = async (projectId: string, taskId: string) => {
 	}
 };
 
-export const updateTaskStatusInClickUp = async (projectId: string, taskId: string) => {
+export const updateTaskStatusInClickUp = async (projectId: string, taskId: string, status: string) => {
 	try {
 		const project = await Project.findById(projectId).populate("projectManager");
 		if (!project) {
 			return { success: false, error: "Project not found" };
 		}
-		const task = project.task?.id(taskId);
+		const task = project.tasks?.id(taskId);
 		if (!task) {
 			return { success: false, error: "Task not found" };
 		}
