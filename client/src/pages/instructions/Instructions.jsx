@@ -35,3 +35,5 @@ function Instructions() {
         </article>
     );
 }
+
+export default Instructions

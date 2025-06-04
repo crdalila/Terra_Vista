@@ -38,3 +38,5 @@ function Login() {
         </article>
     );
 }
+
+export default Login;
