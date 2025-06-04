@@ -1,6 +1,5 @@
 //===============================================================================
 // name: userController.ts
-// desc: Controller of user with TELL WHAT FUNCTIONS THERE ARE
 //=================================Common Imports================================
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
@@ -50,7 +49,7 @@ async function editUser(id: string, data: userInterface) {
 
 async function removeUser(id: string) {
   // Finds and deletes user
-  const user = await User.findByIdAndDelete(id);
+  await User.findByIdAndDelete(id);
   return 1;
 }
 

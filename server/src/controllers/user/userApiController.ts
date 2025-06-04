@@ -1,6 +1,10 @@
 //===============================================================================
 // name: userApiController.ts
-// desc: Controller of user with the WRITE FUNCTION NAMES with the respective try catches
+// desc: Controller of user with the
+// getUserById, getUserProjects, editUserPassword,
+// getAllUsers, editUser, removeUser,
+// addProjectToUser, removeProjectToUser
+// with the respective try catches
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express'
 //=================================Common Imports================================
