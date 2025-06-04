@@ -1,10 +1,7 @@
 //===============================================================================
-// name: userErrors.ts
-// desc: All errrors related to the user
+// name: projectErrors.ts
+// desc: All errrors related to the project
 //===============================================================================
-
-
-
 class ProjectDoesNotExist extends Error {
     statusCode : number;
     constructor(){
