@@ -1,68 +1,240 @@
+@import url('https://fonts.cdnfonts.com/css/uncut-sans');
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+hgroup,
+menu,
+section {
+  display: block;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+  display: inline-block;
+}
+
+/* END RESET */
+
+
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --main-color: #FEFEFE;
+  --items-color: #F7F8F4;
+
+  --yellow: #FFB41D;
+  --orange: #F96E43;
+  --blue: #3D9DD8;
+  --pink: #F78BD8;
+  --dark-green: #189B5C;
+  --light-green: #7CE55E;
+
+  --text-color: #0F0F0F;
+
+  --main-font: 'Uncut Sans', sans-serif;
+  --main-weight: 400;
+  --main-size: 1.125rem;
+
 }
 
 body {
-  margin: 0;
+  font-family: var(--main-font);
+  font-weight: var(--main-weight);
+  font-size: var(--main-size);
+  background-color: var(--main-color);
+  color: var(--text-color);
+
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  position: relative;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  transition: transform .3s cubic-bezier(.2,0,.38,.9);
+
+  background-color: var(--text-color);
+  color: var(--main-color);
+
+  padding: 1rem 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#theme-toggle {
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+
+  width: 3em;
+  height: 3em;
+
+  border-radius: 100px;
+
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+body.dark-theme {
+  --main-color: #f8d6ed;
+  --searchbar-color: #ffa4e1cc;
+  --items-color: #e593cd;
+  --button-color: #970065;
+  --input-color: #c781b0;
+  --text-color: #000000;
 }

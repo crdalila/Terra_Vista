@@ -1,0 +1,24 @@
+.top-nav, .aside-nav {
+    background-color: var(--text-color);
+    color: var(--main-color);
+}
+
+.top-nav ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.aside-nav {
+    width: fit-content;
+    height: 100vh;
+}
+
+.aside-nav ul {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+    width: fit-content;
+    height: 100%;
+}
