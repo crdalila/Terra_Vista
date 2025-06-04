@@ -39,7 +39,7 @@ async function editUserPassword(req: Request, res: Response) {
   try {
     const id = req.params.id;
     const data = req.body;
-    const result = await userController.editUser(id, data);
+    const result = await userController.editUserPassword(id, data);
     res.json(result);
   } catch (error) {
     const myError = catchError(error);
@@ -48,7 +48,7 @@ async function editUserPassword(req: Request, res: Response) {
 }
 //Admin
 //Create user is the register in authController.
-async function getAllUsers(req: Request, res: Response) {
+async function getAllUsers(_: Request, res: Response) {
   try {
     const result = await userController.getAllUsers();
     res.json(result);

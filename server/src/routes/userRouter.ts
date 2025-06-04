@@ -14,10 +14,10 @@ const router = Router();
 //USER YOU WANT TO INTERACT WITH OR THE ADMIN
 
 router.get("/", verifyToken, userController.getAllUsers); // A & PM
-router.get("/projects/:id", userController.getUserProjects); // U
+router.get("/projects/:id", verifyToken,userController.getUserProjects); // U
 router.get("/:id", verifyToken, userController.getUserById); // U
 
-router.put("/password/:id", userController.editUserPassword); // A & PM 
+router.put("/password/:id",verifyToken, userController.editUserPassword); // A & PM 
 router.put("/project/:userId/:projectId", verifyToken, userController.addProjectToUser); // A & PM
 router.put("/project/:userId/:projectId", verifyToken, userController.removeProjectToUser); // A & PM
 router.put("/:id", verifyToken, userController.editUser); // A
