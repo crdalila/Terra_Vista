@@ -42,7 +42,7 @@ async function login(req: Request, res: Response) {
 
         const payload = { _id: user._id };
 
-        const token = createToken(payload);
+        const token = await createToken(payload);
         /*the .select("-password") is for the 
         login not to sends the password in the json*/
         const userData = await User.findOne({ email }).select("-password");

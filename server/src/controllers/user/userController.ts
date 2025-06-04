@@ -5,47 +5,54 @@
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
 //================================Error Management===============================
-import { UserDoesNotExist } from "../../utils/errors/userErrors.ts"
+import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
+import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
 //===============================================================================
 
 //User
 async function getUserById(id: string) {
   const user = await User.findById(id).populate("Project").select("-password");
-  if (user === null) throw new UserDoesNotExist();
+  if (!user) throw new UserDoesNotExist();
   return user;
 }
 
-async function editUserPassword(id: string, data: userInterface) { // Need to be checked
-  //Get user
-  let user: userInterface = (await User.findById(id)) as userInterface;
-  //Get only the password from the data changed 
-  user.password = data.password;
-  //Update the user password
-  const userWithNewPassword = await User.findByIdAndUpdate(
-    id, user, { new: true }).populate("Project").select("-password");
-  return userWithNewPassword;
+async function editUserPassword(id: string, newPassword: string) {
+  //Error checking for password
+  if (!isPasswordCorrect(newPassword)) throw new UserInvalidPassword();
+  const updatedUser = User.findOneAndUpdate(
+    { _id: id },
+    { $set: { password: newPassword } },
+    { new: true });
+
+  if (!updatedUser) throw new UserDoesNotExist();
+  return updatedUser;
 }
 
 //Admin
 async function getAllUsers() {
-  const users = User.find().populate("Project");
+  const users = await User.find().populate("Project");
+  if (!users || users.length <= 0) throw new UserDoesNotExist();
   return users;
 }
 
 async function editUser(id: string, data: userInterface) {
-  const user = await User.findByIdAndUpdate(id, data, { new: true }).populate("Project").select("-password");
+  if (!isPasswordCorrect(data.password)) throw new UserInvalidPassword();
+  const user = await User.findByIdAndUpdate(
+    id, data, { new: true }).populate("Project").select("-password");
+  if (!user) throw new UserDoesNotExist();
   return user;
 }
 
 async function removeUser(id: string) {
   const user = await User.findByIdAndDelete(id);
-  if (user === null) throw new UserDoesNotExist();
+  if (!user) throw new UserDoesNotExist();
   return 1;
 }
 
 async function addProjectToUser(userId: string, projectId: string) {
   //Get user
   let user: userInterface = (await User.findById(userId)) as userInterface;
+  if (!user) throw new UserDoesNotExist();
   //Get only the password from the data changed 
   user.projects.push(projectId as unknown as ObjectId);
   //Update the user password
@@ -57,11 +64,11 @@ async function addProjectToUser(userId: string, projectId: string) {
 async function removeProjectToUser(userId: string, projectId: string) {
   //Get user
   let user: userInterface = (await User.findById(userId)) as userInterface;
-
+  if (!user) throw new UserDoesNotExist();
   //Get only the password from the data changed 
   const indexOfDeleted = user.projects.indexOf(projectId as unknown as ObjectId);
-  if(indexOfDeleted == -1) throw new Error("Need to add error");
-  user.projects.splice(indexOfDeleted,1);
+  if (indexOfDeleted == -1) throw new ProjectIsNotInUser();
+  user.projects.splice(indexOfDeleted, 1);
   //Update the user password
   const userWithNewPassword = await User.findByIdAndUpdate(
     userId, user, { new: true }).populate("Project").select("-password");

@@ -38,8 +38,8 @@ async function getUserProjects(req: Request, res: Response) {
 async function editUserPassword(req: Request, res: Response) {
   try {
     const id = req.params.id;
-    const data = req.body;
-    const result = await userController.editUserPassword(id, data);
+    const {password} = req.body;
+    const result = await userController.editUserPassword(id, password);
     res.json(result);
   } catch (error) {
     const myError = catchError(error);
