@@ -78,26 +78,18 @@ async function getFoldersLists(userid:string, spaceId: string) {
 }
 
 // Synchronize Tasks
-async function syncUserTask(userid:string, taskData: any) {
-	if (!userid) throw new UserNotFound();
-	if (!taskData || Object.keys(taskData).length === 0) throw new ClickUpTaskDataNotProvided();
+async function syncUserTask(projectId:string, taskId: string) {
+	if (!projectId) throw new ClickUpTaskIdNotProvided();
+	if (!taskId) throw new ClickUpTaskIdNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
-	if (!user) throw new UserNotFound();
-	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
-	
-	// Validate required task data fields
-	if (!taskData.name) throw new ClickUpTaskDataNotProvided();
-	if (!taskData.list) throw new ClickUpTaskDataNotProvided();
-	
-	const result = await syncTaskToClickUp(user.clickUpToken, taskData);
+	const result = await syncTaskToClickUp(projectId, taskId);
 	if (!result.success) throw new ClickUpAPIError();
 	
 	return result.data;
 }
 
 // Create Task
-async function createTask(listId: string, taskData: any, userid: string) {
+async function createTask(listId: string, userid: string, taskData: any) {
 	if (!userid) throw new UserNotFound();
 	if (!taskData || Object.keys(taskData).length === 0) throw new ClickUpTaskDataNotProvided();
 	if (!listId) throw new ClickUpTaskDataNotProvided();
@@ -172,6 +164,8 @@ async function getUserClickUpInfo(listId: string, userid: string) {
 	
 	return result.data;
 }
+
+// Setup Client Structure: Get Dev Folder 
 
 export default {
 	getUserWorkspaceSpaces,
