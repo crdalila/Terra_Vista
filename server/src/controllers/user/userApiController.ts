@@ -13,11 +13,14 @@ import catchError from '../../utils/errors/controllerError.ts';
 //User
 async function getUserById(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const id = req.params.id;
+
+    //Do the function and send the result in json format
     const result = await userController.getUserById(id);
     res.json(result);
-
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -25,11 +28,14 @@ async function getUserById(req: Request, res: Response) {
 
 async function getUserProjects(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const id = req.params.id;
+
+    //Do the function and send the result in json format
     const result = (await userController.getUserById(id)).projects;
     res.json(result);
-
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -37,11 +43,15 @@ async function getUserProjects(req: Request, res: Response) {
 
 async function editUserPassword(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const id = req.params.id;
-    const {password} = req.body;
+    const { password } = req.body;
+
+    //Do the function and send the result in json format
     const result = await userController.editUserPassword(id, password);
     res.json(result);
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -50,9 +60,11 @@ async function editUserPassword(req: Request, res: Response) {
 //Create user is the register in authController.
 async function getAllUsers(_: Request, res: Response) {
   try {
+    //Do the function and send the result in json format
     const result = await userController.getAllUsers();
     res.json(result);
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -60,11 +72,15 @@ async function getAllUsers(_: Request, res: Response) {
 
 async function editUser(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const id = req.params.id;
     const data = req.body;
+
+    //Do the function and send the result in json format
     const result = await userController.editUser(id, data);
     res.json(result);
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -72,12 +88,15 @@ async function editUser(req: Request, res: Response) {
 
 async function removeUser(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const id = req.params.id;
+
+    //Do the function and send the result in json format
     const result: number = await userController.removeUser(id);
     res.json(result == 1 ? "User correctly removed" :
       "There has been an error in the removing process");
-
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -86,12 +105,15 @@ async function removeUser(req: Request, res: Response) {
 //Admin and Project Manager
 async function addProjectToUser(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const userId = req.params.userId;
     const projectId = req.params.projectId;
 
+    //Do the function and send the result in json format
     const result = await userController.addProjectToUser(userId, projectId);
     res.json(result);
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -99,12 +121,15 @@ async function addProjectToUser(req: Request, res: Response) {
 
 async function removeProjectToUser(req: Request, res: Response) {
   try {
+    //Get parameters for function to work
     const userId = req.params.userId;
     const projectId = req.params.projectId;
 
+    //Do the function and send the result in json format
     const result = await userController.removeProjectToUser(userId, projectId);
     res.json(result);
   } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
