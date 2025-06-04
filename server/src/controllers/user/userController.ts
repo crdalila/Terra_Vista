@@ -11,7 +11,7 @@ import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
 
 //User
 async function getUserById(id: string) {
-  const user = await User.findById(id).populate("Project").select("-password");
+  const user = await User.findById(id).populate("projects").select("-password");
   if (!user) throw new UserDoesNotExist();
   return user;
 }
@@ -30,7 +30,7 @@ async function editUserPassword(id: string, newPassword: string) {
 
 //Admin
 async function getAllUsers() {
-  const users = await User.find().populate("Project");
+  const users = await User.find().populate("projects").select("-password");
   if (!users || users.length <= 0) throw new UserDoesNotExist();
   return users;
 }
@@ -38,7 +38,7 @@ async function getAllUsers() {
 async function editUser(id: string, data: userInterface) {
   if (!isPasswordCorrect(data.password)) throw new UserInvalidPassword();
   const user = await User.findByIdAndUpdate(
-    id, data, { new: true }).populate("Project").select("-password");
+    id, data, { new: true }).populate("projects").select("-password");
   if (!user) throw new UserDoesNotExist();
   return user;
 }
@@ -57,7 +57,7 @@ async function addProjectToUser(userId: string, projectId: string) {
   user.projects.push(projectId as unknown as ObjectId);
   //Update the user password
   const userWithNewPassword = await User.findByIdAndUpdate(
-    userId, user, { new: true }).populate("Project").select("-password");
+    userId, user, { new: true }).populate("projects").select("-password");
   return userWithNewPassword;
 }
 
@@ -71,7 +71,7 @@ async function removeProjectToUser(userId: string, projectId: string) {
   user.projects.splice(indexOfDeleted, 1);
   //Update the user password
   const userWithNewPassword = await User.findByIdAndUpdate(
-    userId, user, { new: true }).populate("Project").select("-password");
+    userId, user, { new: true }).populate("projects").select("-password");
   return userWithNewPassword;
 }
 

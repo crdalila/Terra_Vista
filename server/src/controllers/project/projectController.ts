@@ -5,16 +5,18 @@
 import Project, { projectInterface } from "../../models/project.ts";
 import Task, { taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
-
+import { ProjectDoesNotExist } from "../../utils/errors/projectError.ts";
 //===============================================================================
 
 async function getProjectById(id: string) {
-  const project = await Project.findById(id).populate("Task");
+  const project = await Project.findById(id).populate("tasks");
+  if(!project) throw new ProjectDoesNotExist();
   return project;
 }
 
 async function getAllProject() {
-  const projects = await Project.find().populate("Task");
+  const projects = await Project.find().populate("tasks");
+  if(!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   return projects;
 }
 
@@ -25,7 +27,7 @@ async function createProject(data: projectInterface) {
 }
 
 async function editProject(id: string, data: projectInterface) {
-  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate("Task");
+  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate("tasks");
   return project;
 }
 
@@ -40,7 +42,7 @@ async function finalizeProject(id: string) {
   project.isFinalize = true;
 
   const finalizeProject = await Project.findByIdAndUpdate(
-    id, project, { new: true }).populate("Task");
+    id, project, { new: true }).populate("tasks");
   return finalizeProject;
 }
 
@@ -52,12 +54,12 @@ async function createTask(projectId: string, taskData: taskInterface) {
   project.tasks.push(newTask);
 
   const projectWithNewTask = await Project.findByIdAndUpdate(
-    projectId, project, { new: true }).populate("Task");
+    projectId, project, { new: true }).populate("tasks");
   return projectWithNewTask;
 }
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
-  let project: projectInterface = (await Project.findById(projectId).populate("Task")) as projectInterface;
+  let project: projectInterface = (await Project.findById(projectId).populate("tasks")) as projectInterface;
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
   if (!project.tasks.includes(task)) throw new Error("Set errors please");
 
@@ -67,14 +69,14 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 }
 
 async function deleteTask(projectId: string, taskId: string) {
-  let project: projectInterface = (await Project.findById(projectId).populate("Task")) as projectInterface;
+  let project: projectInterface = (await Project.findById(projectId).populate("tasks")) as projectInterface;
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
   const indexOfDelete = project.tasks.indexOf(task);
   if (indexOfDelete == -1) throw new Error("Set errors please");
   project.tasks.splice(indexOfDelete, 1);
 
   const projectWithDeletedTask = await Project.findByIdAndUpdate(
-    projectId, project, { new: true }).populate("Task");
+    projectId, project, { new: true }).populate("tasks");
   return projectWithDeletedTask;
 }
 
