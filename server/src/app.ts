@@ -8,6 +8,7 @@ import cors from "cors";
 //=================================Common Imports================================
 import router from "./routes/router.ts";
 import { connectDB } from "./config/mongoose.ts";
+import cookieParser from "cookie-parser";
 //import clickUpRoutes from "./routes/clickUp";
 //===============================================================================
 
@@ -22,6 +23,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/",router);

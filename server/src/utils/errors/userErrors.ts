@@ -65,6 +65,14 @@ class UserDoesNotExist extends Error {
     }
 }
 
+class ProjectIsNotInUser extends Error {
+    statusCode : number;
+    constructor(){
+        super("Project does not exist or the user does not have it");
+        this.statusCode = 204;
+    }
+}
+
 export {
     UserNameNotProvided,
     UserEmailNotProvided,
@@ -73,5 +81,6 @@ export {
     UserInvalidCredentials,
     UserInvalidEmail,
     UserInvalidPassword,
-    UserDoesNotExist
+    UserDoesNotExist,
+    ProjectIsNotInUser
 }
