@@ -39,15 +39,13 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     trim: true
   },
 
-  tasks: {
-    type: [{
+  tasks: [{
+    task: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
+      ref: "Tasks",
       required: false
-    }],
-    required: false
-  },
-
+    }
+  }],
 });
 
 export default mongoose.model("Project", projectSchema);
