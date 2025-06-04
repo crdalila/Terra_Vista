@@ -8,7 +8,7 @@ import cors from "cors";
 //=================================Common Imports================================
 import router from "./routes/router.ts";
 import { connectDB } from "./config/mongoose.ts";
-//import clickUpRoutes from "./routes/clickUp";
+import clickUpRoutes from "./routes/clickUpRouter.ts";
 //===============================================================================
 
 dotenv.config();
@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/",router);
-//app.use("/clickup", clickUpRoutes);
+app.use("/clickup", clickUpRoutes);
 
 const PORT = process.env.DOCKER_PORT || 3000;
 app.listen(3000, () => {
