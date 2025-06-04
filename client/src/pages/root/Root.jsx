@@ -6,9 +6,6 @@ import { AuthProvider } from "../../context/AuthContext";
 function Root() {
     return (
         <AuthProvider>
-            <header>
-                <p>Header</p> {/* TODO HEADER */}
-            </header>
             <main>
                 <Outlet />
             </main>
