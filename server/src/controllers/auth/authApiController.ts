@@ -34,7 +34,11 @@ async function login(req: Request, res: Response) {
         /*the .select("-password") is for the 
         login not to sends the password in the json*/
         const userData = await User.findOne({ email }).select("-password");
-        res.json({ token, userData });
+        res.cookie("token", token, {
+            httpOnly: true,
+            maxAge: 3600000 // 1 hora
+        });
+        res.json({ userData });
 
     } catch (error: any) {
         const myError = catchError(error);
