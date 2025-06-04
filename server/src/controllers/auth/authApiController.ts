@@ -22,6 +22,18 @@ async function register(req: Request, res: Response) {
     }
 }
 
+async function firstLogin(req: Request, res: Response) {
+    try {
+        const {email,temporalPassword,password} = req.body;
+        const result = await authController.firstLogin(email,temporalPassword,password);
+        res.json(result);
+    } catch (error: any) {
+        const myError = catchError(error);
+        res.status(myError.statusCode).json(myError.message);
+    }
+}
+
+
 //Logs a user in or throws an error
 async function login(req: Request, res: Response) {
     try {
@@ -34,7 +46,11 @@ async function login(req: Request, res: Response) {
         /*the .select("-password") is for the 
         login not to sends the password in the json*/
         const userData = await User.findOne({ email }).select("-password");
-        res.json({ token, userData });
+        res.cookie("token", token, {
+            httpOnly: true,
+            maxAge: 3600000 // 1 hora
+        });
+        res.json({ userData });
 
     } catch (error: any) {
         const myError = catchError(error);
@@ -44,5 +60,6 @@ async function login(req: Request, res: Response) {
 
 export default {
     register,
-    login
+    login,
+    firstLogin
 }
