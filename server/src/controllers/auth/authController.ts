@@ -4,6 +4,8 @@
 //=================================Common Imports================================
 import User, { userInterface } from "../../models/user.ts";
 import { hash, compare } from "../../utils/bcrypt.ts";
+
+import { ObjectId } from "mongoose";
 //================================Error Management===============================
 import {
     UserNameNotProvided,
@@ -58,6 +60,34 @@ async function register(userData: userInterface) {
     return newUser;
 }
 
+async function firstLogin(email: string, temporalPassword: string, password: string) {
+    if (!email) throw new UserEmailNotProvided();
+
+    //This regex force the password to have a lower case, 
+    //upper case, number, symbol and at least be 8 character long
+    const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/;
+    //Error checking for password
+    if (!pwdRegex.test(temporalPassword)) throw new UserInvalidPassword();
+    if (!temporalPassword) throw new UserPasswordNotProvided();
+
+    //This regex force the email to have a text similar to 
+    // x@x.x
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    //Error checking for email
+    if (!emailRegex.test(email)) throw new UserInvalidEmail();
+
+    const user: userInterface & { _id: ObjectId; } =
+        (await User.findOne({ email: email })) as userInterface & { _id: ObjectId; };
+    const hashedPassword = await hash(password);
+    
+    const updatedUser = User.updateOne(
+        { _id: user._id },
+        { $set: { password: hashedPassword } },
+        { new: true });
+
+    return updatedUser;
+}
+
 /**
  * Log in a user or throws and error
  * @param {string} email - the email of the user that wants to be logged in
@@ -85,5 +115,6 @@ async function login(email: string, password: string) {
 
 export default {
     register,
+    firstLogin,
     login
 }
