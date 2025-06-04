@@ -9,6 +9,7 @@ import {
 	getAllClickUpFolders,
 	getClickUpSpaces,
 	getAllClickUpLists,
+	getDevFolderQAList,
 } from "../../utils/clickUp/clickUpProjectUtils";
 
 import {
@@ -33,26 +34,40 @@ import {
 } from "../../utils/errors/clickUpError";
 
 // Get User Workspace Spaces
-async function getUserWorkspaceSpaces(userid:string, workspaceId: string) {
-	if (!userid) throw new UserNotFound();
-	if (!workspaceId) throw new ClickUpWorkspaceIdNotProvided();
+async function getUserWorkspaceSpaces(userId:string) {
+	if (!userId) throw new UserNotFound();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
+	//if (!user.clickUpWorkspaceId) throw new error //TODO
 	
-	const result = await getClickUpSpaces(user.clickUpToken, workspaceId);
+	const result = await getClickUpSpaces(user.clickUpToken, user.clickUpWorkspaceId);
 	if (!result.success) throw new ClickUpAPIError();
 	
 	return result.data;
 };
 
-// Get Space Folders
-async function getSpaceFolders(userid:string, spaceId: string) {
-	if (!userid) throw new UserNotFound();
+// Ensure Dev Folder and QA List exist
+async function ensureDevFolderQAList(userId:string, spaceId: string) {
+	if (!userId) throw new UserNotFound();
 	if (!spaceId) throw new ClickUpSpaceIdNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
+	if (!user) throw new UserNotFound();
+	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
+	
+	const result = await getDevFolderQAList(user.clickUpToken, spaceId);
+	
+	return result;
+}
+
+// Get Space Folders
+async function getSpaceFolders(userId:string, spaceId: string) {
+	if (!userId) throw new UserNotFound();
+	if (!spaceId) throw new ClickUpSpaceIdNotProvided();
+	
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -63,11 +78,11 @@ async function getSpaceFolders(userid:string, spaceId: string) {
 };
 
 // Get Folders Lists
-async function getFoldersLists(userid:string, spaceId: string) {
-	if (!userid) throw new UserNotFound();
+async function getFoldersLists(userId:string, spaceId: string) {
+	if (!userId) throw new UserNotFound();
 	if (!spaceId) throw new ClickUpSpaceIdNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -89,12 +104,12 @@ async function syncUserTask(projectId:string, taskId: string) {
 }
 
 // Create Task
-async function createTask(listId: string, userid: string, taskData: any) {
-	if (!userid) throw new UserNotFound();
+async function createTask(listId: string, userId: string, taskData: any) {
+	if (!userId) throw new UserNotFound();
 	if (!taskData || Object.keys(taskData).length === 0) throw new ClickUpTaskDataNotProvided();
 	if (!listId) throw new ClickUpTaskDataNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -105,12 +120,12 @@ async function createTask(listId: string, userid: string, taskData: any) {
 }
 
 // Update Task
-async function updateTask(taskId: string, updateData: any, userid: string) {
+async function updateTask(taskId: string, updateData: any, userId: string) {
 	if (!taskId) throw new ClickUpTaskIdNotProvided();
-	if (!userid) throw new UserNotFound();
+	if (!userId) throw new UserNotFound();
 	if (!updateData || Object.keys(updateData).length === 0) throw new ClickUpTaskDataNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -121,12 +136,12 @@ async function updateTask(taskId: string, updateData: any, userid: string) {
 }
 
 // Update Task Status
-async function updateTaskStatus(userid: string, taskId: string, status: string) {
-	if (!userid) throw new UserNotFound();
+async function updateTaskStatus(userId: string, taskId: string, status: string) {
+	if (!userId) throw new UserNotFound();
 	if (!taskId) throw new ClickUpTaskIdNotProvided();
 	if (!status) throw new ClickUpStatusNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -137,11 +152,11 @@ async function updateTaskStatus(userid: string, taskId: string, status: string) 
 }
 
 // Delete a task
-async function deleteTask(taskId: string, userid: string) {
-	if (!userid) throw new UserNotFound();
+async function deleteTask(taskId: string, userId: string) {
+	if (!userId) throw new UserNotFound();
 	if (!taskId) throw new ClickUpTaskIdNotProvided();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -152,10 +167,10 @@ async function deleteTask(taskId: string, userid: string) {
 }
 
 // Get Info from a List
-async function getUserClickUpInfo(listId: string, userid: string) {
-	if (!userid) throw new UserNotFound();
+async function getUserClickUpInfo(listId: string, userId: string) {
+	if (!userId) throw new UserNotFound();
 	
-	const user = (await User.findById(userid)) as userInterface || null;
+	const user = (await User.findById(userId)) as userInterface || null;
 	if (!user) throw new UserNotFound();
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	
@@ -169,6 +184,7 @@ async function getUserClickUpInfo(listId: string, userid: string) {
 
 export default {
 	getUserWorkspaceSpaces,
+	ensureDevFolderQAList,
 	getSpaceFolders,
 	getFoldersLists,
 	syncUserTask,

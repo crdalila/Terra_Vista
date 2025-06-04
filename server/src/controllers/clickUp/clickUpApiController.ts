@@ -4,7 +4,8 @@
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express';
 //=================================Common Imports================================
-
+import { getDevFolderQAList } from '../../utils/clickUp/clickUpProjectUtils';
+import userController  from "../user/userController";
 import clickUpController from "./clickUpController";
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
@@ -14,8 +15,20 @@ import catchError from "../../utils/errors/controllerError";
 // Get ClickUp spaces for a workspace
 async function getSpaces(req: Request, res: Response) {
 	try {
-		const { userid, workspaceid } = req.params;
-		const result = await clickUpController.getUserWorkspaceSpaces(userid, workspaceid);
+		const { userId } = req.params;
+		const result = await clickUpController.getUserWorkspaceSpaces(userId);
+		res.status(200).json({ success: true, data: result });
+	} catch (error: any) {
+		const myError = catchError(error);
+		res.status(myError.statusCode).json(myError.message);
+	}
+}
+
+// Ensure Dev Folder and QA List exist
+async function ensureDevFolderQAList(req: Request, res: Response) {
+	try {
+		const { userId, spaceId } = req.params;
+		const result = await clickUpController.ensureDevFolderQAList(userId, spaceId);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -26,8 +39,8 @@ async function getSpaces(req: Request, res: Response) {
 // Get all ClickUp folders for a space
 async function getFolders(req: Request, res: Response) {
 	try {
-		const { userid, spaceid } = req.params;
-		const result = await clickUpController.getSpaceFolders(userid, spaceid);
+		const { userId, spaceId } = req.params;
+		const result = await clickUpController.getSpaceFolders(userId, spaceId);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -38,8 +51,8 @@ async function getFolders(req: Request, res: Response) {
 // Get all ClickUp list for a space
 async function getLists(req: Request, res: Response) {
 	try {
-		const { userid, spaceid } = req.params;
-		const result = await clickUpController.getFoldersLists(userid, spaceid);
+		const { userId, spaceId } = req.params;
+		const result = await clickUpController.getFoldersLists(userId, spaceId);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -50,9 +63,9 @@ async function getLists(req: Request, res: Response) {
 // Sync task to ClickUp
 async function syncTask(req: Request, res: Response) {
 	try {
-		const { userid } = req.params;
+		const { userId } = req.params;
 		const taskData = req.body;
-		const result = await clickUpController.syncUserTask(userid, taskData);
+		const result = await clickUpController.syncUserTask(userId, taskData);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -63,9 +76,9 @@ async function syncTask(req: Request, res: Response) {
 // Create Task
 async function createTask(req: Request, res: Response) {
 	try {
-		const { userid, listId } = req.params;
+		const { userId, listId } = req.params;
 		const taskData = req.body;
-		const result = await clickUpController.createTask(listId,userid, taskData);
+		const result = await clickUpController.createTask(listId,userId, taskData);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -76,9 +89,9 @@ async function createTask(req: Request, res: Response) {
 //Update task
 async function updateTask(req: Request, res: Response) {
 	try {
-		const { userid, taskId } = req.params;
+		const { userId, taskId } = req.params;
 		const taskData = req.body;
-		const result = await clickUpController.updateTask(userid, taskId, taskData);
+		const result = await clickUpController.updateTask(userId, taskId, taskData);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -90,9 +103,9 @@ async function updateTask(req: Request, res: Response) {
 // Update task status in ClickUp
 async function updateTaskStatus(req: Request, res: Response) {
 	try {
-		const { userid, taskid } = req.params;
+		const { userId, taskid } = req.params;
 		const { status } = req.body;
-		const result = await clickUpController.updateTaskStatus(userid, taskid, status);
+		const result = await clickUpController.updateTaskStatus(userId, taskid, status);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -103,8 +116,8 @@ async function updateTaskStatus(req: Request, res: Response) {
 // Delete task
 async function deleteTask(req: Request, res: Response) {
 	try {
-		const { userid, taskId } = req.params;
-		const result = await clickUpController.deleteTask(userid, taskId);
+		const { userId, taskId } = req.params;
+		const result = await clickUpController.deleteTask(userId, taskId);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -115,8 +128,8 @@ async function deleteTask(req: Request, res: Response) {
 // Get Info from a list
 async function getClickUpInfo(req: Request, res: Response) {
 	try {
-		const { userid, listId } = req.params;
-		const result = await clickUpController.getUserClickUpInfo(listId, userid);
+		const { userId, listId } = req.params;
+		const result = await clickUpController.getUserClickUpInfo(listId, userId);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -129,6 +142,7 @@ async function getClickUpInfo(req: Request, res: Response) {
 
 export default{
 	getSpaces,
+	ensureDevFolderQAList,
 	getFolders,
 	getLists,
 	syncTask,
