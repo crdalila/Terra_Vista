@@ -5,12 +5,14 @@
 import { Router } from "express";
 //=================================Common Imports================================
 import authRouter from "./authRouter.ts";
-import clickUpRouter from "./clickUp.ts";
+import userRouter from "./userRouter.ts"
+import clickUpRouter from "./clickUpRouter.ts";
 //===============================================================================
 
 const router = Router();
 
 router.use("/",authRouter);
+router.use("/user",userRouter);
 router.use("/clickUp",clickUpRouter);
 
 export default router;
