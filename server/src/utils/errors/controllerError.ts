@@ -1,3 +1,8 @@
+//===============================================================================
+// name: controllerError.ts
+// desc: Function to set the error for the try catch to show in controllers
+//===============================================================================
+
 interface errorInterface {
   statusCode: number,
   message: String
