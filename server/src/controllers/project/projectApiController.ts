@@ -123,6 +123,7 @@ async function createTaskIntoProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.id;
+    console.log("BODY :", req.body);
     const taskData = req.body;
 
     //Do the function and send the result in json format

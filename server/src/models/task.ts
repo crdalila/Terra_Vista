@@ -48,6 +48,7 @@ enum deviceEnum {
  */
 interface taskInterface {
   id: number;
+  clickUpTaskId: String;
   name: String;
   isSend: Boolean;
   requestType: requestEnum;
@@ -74,6 +75,11 @@ interface taskInterface {
 const taskSchema = new mongoose.Schema<taskInterface>({
   id: {
     type: Number,
+    required: true,
+  },
+
+  clickUpTaskId: {
+    type: String,
     required: true,
   },
   name: {
