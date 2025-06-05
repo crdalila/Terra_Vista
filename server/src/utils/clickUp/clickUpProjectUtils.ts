@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ClickUpAPIError } from "../errors/clickUpError";
 
 // Get ClickUp workspace associated with the given token.
 export const getClickUpWorkspace = async (token: string) => {
@@ -23,6 +24,9 @@ export const getClickUpWorkspace = async (token: string) => {
 // Fetches all ClickUp spaces associated with the given workspace ID and token.
 export const getClickUpSpaces = async (workspaceId: string, token: string) => {
   try {
+	console.log("Calling ClickUp API with workspaceId:", workspaceId);
+    console.log("Using token (first 10 chars):", token.slice(0, 10));
+
     const response = await axios.get(
       `https://api.clickup.com/api/v2/team/${workspaceId}/space`,
       { headers: { Authorization: token } }
@@ -97,9 +101,13 @@ export const getClickUpInfo = async (listId: string, token: string) => {
 export const getDevFolderQAList = async (token: string, spaceId: string) => {
 	// Get all folders
 	const foldersResult = await getAllClickUpFolders(token, spaceId);
-	if (!foldersResult.success) throw new Error ("Failed to get folders");
+	console.log("Folders fetched:", foldersResult);
+	if (!foldersResult.success) {
+		console.error("Error fetching folders:", foldersResult.error);
+		throw new ClickUpAPIError();
 
-	let devFolder = foldersResult.data.find((folder: any) => folder.name === "Dev");
+	}
+	let devFolder = foldersResult.data.folders.find((folder: any) => folder.name === "Dev");
 
 	// Create Dev Folder if it doesn't exist
 	if (!devFolder) {
