@@ -86,11 +86,11 @@ const userSchema = new mongoose.Schema<userInterface>({
      * The project manager can only go to the ones they are managing
      * The client can only go to their projects (usually only one)
     */
-    project: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
-      required: false
-    }
+
+    type: mongoose.Types.ObjectId,
+    ref: "Project",
+    required: false
+
   }],
 });
 

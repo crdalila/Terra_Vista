@@ -36,8 +36,7 @@ async function getUserByCookie(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const id = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
-    console.log("User",(req as IGetUserAuthInfoRequest).user);
-    console.log("ID", id);
+
     //Do the function and send the result in json format
     const result = await userController.getUserById(id);
     res.json(result);

@@ -18,13 +18,13 @@ router.get("/tasks/:id", verifyToken, projectController.getProjectTasks);
 router.get("/:id", verifyToken, projectController.getProjectById);
 
 router.post("/create", verifyToken, projectController.createProject);
-router.post("/project/:projectId/:taskId", verifyToken, projectController.createTaskIntoProject);
+router.post("/tasks/:id", verifyToken, projectController.createTaskIntoProject);
 
-router.put("/project/:projectId/:taskId", verifyToken, projectController.editTaskFromProject);
+router.put("/tasks/:projectId/:taskId", verifyToken, projectController.editTaskFromProject);
 router.put("/finalize/:id", verifyToken, projectController.finalizeProject);
 router.put("/:id", verifyToken, projectController.editProject);
 
-router.delete("/project/:projectId/:taskId", verifyToken, projectController.deleteTaskFromProject);
+router.delete("/tasks/:projectId/:taskId", verifyToken, projectController.deleteTaskFromProject);
 router.delete("/:id", verifyToken, projectController.removeProject);
 
 
