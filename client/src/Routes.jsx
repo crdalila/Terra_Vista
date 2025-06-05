@@ -29,7 +29,7 @@ const router = createBrowserRouter([
                 element: <Layout />,
                 children: [
                     {
-                        path: '/', /* TODO CAMBIAR A INSTRUCTIONS */
+                        path: "/instructions",
                         shouldRevalidate: () => true,
                         element: <Instructions />
                     },

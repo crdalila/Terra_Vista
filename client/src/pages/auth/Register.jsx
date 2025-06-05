@@ -18,7 +18,10 @@ function Register() {
 
     return (
         <article className="register">
-            <h2>Register</h2>
+            <div className="register-title">
+                <h2>Register</h2>
+                <img src="../../../public/images/icons-card.png" alt="icons" className="icons-card" />
+            </div>
             <form className="register-form">
                 <label>Email:</label>
                 <input type="email" autoFocus value={email} required onChange={(e) => setEmail(e.target.value)} />
@@ -35,7 +38,7 @@ function Register() {
                     value={newPassword}
                     onChange={handleNewPasswordChange}
                 />
-                <button type="submit">Register</button>
+                <button type="submit" className="register-button">Register<i>!</i></button>
             </form>
             <p>Already have an account? <a href="/login">Login</a></p>
         </article>

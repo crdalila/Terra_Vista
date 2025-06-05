@@ -1,37 +1,66 @@
+import './Instructions.css'
+
 function Instructions() {
     return (
-        <article className="instructions">
-            <h1>Instructions</h1>
+        <article className="instructions article">
+            <section className="instructions-text">
+                <h2>Instructions</h2>
 
-            <video src=""></video>
-            
-            <h2>What kind of request do yout ask for?</h2>
-            <p>You can select between four kind of request types, which are:</p>
+                {/* <video src=""></video> */}
 
-            <h3>Copy Revision</h3>
-            <img src="" alt="" />
-            <p>Choose this option for text adjustemnts, from a title to a button</p>
-            <ul>
-                <li>options</li>
-            </ul>
+                <h3>What kind of request do you ask for?</h3>
+                <p>You can select between four kind of request types, which are:</p>
 
-            <h3>Design Issues</h3>
-            <img src="" alt="" />
-            <p>This is your space to make changes about the visual of your website</p>
-            <ul>
-                <li>options</li>
-            </ul>
+                <div className="instructions-item">
+                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <div className="instructions-item--text">
+                        <h4>Copy Revision</h4>
+                        <p>Choose this option for text adjustemnts, from a title to a button</p>
+                        <ul>
+                            <li>options</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <h3>Requested Change</h3>
-            <img src="" alt="" />
-            <p>To make changes about the content of your website</p>
-            <ul>
-                <li>options</li>
-            </ul>
+                <div className="instructions-item">
+                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <div className="instructions-item--text">
+                        <h4>Design Issues</h4>
+                        <p>This is your space to make changes about the visual of your website</p>
+                        <ul>
+                            <li>options</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <h3>New Item</h3>
-            <img src="" alt="" />
-            <p>To add new content to your website</p>
+                <div className="instructions-item">
+                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <div className="instructions-item--text">
+                        <h4>Requested Change</h4>
+                        <p>To make changes about the content of your website</p>
+                        <ul>
+                            <li>options</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="instructions-item">
+                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <div className="instructions-item--text">
+                        <h4>New Item</h4>
+                        <p>To add new content to your website</p>
+                    </div>
+                </div>
+            </section>
+
+            <section className="instructions-contact">
+                <h3>Any questions?</h3>
+                <div className="instructions-contact--info">
+                    <p>Send us a message and we will contact you.</p>
+                    <button>Contact Us</button>
+                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions-contact' />
+                </div>
+            </section>
         </article>
     );
 }
