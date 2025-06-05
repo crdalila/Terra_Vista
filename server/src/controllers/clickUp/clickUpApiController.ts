@@ -4,8 +4,8 @@
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express';
 //=================================Common Imports================================
-import { getDevFolderQAList } from '../../utils/clickUp/clickUpProjectUtils';
-import userController  from "../user/userController";
+//import { getDevFolderQAList } from '../../utils/clickUp/clickUpProjectUtils';
+//import userController  from "../user/userController";
 import clickUpController from "./clickUpController";
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
@@ -59,7 +59,7 @@ async function getLists(req: Request, res: Response) {
 		res.status(myError.statusCode).json(myError.message);
 	}
 }
-
+/*
 // Sync task to ClickUp
 async function syncTask(req: Request, res: Response) {
 	try {
@@ -71,7 +71,7 @@ async function syncTask(req: Request, res: Response) {
 		const myError = catchError(error);
 		res.status(myError.statusCode).json(myError.message);
 	}
-}
+}*/
 
 // Create Task
 async function createTask(req: Request, res: Response) {
@@ -99,7 +99,7 @@ async function updateTask(req: Request, res: Response) {
 	}
 }
 
-
+/*
 // Update task status in ClickUp
 async function updateTaskStatus(req: Request, res: Response) {
 	try {
@@ -111,7 +111,7 @@ async function updateTaskStatus(req: Request, res: Response) {
 		const myError = catchError(error);
 		res.status(myError.statusCode).json(myError.message);
 	}
-}
+}*/
 
 // Delete task
 async function deleteTask(req: Request, res: Response) {
@@ -145,10 +145,10 @@ export default{
 	ensureDevFolderQAList,
 	getFolders,
 	getLists,
-	syncTask,
+	//syncTask,
 	createTask,
 	updateTask,
 	deleteTask,
-	updateTaskStatus,
+	//updateTaskStatus,
 	getClickUpInfo
 }

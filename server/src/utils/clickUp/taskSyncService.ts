@@ -21,18 +21,18 @@ const buildClickUpTaskPayload = (task: any): Record<string, any> => {
 	}
 	return payload;
 }
-
+/*
 export const syncTaskToClickUp = async (projectId: string, taskId: string) => {
 	try {
-		const project = await Project.findById(projectId).populate("projectManager");
+		const project = await Project.findById(projectId);
 		if (!project) {
 			return { success: false, error: "Project not found" };
 		}
-		const task = project.tasks?.id(taskId);
+		const task = project.tasks?.(taskId);
 		if (!task) {
 			return { success: false, error: "Task not found" };
 		}
-		const projectManager = await User.findById(project.projectManager);
+		const projectManager = await User.findById(user.role === "projectManager" ? user._id : null);
 		if (!projectManager) {
 			return { success: false, error: "Project manager not found" };
 		}
@@ -54,7 +54,7 @@ export const syncTaskToClickUp = async (projectId: string, taskId: string) => {
 			success: false, 
 			error: error.response?.data || error.message};
 	}
-};
+}
 
 export const updateTaskStatusInClickUp = async (projectId: string, taskId: string, status: string) => {
 	try {
@@ -83,4 +83,4 @@ export const updateTaskStatusInClickUp = async (projectId: string, taskId: strin
 			success: false, 
 			error: error.response?.data || error.message};
 	}
-}
+}*/
