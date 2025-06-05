@@ -6,7 +6,7 @@ import Login from "./pages/auth/Login";
 import Instructions from "./pages/instructions/Instructions";
 import Root from "./pages/root/Root";
 import Layout from "./components/layout/Layout";
-import Profile from "./pages/profile/Profile";
+// import Profile from "./pages/profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -33,11 +33,11 @@ const router = createBrowserRouter([
                         shouldRevalidate: () => true,
                         element: <Instructions />
                     },
-                    {
-                        path: '/profile',
-                        shouldRevalidate: () => true,
-                        element: <Profile />
-                    }
+                    // {
+                    //     path: '/profile',
+                    //     shouldRevalidate: () => true,
+                    //     element: <Profile />
+                    // }
                 ],
             }
         ]
