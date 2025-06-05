@@ -35,7 +35,7 @@ async function register(userData: userInterface) {
     if (!userData.name) throw new UserNameNotProvided();
     if (!userData.email) throw new UserEmailNotProvided();
 
-    if(isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
+    if(!isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
     if (!userData.password) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 
@@ -64,8 +64,8 @@ async function firstLogin(email: string, temporalPassword: string, password: str
     //This regex force the password to have a lower case, 
     //upper case, number, symbol and at least be 8 character long
     
-    if(isPasswordCorrect(temporalPassword)) throw new UserInvalidPassword();
-    if(isPasswordCorrect(password)) throw new UserInvalidPassword();
+    if(!isPasswordCorrect(temporalPassword)) throw new UserInvalidPassword();
+    if(!isPasswordCorrect(password)) throw new UserInvalidPassword();
     if (!temporalPassword) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 

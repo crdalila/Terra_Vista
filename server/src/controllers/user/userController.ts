@@ -1,6 +1,5 @@
 //===============================================================================
 // name: userController.ts
-// desc: Controller of user with TELL WHAT FUNCTIONS THERE ARE
 //=================================Common Imports================================
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
@@ -11,7 +10,9 @@ import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
 
 //User
 async function getUserById(id: string) {
+  //Finds user, makes projects model be inside, removes password in the return
   const user = await User.findById(id).populate("projects").select("-password");
+
   if (!user) throw new UserDoesNotExist();
   return user;
 }
@@ -20,9 +21,9 @@ async function editUserPassword(id: string, newPassword: string) {
   //Error checking for password
   if (!isPasswordCorrect(newPassword)) throw new UserInvalidPassword();
   const updatedUser = User.findOneAndUpdate(
-    { _id: id },
-    { $set: { password: newPassword } },
-    { new: true });
+    { _id: id }, //Tries finding user by its id
+    { $set: { password: newPassword } }, //changes the password
+    { new: true }); //makes it returns the updated version
 
   if (!updatedUser) throw new UserDoesNotExist();
   return updatedUser;
@@ -30,6 +31,7 @@ async function editUserPassword(id: string, newPassword: string) {
 
 //Admin
 async function getAllUsers() {
+  //Finds all users, makes projects model be inside, removes password in the return
   const users = await User.find().populate("projects").select("-password");
   if (!users || users.length <= 0) throw new UserDoesNotExist();
   return users;
@@ -37,6 +39,8 @@ async function getAllUsers() {
 
 async function editUser(id: string, data: userInterface) {
   if (!isPasswordCorrect(data.password)) throw new UserInvalidPassword();
+  //Finds user, change the data inside,
+  //Makes projects model be inside, removes password in the return
   const user = await User.findByIdAndUpdate(
     id, data, { new: true }).populate("projects").select("-password");
   if (!user) throw new UserDoesNotExist();
@@ -44,8 +48,8 @@ async function editUser(id: string, data: userInterface) {
 }
 
 async function removeUser(id: string) {
-  const user = await User.findByIdAndDelete(id);
-  if (!user) throw new UserDoesNotExist();
+  // Finds and deletes user
+  await User.findByIdAndDelete(id);
   return 1;
 }
 

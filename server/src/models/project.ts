@@ -1,10 +1,10 @@
 //===============================================================================
 // name: project.ts
-// desc: Interface, Schema and Model of the project, apart from all necessary enums
+// desc: Interface, Schema and Model of the project
 //===============================Dependency Imports==============================
 import mongoose from "mongoose";
 //=================================Common Imports================================
-import { taskInterface } from "./task";
+import { taskInterface } from "./task.ts";
 //===============================================================================
 
 /**

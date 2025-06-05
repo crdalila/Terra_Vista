@@ -1,29 +1,34 @@
 //===============================================================================
-// name: userErrors.ts
-// desc: All errrors related to the user
+// name: projectErrors.ts
+// desc: All errrors related to the project
 //===============================================================================
-
-
-
 class ProjectDoesNotExist extends Error {
-    statusCode : number;
-    constructor(){
-        super("User does not exist");
+    statusCode: number;
+    constructor() {
+        super("Project does not exist");
         this.statusCode = 204;
     }
 }
 
-class ProjectAlreadyExist extends Error {
-    statusCode : number;
-    constructor(){
-        super("User does not exist");
+class DataDoesNotExist extends Error {
+    statusCode: number;
+    constructor() {
+        super("Data for project creation or update does not exist");
         this.statusCode = 204;
     }
 }
 
+class TaskDoesNotExist extends Error {
+    statusCode: number;
+    constructor() {
+        super("Task does not exist");
+        this.statusCode = 204;
+    }
+}
 
 
 export {
-ProjectDoesNotExist
-
+    DataDoesNotExist,
+    ProjectDoesNotExist,
+    TaskDoesNotExist
 }
