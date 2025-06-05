@@ -15,6 +15,7 @@ const router = Router();
 
 router.get("/", verifyToken, userController.getAllUsers); // A & PM
 router.get("/projects/:id", verifyToken,userController.getUserProjects); // U
+router.get("/cookieUser", verifyToken,userController.getUserByCookie);
 router.get("/:id", verifyToken, userController.getUserById); // U
 
 router.put("/password/:id",verifyToken, userController.editUserPassword); // A & PM 
