@@ -12,5 +12,6 @@ const router = Router();
 
 router.post("/register",verifyToken,authController.register);
 router.post("/login",authController.login);
+router.post("/firstLogin",authController.firstLogin);
 
 export default router;

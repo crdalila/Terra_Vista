@@ -1,7 +1,8 @@
 //===============================================================================
 // name: app.ts
-// desc: 
+// desc: The entry point to the backend
 //===============================Dependency Imports==============================
+import cookieParser from "cookie-parser";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -18,14 +19,16 @@ const app = express();
 const CLIENT_URL = process.env.CLIENT_URL;
 const corsOptions = {
     origin: CLIENT_URL,
-    credentials: true // Permitir envío de cookies
+    credentials: true // Allows sending coockies
 }
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/",router);
 app.use("/clickup", clickUpRoutes);
+
 
 const PORT = process.env.DOCKER_PORT || 3000;
 app.listen(3000, () => {
