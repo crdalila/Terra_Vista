@@ -38,6 +38,7 @@ function Login() {
                 <button type="submit" className="login-button" >Login<i>!</i></button>
             </form>
             {error && <p className="error">{error}</p>}
+            <p>Don't have an account? <a href="/register">Register</a></p>
         </article>
     );
 }
