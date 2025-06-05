@@ -39,12 +39,13 @@ const router = createBrowserRouter([
                         element: <Instructions />
                     },
                     {
-                        path: '/user/:id',
+                        path: '/profile',
                         loader: async () => userService.getUserById(),
                         element: <Profile />
                     },
                     {
-                        path: "/projects",
+                        path: "/user/projects/:id",
+                        loader: async () => userService.getUserProjects(),
                         element: <Projects />
                     }
                 ],

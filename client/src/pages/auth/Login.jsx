@@ -11,13 +11,15 @@ function Login() {
 
     const { onLogin } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = await onLogin(email, password);
-        if (user) {
-            setError(user);
-        } else {
-            navigate(`/user/projects/${user._id}`);
+        const error = await onLogin(email, password);
+        if (error) {
+            setError(error);
+        }else{
+            navigate('/profile')
         }
     };
 

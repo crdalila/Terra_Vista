@@ -7,7 +7,6 @@ import "./Navbar.css";
 
 function TopNavbar() {
   const userData = useContext(AuthContext);
-  console.log(userData)
 
   return (
     <nav className="top-nav">

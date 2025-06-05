@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { login, register, logout } from "../utils/auth";
@@ -12,15 +12,22 @@ const AuthContext = createContext({
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
+    useEffect(() => {
+        const userData = localStorage.getItem("userData");
+        if (userData) {
+            setUserData(JSON.parse(userData));
+        }
+    },[])
     const handleRegister = async (email, password) => {
+        console.log("register");
         try {
             const result = await register(email, password);
             if (result.error) return result.error;
 
-            if (result.user) {
-                setUserData(result.user);
+            if (result.userData) {
+                setUserData(result.userData);
             }
 
             navigate("/login");
@@ -34,13 +41,14 @@ const AuthProvider = ({ children }) => {
     const handleLogin = async (email, password) => {
         try {
             const result = await login(email, password);
+            console.log('result',result)
             if (result.error) return result.error;
-
-            if (result.user) {
-                setUserData(result.user);
+            if (result.userData) {
+                console.log("result.userData", result.userData);
+                setUserData(result.userData);
             }
 
-            navigate("/project/user/");
+            //navigate(`/user/projects/${result.userData._id}`);
             return null;
         } catch (error) {
             console.error("Login error:", error);
@@ -49,6 +57,7 @@ const AuthProvider = ({ children }) => {
     };
 
     const handleLogout = async () => {
+        console.log("logout")
         try {
             await logout();
         } catch (error) {
