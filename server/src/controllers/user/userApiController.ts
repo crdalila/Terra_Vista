@@ -1,7 +1,7 @@
 //===============================================================================
 // name: userApiController.ts
 // desc: Controller of user with the
-// getUserById, getUserProjects, editUserPassword,
+// getUserById, getUserByCookie, getUserProjects, editUserPassword,
 // getAllUsers, editUser, removeUser,
 // addProjectToUser, removeProjectToUser
 // with the respective try catches
@@ -11,6 +11,8 @@ import { Request, Response } from 'express'
 import userController from "./userController.ts";
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
+import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
+import { JwtPayload } from 'jsonwebtoken';
 //===============================================================================
 
 
@@ -30,6 +32,23 @@ async function getUserById(req: Request, res: Response) {
   }
 }
 
+async function getUserByCookie(req: Request, res: Response) {
+  try {
+    //Get parameters for function to work
+    const id = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+    console.log("User",(req as IGetUserAuthInfoRequest).user);
+    console.log("ID", id);
+    //Do the function and send the result in json format
+    const result = await userController.getUserById(id);
+    res.json(result);
+  } catch (error) {
+     /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
+
 async function getUserProjects(req: Request, res: Response) {
   try {
 
@@ -48,10 +67,12 @@ async function getUserProjects(req: Request, res: Response) {
 
 async function editUserPassword(req: Request, res: Response) {
   try {
+    console.log("Hello there");
     //Get parameters for function to work
     const id = req.params.id;
+    console.log("Wasaaaaaaah");
     const { password } = req.body;
-
+    console.log("General Kenobi");
     //Do the function and send the result in json format
     const result = await userController.editUserPassword(id, password);
     res.json(result);
@@ -146,6 +167,7 @@ async function removeProjectToUser(req: Request, res: Response) {
 
 export default {
   getUserById,
+  getUserByCookie,
   getUserProjects,
   editUserPassword,
   getAllUsers,

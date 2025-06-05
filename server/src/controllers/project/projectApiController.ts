@@ -1,10 +1,10 @@
 //===============================================================================
 // name: projectApiController.ts
 // desc: Controller of user with the 
-// getProjectById, getAllProject, getProjectTasks,
+// getProjectById, getAllProjects, getProjectTasks,
 // createProject, editProject, removeProject, 
-// finalizeProject, createTaskIntoProject,editTaskIntoProject, 
-// deleteTaskIntoProject with the respective try catches
+// finalizeProject, createTaskIntoProject,editTaskFromProject, 
+// deleteTaskFromProject with the respective try catches
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express'
 //=================================Common Imports================================
@@ -29,10 +29,10 @@ async function getProjectById(req: Request, res: Response) {
   }
 }
 
-async function getAllProject(_: Request, res: Response) {
+async function getAllProjects(_: Request, res: Response) {
   try {
     //Do the function and send the result in json format
-    const result = (await projectController.getAllProject());
+    const result = (await projectController.getAllProjects());
     res.json(result);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
@@ -135,7 +135,7 @@ async function createTaskIntoProject(req: Request, res: Response) {
   }
 }
 
-async function editTaskIntoProject(req: Request, res: Response) {
+async function editTaskFromProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.projectId;
@@ -152,7 +152,7 @@ async function editTaskIntoProject(req: Request, res: Response) {
   }
 }
 
-async function deleteTaskIntoProject(req: Request, res: Response) {
+async function deleteTaskFromProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.projectId;
@@ -174,13 +174,13 @@ async function deleteTaskIntoProject(req: Request, res: Response) {
 
 export default {
   getProjectById,
-  getAllProject,
+  getAllProjects,
   getProjectTasks,
   createProject,
   editProject,
   removeProject,
   finalizeProject,
   createTaskIntoProject,
-  editTaskIntoProject,
-  deleteTaskIntoProject,
+  editTaskFromProject,
+  deleteTaskFromProject,
 }

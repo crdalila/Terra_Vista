@@ -6,6 +6,7 @@ import User, { userInterface } from "../../models/user.ts";
 //================================Error Management===============================
 import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
+import { hash } from "../../utils/bcrypt.ts";
 //===============================================================================
 
 //User
@@ -21,10 +22,12 @@ async function getUserById(id: string) {
 async function editUserPassword(id: string, newPassword: string) {
   //Error checking for password
   if (!isPasswordCorrect(newPassword)) throw new UserInvalidPassword();
+  const hashedPassword = await hash(newPassword);
+
   const updatedUser = User.findOneAndUpdate(
     { _id: id }, //Tries finding user by its id
-    { $set: { password: newPassword } }, //changes the password
-    { new: true }); //makes it returns the updated version
+    { $set: { password: hashedPassword } }, //changes the password
+    { new: true }).select("-password"); //makes it returns the updated version
 
   if (!updatedUser) throw new UserDoesNotExist();
   return updatedUser;
@@ -40,7 +43,8 @@ async function getAllUsers() {
 }
 
 async function editUser(id: string, data: userInterface) {
-  if (!isPasswordCorrect(data.password)) throw new UserInvalidPassword();
+  console.log(data.password);
+  if (data.password && !isPasswordCorrect(data.password)) throw new UserInvalidPassword();
   //Finds user, change the data inside,
   //Makes projects model be inside, removes password in the return
   const user = await User.findByIdAndUpdate(
