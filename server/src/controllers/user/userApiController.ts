@@ -48,10 +48,12 @@ async function getUserProjects(req: Request, res: Response) {
 
 async function editUserPassword(req: Request, res: Response) {
   try {
+    console.log("Hello there");
     //Get parameters for function to work
     const id = req.params.id;
+    console.log("Wasaaaaaaah");
     const { password } = req.body;
-
+    console.log("General Kenobi");
     //Do the function and send the result in json format
     const result = await userController.editUserPassword(id, password);
     res.json(result);
