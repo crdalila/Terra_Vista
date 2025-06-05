@@ -10,6 +10,7 @@ import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
 
 //User
 async function getUserById(id: string) {
+
   //Finds user, makes projects model be inside, removes password in the return
   const user = await User.findById(id).populate("projects").select("-password");
 
@@ -31,6 +32,7 @@ async function editUserPassword(id: string, newPassword: string) {
 
 //Admin
 async function getAllUsers() {
+
   //Finds all users, makes projects model be inside, removes password in the return
   const users = await User.find().populate("projects").select("-password");
   if (!users || users.length <= 0) throw new UserDoesNotExist();
@@ -48,6 +50,7 @@ async function editUser(id: string, data: userInterface) {
 }
 
 async function removeUser(id: string) {
+
   // Finds and deletes user
   await User.findByIdAndDelete(id);
   return 1;
@@ -56,6 +59,7 @@ async function removeUser(id: string) {
 async function addProjectToUser(userId: string, projectId: string) {
   //Get user
   let user: userInterface = (await User.findById(userId)) as userInterface;
+
   if (!user) throw new UserDoesNotExist();
   //Get only the password from the data changed 
   user.projects.push(projectId as unknown as ObjectId);

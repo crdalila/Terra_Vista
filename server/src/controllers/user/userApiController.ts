@@ -32,6 +32,7 @@ async function getUserById(req: Request, res: Response) {
 
 async function getUserProjects(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const id = req.params.id;
 
@@ -76,6 +77,7 @@ async function getAllUsers(_: Request, res: Response) {
 
 async function editUser(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const id = req.params.id;
     const data = req.body;
@@ -109,6 +111,7 @@ async function removeUser(req: Request, res: Response) {
 //Admin and Project Manager
 async function addProjectToUser(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const userId = req.params.userId;
     const projectId = req.params.projectId;
@@ -125,6 +128,7 @@ async function addProjectToUser(req: Request, res: Response) {
 
 async function removeProjectToUser(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const userId = req.params.userId;
     const projectId = req.params.projectId;

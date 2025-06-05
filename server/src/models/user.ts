@@ -88,7 +88,7 @@ const userSchema = new mongoose.Schema<userInterface>({
     */
     project: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Projects",
+      ref: "Project",
       required: false
     }
   }],
