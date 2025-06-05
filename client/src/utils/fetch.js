@@ -14,10 +14,22 @@ async function fetchData(route, method = "GET", data = null) {
         options.body = JSON.stringify(data);
     }
     const response = await fetch(url, options);
-    const responseData = await response.json();
-    if (!response.ok) {
-        responseData.status = response.status;
+    let responseData;
+    
+    try {
+        responseData = await response.json();
+    } catch (error) {
+        responseData = await response.text();
     }
+
+    if (!response.ok) {
+        return {
+            error: true,
+            status: response.status,
+            message: typeof responseData === "string" ? responseData : responseData.message || 'Unknown error'
+        };
+    }
+    
     return responseData;
 }
 

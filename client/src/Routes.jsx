@@ -11,7 +11,7 @@ import Layout from "./components/layout/Layout";
 import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
 
-import {getUserById, updateUser} from "./utils/user";
+import userService from "./utils/user";
 
 const router = createBrowserRouter([
     {
@@ -39,8 +39,8 @@ const router = createBrowserRouter([
                         element: <Instructions />
                     },
                     {
-                        path: '/profile',
-                        loader: async () => getUserById(),
+                        path: '/user/:id',
+                        loader: async () => userService.getUserById(),
                         element: <Profile />
                     },
                     {
