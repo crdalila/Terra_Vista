@@ -9,6 +9,8 @@ function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+    const { onLogin } = useContext(AuthContext);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const user = await onLogin(email, password);
