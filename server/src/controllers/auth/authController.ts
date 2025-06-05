@@ -60,7 +60,6 @@ async function register(userData: userInterface) {
 
 async function firstLogin(email: string, temporalPassword: string, password: string) {
     if (!email) throw new UserEmailNotProvided();
-
     //This regex force the password to have a lower case, 
     //upper case, number, symbol and at least be 8 character long
     
@@ -78,10 +77,10 @@ async function firstLogin(email: string, temporalPassword: string, password: str
         (await User.findOne({ email: email })) as userInterface & { _id: ObjectId; };
     if(!user) throw new UserDoesNotExist;
     const hashedPassword = await hash(password);
-    const updatedUser = User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
         { _id: user._id },
         { $set: { password: hashedPassword } },
-        { new: true });
+        { new: true }).select("-password");
     if(!updatedUser) throw new UserDoesNotExist;
     return updatedUser;
 }
