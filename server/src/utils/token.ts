@@ -4,35 +4,49 @@
 //===============================Dependency Imports==============================
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express'
 //===============================================================================
 
 
 dotenv.config();
-const JWT_SECRET : string = process.env.JWT_SECRET ? process.env.JWT_SECRET : "";
-if(JWT_SECRET == "") throw new Error("JWT_SECRET IS NOT SET CORRECTLY");
+const JWT_SECRET: string = process.env.JWT_SECRET ? process.env.JWT_SECRET : "";
+if (JWT_SECRET == "") throw new Error("JWT_SECRET IS NOT SET CORRECTLY");
 
+
+interface IGetUserAuthInfoRequest extends Request {
+  user: string | jwt.JwtPayload
+}
 
 /**
  * Creates a token
  * @param {string} password - The password that will be hashed
  * @returns {string} created token
  */
-function createToken(userData : string | Buffer | object){
-    const token = jwt.sign(userData, JWT_SECRET, { expiresIn: '1h' });
-    return token;
+async function createToken(userData: string | Buffer | object) {
+  const token = jwt.sign(userData, JWT_SECRET, { expiresIn: '1h' });
+  return token;
 }
 
 /**
  * Verify if the token is not expire or not correct
  * @param {string} token - Token that will be checked
- * @returns {boolean} true if the token is correct, false if not
  */
-function verifyToken(token : string){
-    const result = jwt.verify(token,JWT_SECRET);
-    return result;
-}
 
-export{
-    createToken,
-    verifyToken
+async function verifyToken(req: Request, res: Response, next: NextFunction) {
+  const token = req.cookies.token;
+  if (!token) res.status(401).json({ error: "Unauthorized: No token provided" });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    (req as IGetUserAuthInfoRequest).user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ error: "Unauthorized: Invalid token" });
+  }
+};
+
+export {
+  createToken,
+  verifyToken,
+  IGetUserAuthInfoRequest
 }

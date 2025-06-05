@@ -1,6 +1,6 @@
 //===============================================================================
 // name: mogoose.ts
-// desc: 
+// desc: Connects mongo
 //===============================Dependency Imports==============================
 import mongoose from "mongoose";
 import dotenv from "dotenv";

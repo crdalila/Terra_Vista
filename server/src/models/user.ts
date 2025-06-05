@@ -21,7 +21,7 @@ enum roleEnum {
  * (to see an example go to authApiControllers register)
  */
 interface userInterface {
-  clickUpToken : string;
+  clickUpToken: string;
   name: string;
   email: string;
   password: string;
@@ -39,9 +39,9 @@ interface userInterface {
  * mongoose.Schema
  */
 const userSchema = new mongoose.Schema<userInterface>({
-  clickUpToken : {
+  clickUpToken: {
     type: String,
-    required: true,
+    required: false,
 
   },
   name: {
@@ -75,18 +75,18 @@ const userSchema = new mongoose.Schema<userInterface>({
     type: Date,
     default: Date.now
   },
-  projects: {
+  projects: [{
     /** An array of all projects the user is able to go to
      * The admin will be able to go to all
      * The project manager can only go to the ones they are managing
      * The client can only go to their projects (usually only one)
-     */
-    type: [{
+    */
+    project: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Projects",
       required: false
-    }]
-  },
+    }
+  }],
 });
 
 export default mongoose.model("User", userSchema);
