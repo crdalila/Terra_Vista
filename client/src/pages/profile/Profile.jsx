@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import updateUser from "../../utils/user";
 import { useNavigate } from "react-router-dom";
+import getUserByCookies from "../../utils/cookies";
 
 // import './Profile.css';
 
 function Profile() {
-    const { userData } = useContext(AuthContext);
-
+    const [userData, setUserData] = useState("");
     const Navigate = useNavigate();
 
     const [oldPassword, setOldPassword] = useState("");
@@ -16,6 +16,9 @@ function Profile() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+    useEffect(() => async () => {
+        setUserData(await getUserByCookies());
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,7 +55,7 @@ function Profile() {
         document.querySelector(".edit-password-form").classList.toggle("hidden");
     }
 
-
+    console.log("userData outside useEffect", userData);
     return (
         <article className="article my-profile">
             <button className="back-button" onClick={() => Navigate(-1)}>
@@ -62,8 +65,8 @@ function Profile() {
             </button>
 
             <h2>My Profile</h2>
-            <p>Name:{userData.name}</p>
-            <p>Email:{userData.email}</p>
+             <p>Name:{userData.name}</p>
+             <p>Email:{userData.email}</p>
 
             <button className="edit-password-button" onClick={() => handleEditPassword()}>
                 Edit Password

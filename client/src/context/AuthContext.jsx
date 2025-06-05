@@ -1,27 +1,42 @@
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { login, register, logout } from "../utils/auth";
+import getUserByCookies from "../utils/cookies";
 
 const AuthContext = createContext({
     userData: null,
-    onLogin: async () => {},
-    onLogout: () => {},
-    onRegister: async () => {}
+    onLogin: async () => { },
+    onLogout: () => { },
+    onRegister: async () => { }
 });
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    // const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(true); // nuevo estado
 
     useEffect(() => {
-        const userData = localStorage.getItem("userData");
-        if (userData) {
-            setUserData(JSON.parse(userData));
-        }
-    },[])
+        const fetchUser = async () => {
+            try {
+                console.log("Fetching user by cookies...");
+                const result = await getUserByCookies();
+                if (result?.userData) {
+                    setUserData(result.userData);
+                }
+            } catch (error) {
+                console.error("Error getting user by cookies:", error);
+            } finally {
+                setLoading(false); // se completó la carga (con éxito o error)
+            }
+        };
+        fetchUser();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>; // o cualquier componente de carga
+    }
+
     const handleRegister = async (email, password) => {
-        console.log("register");
         try {
             const result = await register(email, password);
             if (result.error) return result.error;
@@ -29,8 +44,6 @@ const AuthProvider = ({ children }) => {
             if (result.userData) {
                 setUserData(result.userData);
             }
-
-            navigate("/login");
             return null;
         } catch (error) {
             console.error("Register error:", error);
@@ -41,14 +54,10 @@ const AuthProvider = ({ children }) => {
     const handleLogin = async (email, password) => {
         try {
             const result = await login(email, password);
-            console.log('result',result)
             if (result.error) return result.error;
             if (result.userData) {
-                console.log("result.userData", result.userData);
                 setUserData(result.userData);
             }
-
-            //navigate(`/user/projects/${result.userData._id}`);
             return null;
         } catch (error) {
             console.error("Login error:", error);
@@ -57,7 +66,6 @@ const AuthProvider = ({ children }) => {
     };
 
     const handleLogout = async () => {
-        console.log("logout")
         try {
             await logout();
         } catch (error) {

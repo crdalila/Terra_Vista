@@ -12,6 +12,7 @@ import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
 
 import userService from "./utils/user";
+import getUserByCookies from "./utils/cookies";
 
 const router = createBrowserRouter([
     {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: '/profile',
-                        loader: async () => userService.getUserById(),
+                        
                         element: <Profile />
                     },
                     {
