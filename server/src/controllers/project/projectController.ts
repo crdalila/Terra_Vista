@@ -14,7 +14,7 @@ async function getProjectById(id: string) {
   return project;
 }
 
-async function getAllProject() {
+async function getAllProjects() {
   //Finds all projects, makes tasks model be inside
   const projects = await Project.find().populate("tasks");
   if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
@@ -98,7 +98,7 @@ async function deleteTask(projectId: string, taskId: string) {
 
 export default {
   getProjectById,
-  getAllProject,
+  getAllProjects,
   createProject,
   editProject,
   removeProject,
