@@ -1,7 +1,5 @@
 import { NavLink } from "react-router-dom";
 
-import "./Navbar.css";
-
 function AsideNavbar() {
   return (
     <nav className="aside-nav">

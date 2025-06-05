@@ -1,11 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import { AuthContext } from "./context/AuthContext";
+
 import CreateUser from "./pages/auth/CreateUser";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
+import Instructions from "./pages/instructions/Instructions";
 import Root from "./pages/root/Root";
 import Layout from "./components/layout/Layout";
+import Profile from "./pages/profile/Profile";
+import Projects from "./pages/projects/Projects";
 
+import userService from "./utils/user";
 
 const router = createBrowserRouter([
     {
@@ -26,15 +32,22 @@ const router = createBrowserRouter([
             },
             {
                 element: <Layout />,
+                shouldRevalidate: () => true,
                 children: [
                     {
-                        path: "/",
-/*                         loader: async () => getProjectsByUserId(), */
-                        shouldRevalidate: () => true,
-                        children: [
-                            /* TODO ELEMENTOS */
-                        ]
+                        path: "/instructions",
+                        element: <Instructions />
                     },
+                    {
+                        path: '/profile',
+                        loader: async () => userService.getUserById(),
+                        element: <Profile />
+                    },
+                    {
+                        path: "/user/projects/:id",
+                        loader: async () => userService.getUserProjects(),
+                        element: <Projects />
+                    }
                 ],
             }
         ]
