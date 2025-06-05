@@ -7,6 +7,7 @@ import './Profile.css';
 
 function Profile() {
     const { userData } = useContext(AuthContext);
+    console.log("userData", userData)
 
     const Navigate = useNavigate();
 

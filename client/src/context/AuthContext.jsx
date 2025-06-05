@@ -1,25 +1,34 @@
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import getUserByCookies from "../utils/cookies";
 
 import { login, register, logout } from "../utils/auth";
 
 const AuthContext = createContext({
     userData: null,
-    onLogin: async () => {},
-    onLogout: () => {},
-    onRegister: async () => {}
+    onLogin: async () => { },
+    onLogout: () => { },
+    onRegister: async () => { }
 });
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    // const navigate = useNavigate();
 
     useEffect(() => {
-        const userData = localStorage.getItem("userData");
-        if (userData) {
-            setUserData(JSON.parse(userData));
-        }
-    },[])
+        const fetchUser = async () => {
+            try {
+                const result = await getUserByCookies(); // esto debe devolver { userData }
+                if (result && result.userData) {
+                    setUserData(result.userData); // no necesitas JSON.parse
+                }
+            } catch (error) {
+                console.error("Error getting user from cookies:", error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+
     const handleRegister = async (email, password) => {
         console.log("register");
         try {
@@ -41,14 +50,12 @@ const AuthProvider = ({ children }) => {
     const handleLogin = async (email, password) => {
         try {
             const result = await login(email, password);
-            console.log('result',result)
+            console.log('result', result)
             if (result.error) return result.error;
             if (result.userData) {
                 console.log("result.userData", result.userData);
                 setUserData(result.userData);
             }
-
-            //navigate(`/user/projects/${result.userData._id}`);
             return null;
         } catch (error) {
             console.error("Login error:", error);

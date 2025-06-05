@@ -12,6 +12,7 @@ import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
 
 import userService from "./utils/user";
+import projectService from "./utils/projects";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/user/projects/:id",
-                        loader: async () => userService.getUserProjects(),
+                        loader: async () => projectService.getUserProjects(),
                         element: <Projects />
                     }
                 ],
