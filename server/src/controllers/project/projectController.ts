@@ -36,7 +36,6 @@ async function editProject(id: string, data: projectInterface) {
   //Finds project, updates project, makes tasks model be insides
   const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate("tasks");
   if (!project) throw new ProjectDoesNotExist();
-
   return project;
 }
 
@@ -57,6 +56,7 @@ async function finalizeProject(id: string) {
 }
 
 async function createTask(projectId: string, taskData: taskInterface) {
+
   if (!taskData) throw new DataDoesNotExist();
   //Creates new task
   const newTask = new Task(taskData);
@@ -82,6 +82,7 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 }
 
 async function deleteTask(projectId: string, taskId: string) {
+
   let project = (await Project.findById(projectId).populate("tasks"));
   if (!project) throw new ProjectDoesNotExist();
 

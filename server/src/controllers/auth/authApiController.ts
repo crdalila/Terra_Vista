@@ -46,6 +46,7 @@ async function firstLogin(req: Request, res: Response) {
 
 //Logs a user in or throws an error
 async function login(req: Request, res: Response) {
+
   try {
     //Get parameters for function to work
     const { email, password } = req.body;
