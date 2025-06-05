@@ -6,6 +6,7 @@ import { Router } from "express";
 //=================================Common Imports================================
 import projectController from "../controllers/project/projectApiController.ts";
 import { verifyToken } from "../utils/token.ts";
+import verifyRole from "../utils/middlewares/roleMiddleware.ts";
 //===============================================================================
 
 const router = Router();
@@ -13,19 +14,19 @@ const router = Router();
 //NEED TO MAKE MIDDLEWARE TO CHECK IF USER ID IS THE SAME AS THE
 //USER YOU WANT TO INTERACT WITH OR THE ADMIN
 
-router.get("/", verifyToken, projectController.getAllProjects);
+router.get("/", verifyToken, verifyRole, projectController.getAllProjects);
 router.get("/tasks/:id", verifyToken, projectController.getProjectTasks);
 router.get("/:id", verifyToken, projectController.getProjectById);
 
-router.post("/create", verifyToken, projectController.createProject);
+router.post("/create", verifyToken, verifyRole, projectController.createProject);
 router.post("/tasks/:id", verifyToken, projectController.createTaskIntoProject);
 
 router.put("/tasks/:projectId/:taskId", verifyToken, projectController.editTaskFromProject);
 router.put("/finalize/:id", verifyToken, projectController.finalizeProject);
-router.put("/:id", verifyToken, projectController.editProject);
+router.put("/:id", verifyToken, verifyRole, projectController.editProject);
 
 router.delete("/tasks/:projectId/:taskId", verifyToken, projectController.deleteTaskFromProject);
-router.delete("/:id", verifyToken, projectController.removeProject);
+router.delete("/:id", verifyToken, verifyRole, projectController.removeProject);
 
 
 export default router;
