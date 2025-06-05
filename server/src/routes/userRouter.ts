@@ -17,7 +17,6 @@ router.get("/", verifyToken, userController.getAllUsers); // A & PM
 router.get("/projects/:id", verifyToken,userController.getUserProjects); // U
 router.get("/:id", verifyToken, userController.getUserById); // U
 
-
 router.put("/password/:id",verifyToken, userController.editUserPassword); // A & PM 
 router.put("/project/:userId/:projectId", verifyToken, userController.addProjectToUser); // A & PM
 router.put("/:id", verifyToken, userController.editUser); // A
