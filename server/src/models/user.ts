@@ -22,6 +22,7 @@ enum roleEnum {
  */
 interface userInterface {
   clickUpToken: string;
+  clickUpWorkspaceId: string;
   name: string;
   email: string;
   password: string;
@@ -43,6 +44,10 @@ const userSchema = new mongoose.Schema<userInterface>({
     type: String,
     required: false,
 
+  },
+  clickUpWorkspaceId: {
+    type: String,
+    required: false
   },
   name: {
     type: String,
