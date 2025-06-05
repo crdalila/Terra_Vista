@@ -98,7 +98,7 @@ async function login(email: string, password: string) {
     //Error checking for email and password
     if (!email) throw new UserEmailNotProvided();
     if (!password) throw new UserPasswordNotProvided();
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email:email }).populate("projects");
     //Error checking for user
     if (!user) throw new UserInvalidCredentials();
 
