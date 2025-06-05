@@ -11,6 +11,14 @@ class UserNameNotProvided extends Error {
     }
 }
 
+class UserAccessLevelNotEnough extends Error {
+    statusCode : number;
+    constructor(){
+        super("Unauthorized: Invalid role");
+        this.statusCode = 400;
+    }
+}
+
 class UserEmailNotProvided extends Error {
     statusCode : number;
     constructor(){
@@ -76,6 +84,7 @@ class ProjectIsNotInUser extends Error {
 export {
     UserNameNotProvided,
     UserEmailNotProvided,
+    UserAccessLevelNotEnough,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,
     UserInvalidCredentials,
