@@ -6,7 +6,7 @@ import { useContext } from "react";
 import "./ProjectDetail.css";
 
 function ProjectDetail() {
-    const Navigate = useNavigate();
+    // const Navigate = useNavigate();
 
     const { userData } = useContext(AuthContext);
 
