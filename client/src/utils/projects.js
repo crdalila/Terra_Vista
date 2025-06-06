@@ -5,6 +5,12 @@ async function getUserProjects(userId) {
     return result;
 }
 
+async function getProjectId(projectId) {
+    const result = await fetchData(`/project/${projectId}`, "GET");
+    return result;
+}
+
 export default {
-    getUserProjects
+    getUserProjects,
+    getProjectId
 };

@@ -10,8 +10,10 @@ import Root from "./pages/root/Root";
 import Layout from "./components/layout/Layout";
 import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
+import ProjectDetail from "./pages/projects/ProjectDetail";
 
 import { getUserAllProjects } from "./utils/user";
+import projectUtils from "./utils/projects";
 import getUserByCookies from "./utils/cookies";
 
 const router = createBrowserRouter([
@@ -47,9 +49,18 @@ const router = createBrowserRouter([
                         path: "/projects",
                         loader: async () => {
                             const userData = await getUserByCookies();
-                            return getUserAllProjects(userData._id);
+                            console.log(userData);
+                            return userData.projects;
                         },
                         element: <Projects />
+                    },
+                    {
+                        path: "/project",
+                        loader: async () => {
+                            const userData = await getUserByCookies();
+                            return projectUtils.getProjectId(userData.projects._id);
+                        },
+                        element: <ProjectDetail />
                     }
                 ],
             }

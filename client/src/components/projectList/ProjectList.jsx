@@ -6,6 +6,7 @@ import ProjectCard from "../projectCard/ProjectCard";
 
 function ProjectList({ projects = [] }) {
     projects = useLoaderData();
+    console.log("Projects:", projects);
 	
     return (
         <article className="projects-list">

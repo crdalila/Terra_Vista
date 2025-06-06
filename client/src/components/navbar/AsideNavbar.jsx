@@ -12,7 +12,7 @@ function AsideNavbar() {
           <button className="notifications-button aside-navbar--button">Notifications</button>
         </li>
         <li>
-          <NavLink to={`/user/projects/${userData._id}`} className='aside-navbar--button projects-button'>Projects</NavLink>
+          <NavLink to='/projects' className='aside-navbar--button projects-button'>Projects</NavLink>
         </li>
         <li>
           <NavLink to="/instructions" className='aside-navbar--button instructions-button'>Instructions</NavLink>

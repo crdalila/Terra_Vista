@@ -2,11 +2,14 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
+import { useRef } from "react";
 
-import "./ProjectDetail.css";
+import TaskList from '../../components/taskList/TaskList'
+
+// import "./ProjectDetail.css";
 
 function ProjectDetail() {
-    // const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { userData } = useContext(AuthContext);
 
@@ -18,7 +21,7 @@ function ProjectDetail() {
     }
 
     return (
-        <article className="project-page">
+        <article className="project-page article">
             <section className="project-detail">
                 <h1>{project.Name}</h1>
                 <div className="project-detail__info">
@@ -48,6 +51,7 @@ function ProjectDetail() {
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
                     <p>Tasks</p>
+                    <TaskList />
                 </div>
             </section>
         </article>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function ProjectCard({ project }) {
 	return (
 		<article className="project">
-			<Link to={`/project/${project._id}`}>
+			<Link to={`/project`}>
 				<section className="project-data">
 					<h2>{project.Name}</h2>
                     <p>PORCENTAJE PROYECTO</p> {/* TODO CHARTJS */}
