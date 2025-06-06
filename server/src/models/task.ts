@@ -72,10 +72,9 @@ interface taskInterface {
  * mongoose.Schema
  */
 const taskSchema = new mongoose.Schema<taskInterface>({
-
   clickUpTaskId: {
     type: String,
-    required: true,
+    required: false,
   },
   name: {
     type: String,

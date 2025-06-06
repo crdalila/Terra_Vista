@@ -9,10 +9,6 @@ function Root() {
             <main>
                 <Outlet />
             </main>
-
-            <footer>
-                <p>Footer</p> {/* TODO FOOTER */}
-            </footer>
         </AuthProvider>
     )
 }

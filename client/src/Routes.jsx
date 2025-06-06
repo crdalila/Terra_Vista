@@ -1,44 +1,58 @@
-import { createBrowserRouter } from "react-router-dom";
+    import { createBrowserRouter } from "react-router-dom";
 
-import CreateUser from "./pages/auth/CreateUser";
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
-import Root from "./pages/root/Root";
-import Layout from "./components/layout/Layout";
+    import { AuthContext } from "./context/AuthContext";
 
+    import CreateUser from "./pages/auth/CreateUser";
+    import Register from "./pages/auth/Register";
+    import Login from "./pages/auth/Login";
+    import Instructions from "./pages/instructions/Instructions";
+    import Root from "./pages/root/Root";
+    import Layout from "./components/layout/Layout";
+    import Profile from "./pages/profile/Profile";
+    import Projects from "./pages/projects/Projects";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Root />,
-        children: [
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/register",
-                element: <Register />,
-            },
-            {
-                path: "/create-user",
-                element: <CreateUser />,
-            },
-            {
-                element: <Layout />,
-                children: [
-                    {
-                        path: "/",
-/*                         loader: async () => getProjectsByUserId(), */
-                        shouldRevalidate: () => true,
-                        children: [
-                            /* TODO ELEMENTOS */
-                        ]
-                    },
-                ],
-            }
-        ]
-    }
-]);
+    import { getUserAllProjects } from "./utils/user"; // TODO le pongo aquí el id? y de dónde 
+    import getUserByCookies from "./utils/cookies";
 
-export default router;
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Root />,
+            children: [
+                {
+                    path: "/login",
+                    element: <Login />,
+                },
+                {
+                    path: "/register",
+                    element: <Register />,
+                },
+                {
+                    path: "/create-user",
+                    element: <CreateUser />,
+                },
+                {
+                    element: <Layout />,
+                    shouldRevalidate: () => true,
+                    children: [
+                        {
+                            path: "/instructions",
+                            element: <Instructions />
+                        },
+                        {
+                            path: '/profile',
+                            
+                            element: <Profile />
+                        },
+                        {
+                            path: "/projects",
+                            loader: async () => getUserAllProjects(),
+                            element: <Projects />
+                        }
+                    ],
+                }
+            ]
+        }
+    ]);
+
+    export default router;
