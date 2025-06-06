@@ -7,7 +7,7 @@ import { Router } from "express";
 import userController from "../controllers/user/userApiController.ts";
 import { verifyToken } from "../utils/token.ts";
 import verifyRole from "../utils/middlewares/roleMiddleware.ts";
-import verifyUser from "../utils/middlewares/sameUserMiddleware.ts";
+import {verifyUser} from "../utils/middlewares/sameUserMiddleware.ts";
 //===============================================================================
 
 const router = Router();

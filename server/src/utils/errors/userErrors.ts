@@ -27,6 +27,14 @@ class UserAccessLevelNotEnough extends Error {
     }
 }
 
+class UserDoesNotHaveThisProject extends Error {
+     statusCode : number;
+    constructor(){
+        super("User does not have this project");
+        this.statusCode = 400;
+    }
+}
+
 class UserEmailNotProvided extends Error {
     statusCode : number;
     constructor(){
@@ -93,6 +101,7 @@ export {
     UserNameNotProvided,
     UserEmailNotProvided,
     UserAccessingIsNotTheSameAsUserTryingToBeChanged,
+    UserDoesNotHaveThisProject,
     UserAccessLevelNotEnough,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,
