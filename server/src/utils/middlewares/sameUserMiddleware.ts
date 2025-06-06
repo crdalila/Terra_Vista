@@ -42,7 +42,7 @@ async function verifyUserHasProject(req: Request, res: Response, next: NextFunct
       if (!paramsId) throw new ProjectIdNotGiven();
 
       if (!user.projects.some((projectId) => {
-        projectId.toString() == paramsId;
+        return projectId.toString() == paramsId;
       })) throw new UserDoesNotHaveThisProject();
 
     }
