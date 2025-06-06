@@ -25,7 +25,6 @@ async function register(email, password) {
     }
 
     const result = await FetchData("/register", "POST", data);
-    //TODO si está ya registrado, que no se pueda registrar
     return result;
 }
 

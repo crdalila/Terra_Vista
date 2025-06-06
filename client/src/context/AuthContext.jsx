@@ -1,29 +1,51 @@
-import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
 
 import { login, register, logout } from "../utils/auth";
+import getUserByCookies from "../utils/cookies";
 
 const AuthContext = createContext({
     userData: null,
-    onLogin: async () => {},
-    onLogout: () => {},
-    onRegister: async () => {}
+    onLogin: async () => { },
+    onLogout: () => { },
+    onRegister: async () => { }
 });
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true); // nuevo estado
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                setLoading(true);
+                console.log("Fetching user by cookies...");
+                const result = await getUserByCookies();
+                if (result && !result.error) {
+                    setUserData(result);
+                }else{
+                    setUserData(null);
+                }
+            } catch (error) {
+                console.error("Error getting user by cookies:", error);
+            } finally {
+                setLoading(false); // se completó la carga (con éxito o error)
+            }
+        };
+        fetchUser();
+    }, []);
+    // TODO borrarlo
+    if (loading) {
+        return <div>Loading...</div>; // o cualquier componente de carga
+    }
 
     const handleRegister = async (email, password) => {
         try {
             const result = await register(email, password);
             if (result.error) return result.error;
 
-            if (result.user) {
-                setUserData(result.user);
+            if (result.userData) {
+                setUserData(result.userData);
             }
-
-            navigate("/login");
             return null;
         } catch (error) {
             console.error("Register error:", error);
@@ -35,12 +57,9 @@ const AuthProvider = ({ children }) => {
         try {
             const result = await login(email, password);
             if (result.error) return result.error;
-
-            if (result.user) {
-                setUserData(result.user);
+            if (result.userData) {
+                setUserData(result.userData);
             }
-
-            navigate("/project/user/");
             return null;
         } catch (error) {
             console.error("Login error:", error);
@@ -62,6 +81,7 @@ const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             userData,
+            loading,
             onLogin: handleLogin,
             onLogout: handleLogout,
             onRegister: handleRegister
