@@ -47,7 +47,7 @@ enum deviceEnum {
  * (to see an example go to authApiControllers register)
  */
 interface taskInterface {
-  id: number;
+  clickUpTaskId: String;
   name: String;
   isSend: Boolean;
   requestType: requestEnum;
@@ -72,9 +72,9 @@ interface taskInterface {
  * mongoose.Schema
  */
 const taskSchema = new mongoose.Schema<taskInterface>({
-  id: {
-    type: Number,
-    required: true,
+  clickUpTaskId: {
+    type: String,
+    required: false,
   },
   name: {
     type: String,

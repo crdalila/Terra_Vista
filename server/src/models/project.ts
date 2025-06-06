@@ -14,6 +14,9 @@ import { taskInterface } from "./task.ts";
  * (to see an example go to authApiControllers register)
  */
 interface projectInterface {
+  clickUpListId: String;
+  clickUpFolderId: String;
+  clickUpSpaceId: String;
   name: String;
   isFinalize: Boolean,
   tasks: [taskInterface];
@@ -28,6 +31,18 @@ interface projectInterface {
  * mongoose.Schema
  */
 const projectSchema = new mongoose.Schema<projectInterface>({
+  clickUpListId: {
+    type: String,
+    required: true
+  },
+  clickUpFolderId: {
+    type: String,
+    required: true
+  },
+  clickUpSpaceId: {
+    type: String,
+    required: true
+  },
   isFinalize: {
     type: Boolean,
     default: false
@@ -39,13 +54,18 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     trim: true
   },
 
-  tasks: [{
-    task: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Tasks",
+  tasks:  [{
+      /** An array of all projects the user is able to go to
+       * The admin will be able to go to all
+       * The project manager can only go to the ones they are managing
+       * The client can only go to their projects (usually only one)
+      */
+  
+      type: mongoose.Types.ObjectId,
+      ref: "Task",
       required: false
-    }
-  }],
+  
+    }],
 });
 
 export default mongoose.model("Project", projectSchema);

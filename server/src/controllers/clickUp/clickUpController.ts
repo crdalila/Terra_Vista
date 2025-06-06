@@ -42,7 +42,7 @@ async function getUserWorkspaceSpaces(userId:string) {
 	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
 	//if (!user.clickUpWorkspaceId) throw new error //TODO
 	
-	const result = await getClickUpSpaces(user.clickUpToken, user.clickUpWorkspaceId);
+	const result = await getClickUpSpaces(user.clickUpWorkspaceId, user.clickUpToken);
 	if (!result.success) throw new ClickUpAPIError();
 	
 	return result.data;
