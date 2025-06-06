@@ -53,7 +53,6 @@ function Profile() {
         document.querySelector(".my-profile-right").classList.toggle("hidden");
     }
 
-    
     return (
         <article className="article my-profile">
             <button className="back-button" onClick={() => navigate(-1)}>
