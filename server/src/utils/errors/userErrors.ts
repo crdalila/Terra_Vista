@@ -11,10 +11,26 @@ class UserNameNotProvided extends Error {
     }
 }
 
+class UserAccessingIsNotTheSameAsUserTryingToBeChanged extends Error {
+    statusCode : number;
+    constructor(){
+        super("User accessing is not the same as user trying to be changed");
+        this.statusCode = 400;
+    }
+}
+
 class UserAccessLevelNotEnough extends Error {
     statusCode : number;
     constructor(){
         super("Unauthorized: Invalid role");
+        this.statusCode = 400;
+    }
+}
+
+class UserDoesNotHaveThisProject extends Error {
+     statusCode : number;
+    constructor(){
+        super("User does not have this project");
         this.statusCode = 400;
     }
 }
@@ -84,6 +100,8 @@ class ProjectIsNotInUser extends Error {
 export {
     UserNameNotProvided,
     UserEmailNotProvided,
+    UserAccessingIsNotTheSameAsUserTryingToBeChanged,
+    UserDoesNotHaveThisProject,
     UserAccessLevelNotEnough,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,

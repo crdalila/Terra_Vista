@@ -147,6 +147,7 @@ async function editTaskFromProject(req: Request, res: Response) {
     const result = (await projectController.editTask(projectId, taskId, taskData));
     res.json(result);
   } catch (error) {
+    
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);

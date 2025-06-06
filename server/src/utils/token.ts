@@ -14,7 +14,8 @@ if (JWT_SECRET == "") throw new Error("JWT_SECRET IS NOT SET CORRECTLY");
 
 
 interface IGetUserAuthInfoRequest extends Request {
-  user: string | jwt.JwtPayload
+  user: string | jwt.JwtPayload,
+  role: string
 }
 
 /**

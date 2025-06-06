@@ -1,6 +1,7 @@
 //===============================================================================
 // name: projectController.ts
 //=================================Common Imports================================
+import { Types } from "mongoose";
 import Project, { projectInterface } from "../../models/project.ts";
 import Task, { taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
@@ -56,7 +57,6 @@ async function finalizeProject(id: string) {
 }
 
 async function createTask(projectId: string, taskData: taskInterface) {
-  console.log("Task Data: ",taskData);
   if (!taskData) throw new DataDoesNotExist();
   //Creates new task
   const newTask = new Task(taskData);
@@ -70,10 +70,15 @@ async function createTask(projectId: string, taskData: taskInterface) {
 }
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
-  let project = (await Project.findById(projectId));
+
+  let project = (await Project.findById(projectId).populate("tasks"));
   if (!project) throw new ProjectDoesNotExist();
-  let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
-  if (!task || !project.tasks.includes(task)) throw new TaskDoesNotExist();
+
+  if (!project.tasks.some((myTask) => {
+    let stringId = (myTask as taskInterface & { _id: Types.ObjectId; })
+      ._id.toString();
+    return stringId == taskId;
+  })) throw new TaskDoesNotExist();
 
   const editedTask = await Task.findByIdAndUpdate(
     taskId, taskData, { new: true });
@@ -88,10 +93,13 @@ async function deleteTask(projectId: string, taskId: string) {
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
 
-  const indexOfDelete = project.tasks.indexOf(task);
-  if (indexOfDelete == -1) throw new TaskDoesNotExist();
-  project.tasks.splice(indexOfDelete, 1);
-  project.save();
+  if (!project.tasks.some((myTask) => {
+    let stringId = (myTask as taskInterface & { _id: Types.ObjectId; })
+      ._id.toString();
+    return stringId == taskId;
+  })) throw new TaskDoesNotExist();
+
+  await Task.findByIdAndDelete(task);
 
   return project;
 }
