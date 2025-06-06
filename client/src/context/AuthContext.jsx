@@ -28,15 +28,11 @@ const AuthProvider = ({ children }) => {
             } catch (error) {
                 console.error("Error getting user by cookies:", error);
             } finally {
-                setLoading(false); // se completó la carga (con éxito o error)
+                setLoading(false);
             }
         };
         fetchUser();
     }, []);
-    // TODO borrarlo
-    if (loading) {
-        return <div>Loading...</div>; // o cualquier componente de carga
-    }
 
     const handleRegister = async (email, password) => {
         try {

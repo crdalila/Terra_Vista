@@ -53,7 +53,6 @@ function Profile() {
         document.querySelector(".edit-password-form").classList.toggle("hidden");
     }
 
-    
     return (
         <article className="article my-profile">
             <button className="back-button" onClick={() => navigate(-1)}>
