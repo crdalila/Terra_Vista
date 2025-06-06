@@ -11,6 +11,7 @@ import Layout from "./components/layout/Layout";
 import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
 import ProjectDetail from "./pages/projects/ProjectDetail";
+import CreateProjectForm from "./components/createProject/createProject";
 
 import projectUtils from "./utils/projects";
 import { getUserAllProjects } from "./utils/user";
@@ -65,8 +66,11 @@ const router = createBrowserRouter([
 
                             return projects;
                         },
-
                         element: <ProjectDetail />
+                    },
+                    {
+                        path: "/create-project",
+                        element: <CreateProjectForm />
                     }
                 ],
             }

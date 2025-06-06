@@ -1,13 +1,28 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import { useContext } from "react";
 
+import { AuthContext } from "../../context/AuthContext";
 import ProjectCard from "../projectCard/ProjectCard";
 import './ProjectList.css';
 
 function ProjectList({ projects = [] }) {
+    const { userData } = useContext(AuthContext);
     projects = useLoaderData();
 	console.log("ProjectList received:", projects);
+
+    const canCreateProject =
+        userData && userData.role === "admin" || userData.role === "projectManager";
+    
+    
     return (
         <article className="projects-list">
+            
+            {canCreateProject && (
+                <Link to="/create-project">
+                    <button className="create-project-button">Add Project From ClickUp</button>
+                </Link>
+            )}
+
             <section className="projects-list--projects">
                 {projects.length === 0 ? (
                     <p>You have no projects in progress.</p>
@@ -17,6 +32,7 @@ function ProjectList({ projects = [] }) {
                     ))
                 )}
             </section>
+
         </article>
     )
 }

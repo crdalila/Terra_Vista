@@ -7,7 +7,7 @@ import getUserByCookies from "../../utils/cookies";
 import './Profile.css';
 
 function Profile() {
-    const { userData, loading } = useContext(AuthContext);
+    const { userData } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [oldPassword, setOldPassword] = useState("");
