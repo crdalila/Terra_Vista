@@ -7,19 +7,17 @@ import { Router } from "express";
 import userController from "../controllers/user/userApiController.ts";
 import { verifyToken } from "../utils/token.ts";
 import verifyRole from "../utils/middlewares/roleMiddleware.ts";
+import {verifyUser} from "../utils/middlewares/sameUserMiddleware.ts";
 //===============================================================================
 
 const router = Router();
 
-//NEED TO MAKE MIDDLEWARE TO CHECK IF USER ID IS THE SAME AS THE
-//USER YOU WANT TO INTERACT WITH OR THE ADMIN
-
 router.get("/", verifyToken, verifyRole, userController.getAllUsers); // A & PM
-router.get("/projects/:id", verifyToken, userController.getUserProjects); // U
+router.get("/projects/:id", verifyToken, verifyUser, userController.getUserProjects); // U
 router.get("/cookieUser", verifyToken, userController.getUserByCookie);
-router.get("/:id", verifyToken, userController.getUserById); // U
+router.get("/:id", verifyToken, verifyUser, userController.getUserById); // U
 
-router.put("/password/:id", verifyToken, userController.editUserPassword); // A & PM 
+router.put("/password/:id", verifyToken, verifyUser, userController.editUserPassword); // A & PM 
 router.put("/project/:userId/:projectId", verifyToken, verifyRole, userController.addProjectToUser); // A & PM
 router.put("/:id", verifyToken, verifyRole, userController.editUser); // A
 
