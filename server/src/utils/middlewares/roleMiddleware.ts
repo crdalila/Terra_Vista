@@ -18,6 +18,7 @@ async function verifyRole(req: Request, res: Response, next: NextFunction) {
     const user = await User.findById(id).select("-password");
     if (!user) throw new UserDoesNotExist();
     if (user.role == "client") throw new UserAccessLevelNotEnough();
+    ((req as IGetUserAuthInfoRequest)).role = user.role; 
     next();
   } catch (error) {
     const myError = catchError(error);
