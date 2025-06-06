@@ -10,14 +10,20 @@ import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../u
 
 async function getProjectById(id: string) {
   //Finds project, makes tasks model be inside
-  const project = await Project.findById(id).populate("tasks");
+  const project = await Project.findById(id).populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
 
 async function getAllProjects() {
   //Finds all projects, makes tasks model be inside
-  const projects = await Project.find().populate("tasks");
+  const projects = await Project.find().populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
   if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   return projects;
 }
@@ -35,7 +41,10 @@ async function createProject(data: projectInterface) {
 async function editProject(id: string, data: projectInterface) {
   if (!data) throw new DataDoesNotExist();
   //Finds project, updates project, makes tasks model be insides
-  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate("tasks");
+  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
@@ -50,7 +59,10 @@ async function removeProject(id: string) {
 async function finalizeProject(id: string) {
   //Finds project and sets isFinalize to true
   const finalizeProject = await Project.findByIdAndUpdate(
-    id, { $set: { isFinalize: true } }, { new: true }).populate("tasks");
+    id, { $set: { isFinalize: true } }, { new: true }).populate({
+      path: 'tasks',
+      select: '-clickUpTaskId'
+    }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
   if (!finalizeProject) throw new ProjectDoesNotExist();
 
   return finalizeProject;

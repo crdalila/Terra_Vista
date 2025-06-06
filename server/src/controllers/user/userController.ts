@@ -15,10 +15,12 @@ async function getUserById(id: string) {
   //Finds user, makes projects model be inside, removes password in the return
   const user = await User.findById(id).populate({
     path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
     populate: {
-      path: 'tasks'
+      path: 'tasks',
+      select: '-clickUpTaskId'
     }
-  }).select("-password");
+  }).select("-clickUpToken -clickUpWorkspaceId -password");
 
   if (!user) throw new UserDoesNotExist();
   return user;
@@ -32,7 +34,7 @@ async function editUserPassword(id: string, newPassword: string) {
   const updatedUser = User.findOneAndUpdate(
     { _id: id }, //Tries finding user by its id
     { $set: { password: hashedPassword } }, //changes the password
-    { new: true }).select("-password"); //makes it returns the updated version
+    { new: true }).select("-clickUpToken -clickUpWorkspaceId -password"); //makes it returns the updated version
 
   if (!updatedUser) throw new UserDoesNotExist();
   return updatedUser;
@@ -44,10 +46,12 @@ async function getAllUsers() {
   //Finds all users, makes projects model be inside, removes password in the return
   const users = await User.find().populate({
     path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
     populate: {
-      path: 'tasks'
+      path: 'tasks',
+      select: '-clickUpTaskId'
     }
-  }).select("-password");
+  }).select("-clickUpToken -clickUpWorkspaceId -password");
   if (!users || users.length <= 0) throw new UserDoesNotExist();
   return users;
 }
@@ -60,10 +64,12 @@ async function editUser(id: string, data: userInterface) {
   const user = await User.findByIdAndUpdate(
     id, data, { new: true }).populate({
     path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
     populate: {
-      path: 'tasks'
+      path: 'tasks',
+      select: '-clickUpTaskId'
     }
-  }).select("-password");
+  }).select("-clickUpToken -clickUpWorkspaceId -password");
   if (!user) throw new UserDoesNotExist();
   return user;
 }
@@ -86,10 +92,12 @@ async function addProjectToUser(userId: string, projectId: string) {
   const userWithNewPassword = await User.findByIdAndUpdate(
     userId, user, { new: true }).populate({
     path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
     populate: {
-      path: 'tasks'
+      path: 'tasks',
+      select: '-clickUpTaskId'
     }
-  }).select("-password");
+  }).select("-clickUpToken -clickUpWorkspaceId -password");
   return userWithNewPassword;
 }
 
@@ -105,10 +113,12 @@ async function removeProjectToUser(userId: string, projectId: string) {
   const userWithNewPassword = await User.findByIdAndUpdate(
     userId, user, { new: true }).populate({
     path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
     populate: {
-      path: 'tasks'
+      path: 'tasks',
+      select: '-clickUpTaskId'
     }
-  }).select("-password");
+  }).select("-clickUpToken -clickUpWorkspaceId -password");
   return userWithNewPassword;
 }
 
