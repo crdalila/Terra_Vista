@@ -21,7 +21,7 @@ function Login() {
         if (error) {
             setError(error);
         }else{
-            navigate('/profile')
+            navigate('/')
         }
     };
 

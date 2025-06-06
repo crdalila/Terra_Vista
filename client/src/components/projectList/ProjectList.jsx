@@ -1,13 +1,11 @@
 import { useLoaderData } from "react-router-dom";
 
 import ProjectCard from "../projectCard/ProjectCard";
-
-// import './ProjectList.css';
+import './ProjectList.css';
 
 function ProjectList({ projects = [] }) {
     projects = useLoaderData();
-    console.log("Projects:", projects);
-	
+	console.log("ProjectList received:", projects);
     return (
         <article className="projects-list">
             <section className="projects-list--projects">

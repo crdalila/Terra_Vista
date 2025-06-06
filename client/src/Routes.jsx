@@ -12,8 +12,8 @@ import Profile from "./pages/profile/Profile";
 import Projects from "./pages/projects/Projects";
 import ProjectDetail from "./pages/projects/ProjectDetail";
 
-import { getUserAllProjects } from "./utils/user";
 import projectUtils from "./utils/projects";
+import { getUserAllProjects } from "./utils/user";
 import getUserByCookies from "./utils/cookies";
 
 const router = createBrowserRouter([
@@ -46,11 +46,10 @@ const router = createBrowserRouter([
                         element: <Profile />
                     },
                     {
-                        path: "/projects",
+                        path: "/",
                         loader: async () => {
                             const userData = await getUserByCookies();
-                            console.log(userData);
-                            return userData.projects;
+                            return getUserAllProjects(userData._id);
                         },
                         element: <Projects />
                     },
@@ -58,8 +57,15 @@ const router = createBrowserRouter([
                         path: "/project",
                         loader: async () => {
                             const userData = await getUserByCookies();
-                            return projectUtils.getProjectId(userData.projects._id);
+                            const projectIds = await getUserAllProjects(userData._id);
+
+                            const projects = await Promise.all(
+                                projectIds.map(p => projectUtils.getProjectId(p._id))
+                            );
+
+                            return projects;
                         },
+
                         element: <ProjectDetail />
                     }
                 ],

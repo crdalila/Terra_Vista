@@ -12,13 +12,12 @@ const AuthContext = createContext({
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    const [loading, setLoading] = useState(true); // nuevo estado
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                console.log("Fetching user by cookies...");
                 const result = await getUserByCookies();
                 if (result && !result.error) {
                     setUserData(result);
