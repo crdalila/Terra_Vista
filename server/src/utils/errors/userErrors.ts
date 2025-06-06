@@ -11,6 +11,14 @@ class UserNameNotProvided extends Error {
     }
 }
 
+class UserAccessingIsNotTheSameAsUserTryingToBeChanged extends Error {
+    statusCode : number;
+    constructor(){
+        super("User accessing is not the same as user trying to be changed");
+        this.statusCode = 400;
+    }
+}
+
 class UserAccessLevelNotEnough extends Error {
     statusCode : number;
     constructor(){
@@ -84,6 +92,7 @@ class ProjectIsNotInUser extends Error {
 export {
     UserNameNotProvided,
     UserEmailNotProvided,
+    UserAccessingIsNotTheSameAsUserTryingToBeChanged,
     UserAccessLevelNotEnough,
     UserPasswordNotProvided,
     UserEmailAlreadyExists,

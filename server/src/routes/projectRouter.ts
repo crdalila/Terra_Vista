@@ -11,9 +11,6 @@ import verifyRole from "../utils/middlewares/roleMiddleware.ts";
 
 const router = Router();
 
-//NEED TO MAKE MIDDLEWARE TO CHECK IF USER ID IS THE SAME AS THE
-//USER YOU WANT TO INTERACT WITH OR THE ADMIN
-
 router.get("/", verifyToken, verifyRole, projectController.getAllProjects);
 router.get("/tasks/:id", verifyToken, projectController.getProjectTasks);
 router.get("/:id", verifyToken, projectController.getProjectById);

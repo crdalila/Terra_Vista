@@ -5,20 +5,20 @@
 import { Request, Response, NextFunction } from 'express'
 import { JwtPayload } from 'jsonwebtoken';
 //=================================Common Imports================================
-import User from "../../models/user.ts";
 import { IGetUserAuthInfoRequest } from '../token.ts';
 //================================Error Management===============================
-import { UserDoesNotExist, UserAccessLevelNotEnough } from '../errors/userErrors.ts';
+import { 
+  UserAccessingIsNotTheSameAsUserTryingToBeChanged 
+} from '../errors/userErrors.ts';
 import catchError from '../errors/controllerError.ts';
 //===============================================================================
 
-async function verifyRole(req: Request, res: Response, next: NextFunction) {
+async function verifyUser(req: Request, res: Response, next: NextFunction) {
   try {
     const id = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
-    const user = await User.findById(id).select("-password");
-    if (!user) throw new UserDoesNotExist();
-    if (user.role == "client") throw new UserAccessLevelNotEnough();
-    ((req as IGetUserAuthInfoRequest)).role = user.role; 
+    if(((req as IGetUserAuthInfoRequest).role == "client" )) {
+      if(id != req.params.id) throw new UserAccessingIsNotTheSameAsUserTryingToBeChanged(); 
+    }
     next();
   } catch (error) {
     const myError = catchError(error);
@@ -26,4 +26,4 @@ async function verifyRole(req: Request, res: Response, next: NextFunction) {
   }
 };
 
-export default verifyRole;
+export default verifyUser;

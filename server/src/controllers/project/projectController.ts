@@ -70,14 +70,16 @@ async function createTask(projectId: string, taskData: taskInterface) {
 }
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
+  console.log("Project Id ", projectId);
   let project = (await Project.findById(projectId));
+  console.log("Project ", project);
   if (!project) throw new ProjectDoesNotExist();
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
   if (!task || !project.tasks.includes(task)) throw new TaskDoesNotExist();
 
   const editedTask = await Task.findByIdAndUpdate(
     taskId, taskData, { new: true });
-
+  console.log("Task ", editTask);
   return editedTask;
 }
 
