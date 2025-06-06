@@ -1,58 +1,58 @@
-import { createBrowserRouter } from "react-router-dom";
+    import { createBrowserRouter } from "react-router-dom";
 
-import { AuthContext } from "./context/AuthContext";
+    import { AuthContext } from "./context/AuthContext";
 
-import CreateUser from "./pages/auth/CreateUser";
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
-import Instructions from "./pages/instructions/Instructions";
-import Root from "./pages/root/Root";
-import Layout from "./components/layout/Layout";
-import Profile from "./pages/profile/Profile";
-import Projects from "./pages/projects/Projects";
+    import CreateUser from "./pages/auth/CreateUser";
+    import Register from "./pages/auth/Register";
+    import Login from "./pages/auth/Login";
+    import Instructions from "./pages/instructions/Instructions";
+    import Root from "./pages/root/Root";
+    import Layout from "./components/layout/Layout";
+    import Profile from "./pages/profile/Profile";
+    import Projects from "./pages/projects/Projects";
 
-import userService from "./utils/user";
-import getUserByCookies from "./utils/cookies";
+    import { getUserAllProjects } from "./utils/user"; // TODO le pongo aquí el id? y de dónde 
+    import getUserByCookies from "./utils/cookies";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Root />,
-        children: [
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/register",
-                element: <Register />,
-            },
-            {
-                path: "/create-user",
-                element: <CreateUser />,
-            },
-            {
-                element: <Layout />,
-                shouldRevalidate: () => true,
-                children: [
-                    {
-                        path: "/instructions",
-                        element: <Instructions />
-                    },
-                    {
-                        path: '/profile',
-                        
-                        element: <Profile />
-                    },
-                    {
-                        path: "/user/projects/:id",
-                        loader: async () => userService.getUserProjects(),
-                        element: <Projects />
-                    }
-                ],
-            }
-        ]
-    }
-]);
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Root />,
+            children: [
+                {
+                    path: "/login",
+                    element: <Login />,
+                },
+                {
+                    path: "/register",
+                    element: <Register />,
+                },
+                {
+                    path: "/create-user",
+                    element: <CreateUser />,
+                },
+                {
+                    element: <Layout />,
+                    shouldRevalidate: () => true,
+                    children: [
+                        {
+                            path: "/instructions",
+                            element: <Instructions />
+                        },
+                        {
+                            path: '/profile',
+                            
+                            element: <Profile />
+                        },
+                        {
+                            path: "/projects",
+                            loader: async () => getUserAllProjects(),
+                            element: <Projects />
+                        }
+                    ],
+                }
+            ]
+        }
+    ]);
 
-export default router;
+    export default router;

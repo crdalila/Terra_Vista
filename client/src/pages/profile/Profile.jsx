@@ -1,14 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import updateUser from "../../utils/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Navigate } from "react-router-dom";
 import getUserByCookies from "../../utils/cookies";
 
 // import './Profile.css';
 
 function Profile() {
-    const [userData, setUserData] = useState("");
-    const Navigate = useNavigate();
+    const { userData, loading } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -16,9 +16,7 @@ function Profile() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    useEffect(() => async () => {
-        setUserData(await getUserByCookies());
-    }, []);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,18 +53,18 @@ function Profile() {
         document.querySelector(".edit-password-form").classList.toggle("hidden");
     }
 
-    console.log("userData outside useEffect", userData);
+    
     return (
         <article className="article my-profile">
-            <button className="back-button" onClick={() => Navigate(-1)}>
+            <button className="back-button" onClick={() => navigate(-1)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-left" viewBox="0 0 16 16">
                     <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753" />
                 </svg>
             </button>
 
             <h2>My Profile</h2>
-             <p>Name:{userData.name}</p>
-             <p>Email:{userData.email}</p>
+            <p>Name:{userData.name}</p>
+            <p>Email:{userData.email}</p>
 
             <button className="edit-password-button" onClick={() => handleEditPassword()}>
                 Edit Password

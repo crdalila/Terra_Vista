@@ -12,16 +12,18 @@ const AuthContext = createContext({
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-
     const [loading, setLoading] = useState(true); // nuevo estado
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
+                setLoading(true);
                 console.log("Fetching user by cookies...");
                 const result = await getUserByCookies();
-                if (result?.userData) {
-                    setUserData(result.userData);
+                if (result && !result.error) {
+                    setUserData(result);
+                }else{
+                    setUserData(null);
                 }
             } catch (error) {
                 console.error("Error getting user by cookies:", error);
@@ -31,7 +33,7 @@ const AuthProvider = ({ children }) => {
         };
         fetchUser();
     }, []);
-
+    // TODO borrarlo
     if (loading) {
         return <div>Loading...</div>; // o cualquier componente de carga
     }
@@ -79,6 +81,7 @@ const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             userData,
+            loading,
             onLogin: handleLogin,
             onLogout: handleLogout,
             onRegister: handleRegister
