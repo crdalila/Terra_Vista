@@ -10,8 +10,12 @@ import { Request, Response } from 'express'
 //=================================Common Imports================================
 import projectController from "./projectController.ts";
 import { projectInterface } from '../../models/project.ts';
+import clickUpController from '../clickUp/clickUpController.ts';
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
+import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clickUpError.ts';
+import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
+import { JwtPayload } from 'jsonwebtoken';
 //===============================================================================
 
 async function getProjectById(req: Request, res: Response) {
@@ -44,8 +48,22 @@ async function getAllProjects(_: Request, res: Response) {
 async function createProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
+	const projectManagerId= ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     const projectData: projectInterface = req.body;
+	const { clickUpSpaceId } = projectData; //TODO
 
+	if (!projectManagerId) throw new UserNotFound();
+	if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
+
+	const { 
+		folderId: clickUpFolderId, 
+		listId: clickUpListId 
+	} = await clickUpController.ensureDevFolderQAList(projectManagerId, String(clickUpSpaceId));
+	
+	// Add new data to project
+	projectData.clickUpFolderId = clickUpFolderId;
+	projectData.clickUpListId = clickUpListId;
+	
     //Do the function and send the result in json format
     const result = (await projectController.createProject(projectData));
     res.json(result);
