@@ -56,7 +56,7 @@ async function finalizeProject(id: string) {
 }
 
 async function createTask(projectId: string, taskData: taskInterface) {
-
+  console.log("Task Data: ",taskData);
   if (!taskData) throw new DataDoesNotExist();
   //Creates new task
   const newTask = new Task(taskData);
@@ -70,7 +70,7 @@ async function createTask(projectId: string, taskData: taskInterface) {
 }
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
-  let project = (await Project.findById(projectId).populate("tasks"));
+  let project = (await Project.findById(projectId));
   if (!project) throw new ProjectDoesNotExist();
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
   if (!task || !project.tasks.includes(task)) throw new TaskDoesNotExist();
@@ -83,7 +83,7 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 
 async function deleteTask(projectId: string, taskId: string) {
 
-  let project = (await Project.findById(projectId).populate("tasks"));
+  let project = (await Project.findById(projectId));
   if (!project) throw new ProjectDoesNotExist();
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;

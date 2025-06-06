@@ -1,7 +1,11 @@
 import { createContext, useEffect, useState } from "react";
+<<<<<<< HEAD
 import getUserByCookies from "../utils/cookies";
+=======
+>>>>>>> fullstack
 
 import { login, register, logout } from "../utils/auth";
+import getUserByCookies from "../utils/cookies";
 
 const AuthContext = createContext({
     userData: null,
@@ -12,10 +16,15 @@ const AuthContext = createContext({
 
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
+<<<<<<< HEAD
+=======
+    const [loading, setLoading] = useState(true); // nuevo estado
+>>>>>>> fullstack
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
+<<<<<<< HEAD
                 const result = await getUserByCookies(); // esto debe devolver { userData }
                 if (result && result.userData) {
                     setUserData(result.userData); // no necesitas JSON.parse
@@ -28,9 +37,30 @@ const AuthProvider = ({ children }) => {
         fetchUser();
     }, []);
 
+=======
+                setLoading(true);
+                console.log("Fetching user by cookies...");
+                const result = await getUserByCookies();
+                if (result && !result.error) {
+                    setUserData(result);
+                }else{
+                    setUserData(null);
+                }
+            } catch (error) {
+                console.error("Error getting user by cookies:", error);
+            } finally {
+                setLoading(false); // se completó la carga (con éxito o error)
+            }
+        };
+        fetchUser();
+    }, []);
+    // TODO borrarlo
+    if (loading) {
+        return <div>Loading...</div>; // o cualquier componente de carga
+    }
+>>>>>>> fullstack
 
     const handleRegister = async (email, password) => {
-        console.log("register");
         try {
             const result = await register(email, password);
             if (result.error) return result.error;
@@ -38,8 +68,6 @@ const AuthProvider = ({ children }) => {
             if (result.userData) {
                 setUserData(result.userData);
             }
-
-            navigate("/login");
             return null;
         } catch (error) {
             console.error("Register error:", error);
@@ -50,10 +78,12 @@ const AuthProvider = ({ children }) => {
     const handleLogin = async (email, password) => {
         try {
             const result = await login(email, password);
+<<<<<<< HEAD
             console.log('result', result)
+=======
+>>>>>>> fullstack
             if (result.error) return result.error;
             if (result.userData) {
-                console.log("result.userData", result.userData);
                 setUserData(result.userData);
             }
             return null;
@@ -64,7 +94,6 @@ const AuthProvider = ({ children }) => {
     };
 
     const handleLogout = async () => {
-        console.log("logout")
         try {
             await logout();
         } catch (error) {
@@ -78,6 +107,7 @@ const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             userData,
+            loading,
             onLogin: handleLogin,
             onLogout: handleLogout,
             onRegister: handleRegister

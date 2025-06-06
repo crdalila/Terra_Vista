@@ -5,6 +5,11 @@ async function getUserById() {
     return result;
 }
 
+export async function getUserAllProjects(userId) {
+    const result = await fetchData(`/user/projects/${userId}`, "GET");
+    return result;
+}
+
 async function updateUser(updateData) {
 	const data = {
 		username: updateData.username,
@@ -15,7 +20,6 @@ async function updateUser(updateData) {
 	}
 	const result = await fetchData("/user/:id", "PUT", data);
 	return result;
-	
 }
 
 async function editUserPassword() {
@@ -30,7 +34,7 @@ async function removeUser() {
 
 export default {
     updateUser,
-    getUserById, 
+    getUserById,
     editUserPassword,
     removeUser
 }
