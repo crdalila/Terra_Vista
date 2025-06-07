@@ -74,7 +74,10 @@ async function createTask(projectId: string, taskData: taskInterface) {
   const newTask = new Task(taskData);
   await newTask.save();
 
-  let project = (await Project.findById(projectId));
+  let project = (await Project.findById(projectId).populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
   if (!project) throw new ProjectDoesNotExist();
   project.tasks.push(newTask);
   await project.save();
@@ -83,7 +86,10 @@ async function createTask(projectId: string, taskData: taskInterface) {
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
 
-  let project = (await Project.findById(projectId).populate("tasks"));
+  let project = (await Project.findById(projectId).populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
   if (!project) throw new ProjectDoesNotExist();
 
   if (!project.tasks.some((myTask) => {
@@ -100,7 +106,10 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 
 async function deleteTask(projectId: string, taskId: string) {
 
-  let project = (await Project.findById(projectId));
+  let project = (await Project.findById(projectId).populate({
+    path: 'tasks',
+    select: '-clickUpTaskId'
+  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
   if (!project) throw new ProjectDoesNotExist();
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
