@@ -26,15 +26,17 @@ const DoughnutChart = ({ project }) => {
       const ctx = chart.ctx;
       ctx.restore();
       const fontSize = (height / 114).toFixed(2);
-      ctx.font = ${ fontSize }em sans - serif;
+      ctx.font = `${fontSize}em sans-serif`;
       ctx.textBaseline = 'middle';
       const text = `${percentage}%`;
       const textX = Math.round((width - ctx.measureText(text).width) / 2);
       const textY = height / 2;
+      ctx.fillStyle = '#333';
       ctx.fillText(text, textX, textY);
       ctx.save();
     },
   };
+
 
   const data = {
     labels: ['Done', 'Pending'],
