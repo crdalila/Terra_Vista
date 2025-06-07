@@ -8,6 +8,7 @@ import projectController from "../controllers/project/projectApiController.ts";
 import { verifyToken } from "../utils/token.ts";
 import verifyRole from "../utils/middlewares/roleMiddleware.ts";
 import { verifyUserHasProject } from "../utils/middlewares/sameUserMiddleware.ts"
+import { upload } from "../utils/middlewares/multerMiddleware.ts";
 //===============================================================================
 
 const router = Router();
@@ -17,9 +18,9 @@ router.get("/tasks/:id", verifyToken, verifyUserHasProject, projectController.ge
 router.get("/:id", verifyToken, verifyUserHasProject, projectController.getProjectById);
 
 router.post("/create", verifyToken, verifyRole, projectController.createProject);
-router.post("/tasks/:id", verifyToken,verifyUserHasProject, projectController.createTaskIntoProject);
+router.post("/tasks/:id", verifyToken,verifyUserHasProject,upload.single("screenshots"), projectController.createTaskIntoProject);
 
-router.put("/tasks/:projectId/:taskId", verifyToken, verifyUserHasProject,projectController.editTaskFromProject);
+router.put("/tasks/:projectId/:taskId", verifyToken, verifyUserHasProject,upload.single("screenshots"),projectController.editTaskFromProject);
 router.put("/finalize/:id", verifyToken,verifyUserHasProject, projectController.finalizeProject);
 router.put("/:id", verifyToken, verifyRole, projectController.editProject);
 
