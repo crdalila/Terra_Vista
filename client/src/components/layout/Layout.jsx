@@ -1,26 +1,28 @@
 import { useContext } from "react";
+import { Outlet, Navigate } from "react-router-dom";
+
 import { AuthContext } from "../../context/AuthContext";
 import TopNavbar from "../navbar/TopNavbar";
 import AsideNavbar from "../navbar/AsideNavbar";
-import { Outlet,Navigate } from "react-router-dom";
 
 const Layout = () => {
 
     const { userData, loading } = useContext(AuthContext);
     if (!userData) {
         if (loading) {
-            return null // TODO componente de cargando
+            return <div>Loading...</div>; //TODO spinner
         } else {
             return <Navigate to="/login" />
         }
     }
-    return (
-        <>
-            <TopNavbar />
-            <AsideNavbar />
-            <Outlet />
-        </>
-    )
+
+return (
+    <>
+        <TopNavbar />
+        <AsideNavbar />
+        <Outlet />
+    </>
+)
 };
 
 export default Layout

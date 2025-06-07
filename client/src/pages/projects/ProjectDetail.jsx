@@ -1,26 +1,37 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useRef } from "react";
 
+import { AuthContext } from "../../context/AuthContext";
+import TaskList from '../../components/taskList/TaskList'
+import { useProject } from "../../context/ProjectContext";
 import "./ProjectDetail.css";
 
 function ProjectDetail() {
-    // const Navigate = useNavigate();
-
-    const { userData } = useContext(AuthContext);
-
-    const project = useLoaderData();
+    const navigate = useNavigate();
+    const { selectedProject } = useProject();
     const projectTaskListRef = useRef(null);
 
+    // SELECTED PROJECT
+    useEffect(() => {
+        if (!selectedProject) {
+            navigate("/"); //redirects if project is not selected
+        }
+    }, [selectedProject, navigate]);
+
+    if (!selectedProject) return null;
+
+    // SCROLL TO TASKS
     const handleScrollToTasks = () => {
         projectTaskListRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     return (
-        <article className="project-page">
+        <article className="project-page article">
+
             <section className="project-detail">
-                <h1>{project.Name}</h1>
+                <h1>{selectedProject.name}</h1>
                 <div className="project-detail__info">
                     <div className="project-detail__info--text">
                         <h2>Your website is ready for you.</h2>
@@ -34,7 +45,7 @@ function ProjectDetail() {
                             <svg></svg>
                             <svg></svg> */}
                         </div>
-                        <button className="start-project-button" onClick={handleScrollToTasks}>Start</button>
+                        <button className="start-project-button" onClick={handleScrollToTasks}>Go to tasks</button>
                     </div>
                 </div>
             </section>
@@ -48,6 +59,7 @@ function ProjectDetail() {
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
                     <p>Tasks</p>
+                    {/*  <TaskList /> */}
                 </div>
             </section>
         </article>

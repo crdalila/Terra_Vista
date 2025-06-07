@@ -11,11 +11,15 @@ import { Request, Response } from 'express'
 import projectController from "./projectController.ts";
 import { projectInterface } from '../../models/project.ts';
 import clickUpController from '../clickUp/clickUpController.ts';
+import userController from "../user/userController.ts"
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
 import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clickUpError.ts';
 import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
 import { JwtPayload } from 'jsonwebtoken';
+import { Types } from 'mongoose';
+import { taskInterface } from '../../models/task.ts';
+import { removeFile } from '../../utils/middlewares/multerMiddleware.ts';
 import user from '../../models/user.ts';
 //===============================================================================
 
@@ -49,24 +53,29 @@ async function getAllProjects(_: Request, res: Response) {
 async function createProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
-	const projectManagerId= ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+    const projectManagerId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     const projectData: projectInterface = req.body;
-	const { clickUpSpaceId } = projectData; //TODO
+    const { clickUpSpaceId } = projectData; //TODO
 
-	if (!projectManagerId) throw new UserNotFound();
-	if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
+    if (!projectManagerId) throw new UserNotFound();
+    if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
 
-	const { 
-		folderId: clickUpFolderId, 
-		listId: clickUpListId 
-	} = await clickUpController.ensureDevFolderQAList(projectManagerId, String(clickUpSpaceId));
-	
-	// Add new data to project
-	projectData.clickUpFolderId = clickUpFolderId;
-	projectData.clickUpListId = clickUpListId;
-	
+    const {
+      folderId: clickUpFolderId,
+      listId: clickUpListId
+    } = await clickUpController.ensureDevFolderQAList(projectManagerId, String(clickUpSpaceId));
+
+    // Add new data to project
+    projectData.clickUpFolderId = clickUpFolderId;
+    projectData.clickUpListId = clickUpListId;
+
     //Do the function and send the result in json format
-    const result = (await projectController.createProject(projectData));
+    const result: projectInterface & {
+      _id: Types.ObjectId;
+    } = (await projectController.createProject(projectData));
+
+    await userController.addProjectToUser(projectManagerId, result._id.toString());
+
     res.json(result);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
@@ -143,16 +152,20 @@ async function createTaskIntoProject(req: Request, res: Response) {
     //Get parameters for function to work
     const projectId = req.params.id;
 	const userId= ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
-    console.log("BODY :", req.body);
-    const taskData =  {
+    const taskData: taskInterface =  {
 		...req.body,
-		requester: userId
+		requester: userId,
+		screenshots: req.file?.filename as string | undefined
 	};
 
     //Do the function and send the result in json format
     const result = (await projectController.createTask(projectId, taskData));
     res.json(result);
   } catch (error) {
+    console.log("Entered in error area");
+    const taskData: taskInterface = req.body;
+    removeFile(taskData.screenshots as string);
+
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
@@ -165,12 +178,13 @@ async function editTaskFromProject(req: Request, res: Response) {
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
     const taskData = req.body;
+    taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
     const result = (await projectController.editTask(projectId, taskId, taskData));
     res.json(result);
   } catch (error) {
-    
+
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);

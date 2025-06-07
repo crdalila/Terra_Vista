@@ -1,0 +1,10 @@
+.projects {
+    display: flex;
+    flex-flow: column;
+    gap: 2em;
+}
+
+.projects h1 {
+    font-size: 5rem;
+    font-weight: 700;
+}
