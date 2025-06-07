@@ -1,5 +1,10 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { AuthContext } from "../../context/AuthContext";
+import { getClickUpSpaces } from "../../utils/clickup";
+import projectService from "../../utils/projects";
+import "./createProjectForm.css";
 
 function CreateProjectForm() {
     const { userData } = useContext(AuthContext);
@@ -10,11 +15,12 @@ function CreateProjectForm() {
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchSpaces = async () => {
             try {
-                const res = await fetch(`/clickUp/spaces/${userId}`);
-                const data = await res.json();
+                const data = await getClickUpSpaces(userId);
                 if (data.success) {
                     setSpaces(data.data);
                 } else {
@@ -35,25 +41,16 @@ function CreateProjectForm() {
         setLoading(true);
 
         try {
-            const res = await fetch("/project/create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    name: projectName,
-                    clickUpSpaceId: selectedSpace,
-                }),
+            const result = await projectService.createProject({
+                name: projectName,
+                clickUpSpaceId: selectedSpace,
             });
 
-            const result = await res.json();
-            if (res.ok) {
+            if (result?.name && result?._id) {
                 alert("Project created successfully");
-                setProjectName("");
-                setSelectedSpace("");
+                navigate(`/`);
             } else {
-                alert("Error creating the project: " + result.message);
+                alert("Error creating the project");
             }
         } catch (err) {
             console.error("Error creating the project", err);
@@ -77,7 +74,7 @@ function CreateProjectForm() {
                     required
                 />
 
-                <label htmlFor="space">Select a clickUp Space:</label>
+                <label htmlFor="space">Select a clickUp Space: </label>
                 <select
                     id="space"
                     value={selectedSpace}

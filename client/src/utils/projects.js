@@ -10,13 +10,13 @@ async function getProjectId(projectId) {
     return result;
 }
 
-async function createProjectForm() {
-    const result = await fetchData(`project/create`, "POST");
+async function createProject(body) {
+    const result = await fetchData(`/project/create`, "POST", body);
     return result;
 }
 
 export default {
     getUserProjects,
     getProjectId,
-    createProjectForm
+    createProject
 };
