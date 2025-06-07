@@ -1,16 +1,23 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+
+import { ProjectContext } from "../../context/ProjectContext";
 
 import './ProjectCard.css';
 
 function ProjectCard({ project }) {
-	project = useLoaderData();
-	console.log("ProjectCard received:", project);
+	const {setSelectedProject} = useContext(ProjectContext);
+
+	// SAVES THE SELECTED PROJECT IN PROJECT CONTEXT
+	const handleClick = () => {
+		setSelectedProject(project);
+	}
 
 	return (
 		<article className="project">
-			<Link to={`/project`}>
+			<Link to={`/project`} onClick={handleClick}>
 				<section className="project-data">
-					<h2>Nombre de proyecto: {project.name}</h2>
+					<h2>{project.name}</h2>
                     <p>PORCENTAJE PROYECTO</p> {/* TODO CHARTJS */}
 				</section>
 			</Link>

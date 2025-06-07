@@ -1,0 +1,12 @@
+.project-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    gap: 1rem;
+    background-color: var(--items-color);
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 10px;
+}
