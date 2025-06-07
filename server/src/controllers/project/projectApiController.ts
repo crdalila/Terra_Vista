@@ -16,6 +16,7 @@ import catchError from '../../utils/errors/controllerError.ts';
 import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clickUpError.ts';
 import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
 import { JwtPayload } from 'jsonwebtoken';
+import user from '../../models/user.ts';
 //===============================================================================
 
 async function getProjectById(req: Request, res: Response) {
@@ -141,8 +142,12 @@ async function createTaskIntoProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.id;
+	const userId= ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     console.log("BODY :", req.body);
-    const taskData = req.body;
+    const taskData =  {
+		...req.body,
+		requester: userId
+	};
 
     //Do the function and send the result in json format
     const result = (await projectController.createTask(projectId, taskData));

@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 //import { getDevFolderQAList } from '../../utils/clickUp/clickUpProjectUtils';
 //import userController  from "../user/userController";
 import clickUpController from "./clickUpController";
+import Task from '../../models/task';
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
 //===============================================================================
@@ -137,6 +138,22 @@ async function getClickUpInfo(req: Request, res: Response) {
 	}
 }
 
+// Get Tasks not sent to clickUp
+async function getPendingTasks(req: Request, res: Response) {
+	try {
+		const { userId } = req.params;
+		const tasks = await Task.find({ requester: userId, isSend: false });
+		res.status(200).json({
+			success: true,
+			pendingCount: tasks.length,
+			tasks
+		})
+	} catch (error: any) {
+		res.status(500).json({ success: false, error: error.message });
+	}
+}
+
+
 //===============================================================================
 // Exports
 
@@ -150,5 +167,6 @@ export default{
 	updateTask,
 	deleteTask,
 	//updateTaskStatus,
-	getClickUpInfo
+	getClickUpInfo,
+	getPendingTasks
 }
