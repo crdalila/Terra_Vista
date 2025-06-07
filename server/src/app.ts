@@ -15,6 +15,7 @@ import clickUpRoutes from "./routes/clickUpRouter.ts";
 dotenv.config();
 connectDB();
 const app = express();
+app.use(express.static("public"));
 
 const CLIENT_URL = process.env.CLIENT_URL;
 const corsOptions = {
