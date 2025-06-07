@@ -3,7 +3,6 @@
 // desc: Controller for ClickUp business logic with validation and error handling
 //=================================Common Imports================================
 
-import axios from "axios";
 import User, { userInterface } from "../../models/user";
 import {
 	getClickUpInfo,
@@ -19,10 +18,6 @@ import {
 	deleteClickUpTask,
 } from "../../utils/clickUp/clickUpTaskUtils";
 
-/*import {
-	syncTaskToClickUp,
-	updateTaskStatusInClickUp
-} from "../../utils/clickUp/taskSyncService";*/
 import {
 	UserNotFound,
 	ClickUpTokenNotProvided,
@@ -91,18 +86,7 @@ async function getFoldersLists(userId:string, spaceId: string) {
 	if (!result.success) throw new ClickUpAPIError();
 	
 	return result.data;
-}
-/*
-// Synchronize Tasks
-async function syncUserTask(projectId:string, taskId: string) {
-	if (!projectId) throw new ClickUpTaskIdNotProvided();
-	if (!taskId) throw new ClickUpTaskIdNotProvided();
-	
-	const result = await syncTaskToClickUp(projectId, taskId);
-	if (!result.success) throw new ClickUpAPIError();
-	
-	return result.data;
-}*/
+};
 
 // Create Task
 async function createTask(listId: string, userId: string, taskData: any) {
@@ -181,47 +165,15 @@ async function getUserClickUpInfo(listId: string, userId: string) {
 	return result.data;
 }
 
-// Use Data API
-async function enrichTaskData(task: any) {
-	const baseUrl = "http://ml-api:5000/v1";
-	const text = encodeURIComponent(task.request);
-
-	try {
-		const [category, priority, duration] = await Promise.all([
-			axios.get(`${baseUrl}/predictCategory?request_text=${text}`),
-			axios.get(`${baseUrl}/predictPriority?request_text=${text}`),
-			axios.get(`${baseUrl}/predictDuration?request_text=${text}`)
-		]);
-
-		// Save enriched fields
-		task.requestType = category.data.Category;
-		task.priority = priority.data.Priority;
-		task.estimateTime = Math.round(duration.data.Duration);
-
-		await task.save(); // Save the updated task in MongoDB
-
-		return {
-			...task.toObject(),
-			requestType: task.requestType,
-			priority: task.priority,
-			estimateTime: task.estimateTime
-		};
-	} catch (err: any) {
-		console.error("Error enriching the task", err.message);
-		throw new Error("Failed to query the prediction API")
-	}
-}
 
 export default {
 	getUserWorkspaceSpaces,
 	ensureDevFolderQAList,
 	getSpaceFolders,
 	getFoldersLists,
-	//syncUserTask,
 	createTask,
 	updateTask,
 	deleteTask,
 	//updateTaskStatus,
-	getUserClickUpInfo,
-	enrichTaskData
+	getUserClickUpInfo
 }

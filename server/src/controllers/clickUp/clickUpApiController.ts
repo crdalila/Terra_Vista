@@ -8,6 +8,7 @@ import { Request, Response } from 'express';
 //import userController  from "../user/userController";
 import clickUpController from "./clickUpController";
 import Task from '../../models/task';
+import syncPendingTasks from './taskSyncController';
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
 //===============================================================================
@@ -60,19 +61,17 @@ async function getLists(req: Request, res: Response) {
 		res.status(myError.statusCode).json(myError.message);
 	}
 }
-/*
+
 // Sync task to ClickUp
-async function syncTask(req: Request, res: Response) {
+async function syncPendingTasksHandler(req: Request, res: Response) {
 	try {
 		const { userId } = req.params;
-		const taskData = req.body;
-		const result = await clickUpController.syncUserTask(userId, taskData);
-		res.status(200).json({ success: true, data: result });
-	} catch (error: any) {
-		const myError = catchError(error);
-		res.status(myError.statusCode).json(myError.message);
+		const result = await syncPendingTasks(userId);
+		res.status(200).json(result );
+	} catch (err: any) {
+		res.status(500).json({ success: false, error: err.message });
 	}
-}*/
+}
 
 // Create Task
 async function createTask(req: Request, res: Response) {
@@ -162,7 +161,7 @@ export default{
 	ensureDevFolderQAList,
 	getFolders,
 	getLists,
-	//syncTask,
+	syncPendingTasksHandler,
 	createTask,
 	updateTask,
 	deleteTask,
