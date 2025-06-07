@@ -10,6 +10,14 @@ class ProjectDoesNotExist extends Error {
     }
 }
 
+class ProjectIdNotGiven extends Error {
+    statusCode: number;
+    constructor() {
+        super("Project id not given");
+        this.statusCode = 204;
+    }
+}
+
 class DataDoesNotExist extends Error {
     statusCode: number;
     constructor() {
@@ -29,6 +37,7 @@ class TaskDoesNotExist extends Error {
 
 export {
     DataDoesNotExist,
+    ProjectIdNotGiven,
     ProjectDoesNotExist,
     TaskDoesNotExist
 }

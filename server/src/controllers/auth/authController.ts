@@ -54,7 +54,7 @@ async function register(userData: userInterface) {
     userData.password = hashedPassword;
     const newUser = new User(userData);
     await newUser.save();
-    const userWithoutPassword = await User.findOne({ email: userData.email }).select("-password");
+    const userWithoutPassword = await User.findOne({ email: userData.email }).select("-clickUpToken -clickUpWorkspaceId -password");
     return userWithoutPassword;
 }
 
@@ -80,7 +80,7 @@ async function firstLogin(email: string, temporalPassword: string, password: str
     const updatedUser = await User.findByIdAndUpdate(
         { _id: user._id },
         { $set: { password: hashedPassword } },
-        { new: true }).select("-password");
+        { new: true }).select("-clickUpToken -clickUpWorkspaceId -password");
     if(!updatedUser) throw new UserDoesNotExist;
     return updatedUser;
 }
@@ -98,7 +98,14 @@ async function login(email: string, password: string) {
     //Error checking for email and password
     if (!email) throw new UserEmailNotProvided();
     if (!password) throw new UserPasswordNotProvided();
-    const user = await User.findOne({ email:email }).populate("projects");
+    const user = await User.findOne({ email:email }).populate({
+    path: 'projects',
+    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
+    populate: {
+      path: 'tasks',
+      select: '-clickUpTaskId'
+    }
+  });
     //Error checking for user
     if (!user) throw new UserInvalidCredentials();
 
