@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { getClickUpSpaces } from "../../utils/clickup";
 import projectService from "../../utils/projects";
+import userService from "../../utils/user";
 import "./createProjectForm.css";
 
 function CreateProjectForm() {
@@ -12,11 +13,14 @@ function CreateProjectForm() {
 
     const [spaces, setSpaces] = useState([]);
     const [selectedSpace, setSelectedSpace] = useState("");
+    const [users, setUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
+    // GET CLICKUP SPACES:
     useEffect(() => {
         const fetchSpaces = async () => {
             try {
@@ -36,6 +40,27 @@ function CreateProjectForm() {
         }
     }, [userId]);
 
+
+    // GET TERRA_VISTA CLIENTS:
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const result = await userService.getAllUsers();
+                if (Array.isArray(result)) {
+                    const clients = result.filter(user => user.role === "client");
+                    setUsers(clients);
+                } else {
+                    console.error("Can't get users");
+                }
+            } catch (err) {
+                console.error("Error getting users:", err);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -47,6 +72,15 @@ function CreateProjectForm() {
             });
 
             if (result?.name && result?._id) {
+                const projectId = result._id;
+
+                for (const userId of selectedUsers) {
+                    try {
+                        await userService.addUserToProject(userId, projectId);
+                    } catch (err) {
+                        console.error(`Error adding user ${userId} to project`, err);
+                    }
+                }
                 alert("Project created successfully");
                 navigate(`/`);
             } else {
@@ -58,8 +92,8 @@ function CreateProjectForm() {
         } finally {
             setLoading(false);
         }
-    };
 
+    };
     return (
         <article className="create-project-form article">
             <form onSubmit={handleSubmit}>
@@ -84,6 +118,24 @@ function CreateProjectForm() {
                     {spaces.map((space) => (
                         <option key={space.id} value={space.id}>
                             {space.name}
+                        </option>
+                    ))}
+                </select>
+
+                <label htmlFor="users">Select clients to add to this project: </label>
+                <select
+                    id="users"
+                    value={selectedUsers}
+                    multiple
+                    required
+                    onChange={(e) =>
+                        setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                    }
+                >
+                    <option value="">-- Select clients --</option>
+                    {users.map(user => (
+                        <option key={user._id} value={user._id}>
+                            {user.name} ({user.email})
                         </option>
                     ))}
                 </select>
