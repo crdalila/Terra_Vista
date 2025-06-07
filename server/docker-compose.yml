@@ -13,6 +13,7 @@ services:
       - terravista_network
     depends_on:
       - mongo
+
   mongo:
     image: mongo
     container_name: ${DB_HOST}
@@ -27,6 +28,17 @@ services:
       - terravista_network
     volumes:
       - mongo_data:/data/db
+
+  ml-api:
+    container_name: ml_api
+    build: ../ml_api
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    volumes:
+      - ../ml_api:/app
+    networks:
+      - terravista_network
   
 volumes:
   node_modules:

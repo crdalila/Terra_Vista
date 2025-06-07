@@ -33,4 +33,32 @@ router.put("/status/:userId/:taskId", clickUpApiController.updateTaskStatus);
 // Sync task
 router.post("/sync/:userId", clickUpApiController.syncTask);*/
 
+// Get tasks not sent to clickUp
+router.get("/pending/:userId", clickUpApiController.getPendingTasks);
+
+// Prueba la API de data
+// TODO Borrar
+/*
+async function enrichSingleTaskHandler(req: any, res: any) {
+  try {
+    const Task = (await import("../models/task")).default;
+    const clickUpController = (await import("../controllers/clickUp/clickUpController")).default;
+    
+    const { taskId } = req.params;
+    const task = await Task.findById(taskId);
+    
+    if (!task) {
+      return res.status(404).json({ message: "Tarea no encontrada" });
+    }
+
+    const enriched = await clickUpController.enrichTaskData(task);
+    res.status(200).json({ success: true, enriched });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+// Test the data API
+router.get("/enrich/:taskId", enrichSingleTaskHandler);
+*/
 export default router;
