@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 
+import DoughnutChart from "../doughnutChart/DoughnutChart";
+
 import { ProjectContext } from "../../context/ProjectContext";
 
 import './ProjectCard.css';
@@ -18,7 +20,9 @@ function ProjectCard({ project }) {
 			<Link to={`/project`} onClick={handleClick}>
 				<section className="project-data">
 					<h2>{project.name}</h2>
-                    <p>PORCENTAJE PROYECTO</p> {/* TODO CHARTJS */}
+					<div className="chart">
+						<DoughnutChart project={project} />
+					</div>
 				</section>
 			</Link>
 		</article >
