@@ -18,6 +18,8 @@ import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clic
 import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
 import { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
+import { taskInterface } from '../../models/task.ts';
+import { removeFile } from '../../utils/middlewares/multerMiddleware.ts';
 //===============================================================================
 
 async function getProjectById(req: Request, res: Response) {
@@ -148,13 +150,17 @@ async function createTaskIntoProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.id;
-    console.log("BODY :", req.body);
-    const taskData = req.body;
+    const taskData: taskInterface = req.body;
+    taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
     const result = (await projectController.createTask(projectId, taskData));
     res.json(result);
   } catch (error) {
+    console.log("Entered in error area");
+    const taskData: taskInterface = req.body;
+    removeFile(taskData.screenshots as string);
+
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
@@ -167,6 +173,7 @@ async function editTaskFromProject(req: Request, res: Response) {
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
     const taskData = req.body;
+    taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
     const result = (await projectController.editTask(projectId, taskId, taskData));
