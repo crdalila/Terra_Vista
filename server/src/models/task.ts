@@ -15,6 +15,8 @@ enum requestEnum {
   newItem = "New Item",
   requestedChange = "Requested Change"
 }
+
+
 enum statusEnum {
   onHold = "On Hold",
   needsInput = "Needs Input",
@@ -143,4 +145,6 @@ const taskSchema = new mongoose.Schema<taskInterface>({
 });
 
 export default mongoose.model("Task", taskSchema);
-export { taskInterface };
+export const requestOrder = Object.values(requestEnum);
+export const statusOrder = Object.values(statusEnum);
+export { requestEnum, statusEnum, taskInterface };

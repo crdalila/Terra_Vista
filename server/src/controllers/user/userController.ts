@@ -3,6 +3,7 @@
 //=================================Common Imports================================
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
+import Project from "../../models/project.ts";
 //================================Error Management===============================
 import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidCredentials, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
@@ -27,6 +28,27 @@ async function getUserById(id: string) {
   return user;
 }
 
+async function getUsersNotifications(id: string) {
+  const user = await User.findById(id).select(userSelect);
+  if (!user) throw new UserDoesNotExist();
+
+  let projectsNotif: String[] = [];
+
+  for await (let projectId of user.projects) {
+    let project = await Project.findById(projectId);
+
+    if (project) {
+      console.log(project);
+      project.notifications.forEach((notif) => {
+        projectsNotif.push(notif);
+      })
+    }
+  }
+
+  return projectsNotif;
+}
+
+
 async function editUserPassword(id: string,
   currentPassword: string, newPassword: string, confirmPassword: string) {
   //Error checking for password
@@ -45,7 +67,7 @@ async function editUserPassword(id: string,
     }
   }).select(userSelect);
 
-  if(!user) throw new UserDoesNotExist();
+  if (!user) throw new UserDoesNotExist();
   const isSamePassword = await compare(currentPassword, user.password);
   if (!isSamePassword) throw new UserInvalidCredentials();
 
@@ -142,6 +164,7 @@ async function removeProjectToUser(userId: string, projectId: string) {
 export default {
   getUserById,
   getAllUsers,
+  getUsersNotifications,
   editUser,
   editUserPassword,
   removeUser,
