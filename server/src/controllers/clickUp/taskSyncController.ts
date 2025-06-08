@@ -1,10 +1,11 @@
 import Task from "../../models/task";
 import User from "../../models/user";
-import { projectInterface } from "../../models/project";
+import Project, { projectInterface } from "../../models/project";
 import axios from "axios";
 import { ensureCustomFields } from "../../utils/clickUp/clickUpTaskUtils";
 import { UserNotFound, ClickUpListIdNotProvided } from "../../utils/errors/clickUpError";
 import { getDevFolderQAList } from "../../utils/clickUp/clickUpProjectUtils";
+import { ProjectDoesNotExist } from "../../utils/errors/projectError";
 
 // Use Data API
 async function enrichTaskData(task: any) {
@@ -91,6 +92,8 @@ async function syncPendingTasks(userId: string) {
 				tags: [task.requestType],
 				time_estimate: Number(task.estimateTime) * 60 * 1000, // Convert to milliseconds
 				status: "With Feedback",
+				start_date: Date.now(),
+				priority: task.priority,
 				custom_fields: [
 					{ id: customFieldMap.Device, value: task.device },
 					{ id: customFieldMap.Browser, value: task.browser },
@@ -122,7 +125,15 @@ async function syncPendingTasks(userId: string) {
 			results.push({ taskId: task._id, success: false, error: err.message });
 		}
 	}
+	notifyOfTasksSend(user.projects[0].toString(),pendingTasks.length);
 	return { success: true, synced: results };
+}
+
+async function notifyOfTasksSend(projectId : string, howManyTasks : number) {
+	const project = await Project.findById(projectId);
+	if(!project) throw new ProjectDoesNotExist;
+	project.notifications.push(`${howManyTasks} tasks has been send at ${Date.now()}`);
+	project.save();
 }
 
 

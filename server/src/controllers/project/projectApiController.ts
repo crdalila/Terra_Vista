@@ -20,7 +20,6 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 import { taskInterface } from '../../models/task.ts';
 import { removeFile } from '../../utils/middlewares/multerMiddleware.ts';
-import user from '../../models/user.ts';
 //===============================================================================
 
 async function getProjectById(req: Request, res: Response) {
