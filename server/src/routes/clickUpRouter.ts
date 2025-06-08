@@ -28,9 +28,16 @@ router.put("/update/:userId/:taskId", clickUpApiController.updateTask);
 router.delete("/delete/:userId/:taskId", clickUpApiController.deleteTask);
 /*
 // Update task status
-router.put("/status/:userId/:taskId", clickUpApiController.updateTaskStatus);
+router.put("/status/:userId/:taskId", clickUpApiController.updateTaskStatus); */
 
 // Sync task
-router.post("/sync/:userId", clickUpApiController.syncTask);*/
+router.post("/sync/:userId", (req, res, next) => {
+  console.log("🟠 ROUTE HIT: /clickup/sync/" + req.params.userId);
+  next(); // pasa al controlador real
+}, clickUpApiController.syncPendingTasksHandler);
+
+// Get tasks not sent to clickUp
+router.get("/pending/:userId", clickUpApiController.getPendingTasks);
+
 
 export default router;
