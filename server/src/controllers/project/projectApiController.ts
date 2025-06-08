@@ -20,6 +20,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 import { taskInterface } from '../../models/task.ts';
 import { removeFile } from '../../utils/middlewares/multerMiddleware.ts';
+import user from '../../models/user.ts';
 //===============================================================================
 
 async function getProjectById(req: Request, res: Response) {
@@ -151,6 +152,10 @@ async function createTaskIntoProject(req: Request, res: Response) {
     //Get parameters for function to work
     const projectId = req.params.id;
     const taskData: taskInterface = req.body;
+
+	const userId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+	taskData.requester = userId;
+
     taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
@@ -158,8 +163,11 @@ async function createTaskIntoProject(req: Request, res: Response) {
     res.json(result);
   } catch (error) {
     console.log("Entered in error area");
-    const taskData: taskInterface = req.body;
-    removeFile(taskData.screenshots as string);
+	console.error(error);
+    
+	if (req.file?.filename) {
+		removeFile(req.file.filename);
+	}
 
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
