@@ -150,13 +150,17 @@ export async function ensureCustomFields(listId: string, token:string) {
 		}
 	});
 
+	if (!token.startsWith("pk_")) {
+	console.warn("Warning: ClickUp token may be invalid (not a personal token)");
+}
+
 	const existingFields = existingFieldsRes.data.fields;
 	const result: Record<string, string> = {};
 
 	// Check if all custom fields are present and create them if not
 	for (const field of REQUIRED_FIELDS) {
 		const existing = existingFields.find((f: any) => f.name === field.name);
-		if (!existing) {
+		if (existing) {
 			result[field.name] = existing.id;
 		} else {
 			// Create custom field if it doesn't exit

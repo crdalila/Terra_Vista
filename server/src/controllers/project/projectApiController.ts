@@ -151,20 +151,23 @@ async function createTaskIntoProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const projectId = req.params.id;
-	const userId= ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
-    const taskData: taskInterface =  {
-		...req.body,
-		requester: userId,
-		screenshots: req.file?.filename as string | undefined
-	};
+    const taskData: taskInterface = req.body;
+
+	const userId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+	taskData.requester = userId;
+
+    taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
     const result = (await projectController.createTask(projectId, taskData));
     res.json(result);
   } catch (error) {
     console.log("Entered in error area");
-    const taskData: taskInterface = req.body;
-    removeFile(taskData.screenshots as string);
+	console.error(error);
+    
+	if (req.file?.filename) {
+		removeFile(req.file.filename);
+	}
 
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);

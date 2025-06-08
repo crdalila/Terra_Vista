@@ -64,6 +64,7 @@ async function getLists(req: Request, res: Response) {
 
 // Sync task to ClickUp
 async function syncPendingTasksHandler(req: Request, res: Response) {
+	console.log("📨 Received request to /clickup/sync/" + req.params.userId);
 	try {
 		const { userId } = req.params;
 		const result = await syncPendingTasks(userId);

@@ -18,9 +18,16 @@ async function enrichTaskData(task: any) {
 			axios.get(`${baseUrl}/predictDuration?request_text=${text}`)
 		]);
 
+		const priorityMap: Record<string, number> = {
+			"Low": 1,
+			"Medium": 2,
+			"High": 3,
+			"Urgent": 4
+		};
+
 		// Save enriched fields
 		task.requestType = category.data.Category;
-		task.priority = priority.data.Priority;
+		task.priority = priorityMap[priority.data.Priority];
 		task.estimateTime = Math.round(duration.data.Duration);
 
 		await task.save(); // Save the updated task in MongoDB
@@ -47,23 +54,36 @@ async function syncPendingTasks(userId: string) {
 	const project = user.projects[0] as unknown as projectInterface;
 
 	if (!project || !project.clickUpListId) {
+		console.error("user has no project")
 		throw new ClickUpListIdNotProvided();
 	}
 
 	const listId = project.clickUpListId;
 
 	const pendingTasks = await Task.find({ requester: userId, isSend: false });
+	console.log("Pending tasks to sync:", pendingTasks.length);
 	if (pendingTasks.length === 0) {
 		return { success: true, message: "No pending tasks to sync" };
 	}
-
-	const customFieldMap = await ensureCustomFields(String(listId), token);
 	const results = [];
+
+	let customFieldMap;
+
+	try {
+		customFieldMap = await ensureCustomFields(String(listId), token);
+		console.log("Custom fields loaded:", Object.keys(customFieldMap));
+	} catch (err: any) {
+		console.error("Error loading custom fields:", err.message);
+		throw err; 
+	}
 
 	for (const task of pendingTasks) {
 		try {
 			// Enrich task data
 			await enrichTaskData(task);
+
+			const requesterUser = await User.findById(task.requester);
+			const requesterMail = requesterUser?.email || "unknown";
 
 			const payload = {
 				name: task.name, 
@@ -75,7 +95,7 @@ async function syncPendingTasks(userId: string) {
 					{ id: customFieldMap.Device, value: task.device },
 					{ id: customFieldMap.Browser, value: task.browser },
 					{ id: customFieldMap.Page, value: task.page },
-					{ id: customFieldMap.Requester, value: task.requester }
+					{ id: customFieldMap.Requester, value: requesterMail }
 				]
 			};
 
@@ -89,6 +109,8 @@ async function syncPendingTasks(userId: string) {
 					}
 				}
 			);
+
+			console.log(`Task created in ClickUp: ${response.data.id}`);
 
 			task.isSend = true;
 			task.clickUpTaskId = response.data.id;
