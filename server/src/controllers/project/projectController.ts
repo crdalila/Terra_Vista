@@ -7,14 +7,15 @@ import Task, { taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
 import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../utils/errors/projectError.ts";
 import { removeFile } from "../../utils/middlewares/multerMiddleware.ts";
+import { projectSelect, taskSelect } from "../../utils/modelsSelect.ts";
 //===============================================================================
 
 async function getProjectById(id: string) {
   //Finds project, makes tasks model be inside
   const project = await Project.findById(id).populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
+    select: taskSelect
+  }).select(projectSelect);
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
@@ -23,8 +24,8 @@ async function getAllProjects() {
   //Finds all projects, makes tasks model be inside
   const projects = await Project.find().populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
+    select: taskSelect
+  }).select(projectSelect);
   if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   return projects;
 }
@@ -44,8 +45,8 @@ async function editProject(id: string, data: projectInterface) {
   //Finds project, updates project, makes tasks model be insides
   const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
+    select: taskSelect
+  }).select(projectSelect);
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
@@ -62,8 +63,8 @@ async function finalizeProject(id: string) {
   const finalizeProject = await Project.findByIdAndUpdate(
     id, { $set: { isFinalize: true } }, { new: true }).populate({
       path: 'tasks',
-      select: '-clickUpTaskId'
-    }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId");
+      select: taskSelect
+    }).select(projectSelect);
   if (!finalizeProject) throw new ProjectDoesNotExist();
 
   return finalizeProject;
@@ -76,8 +77,8 @@ async function createTask(projectId: string, taskData: taskInterface) {
   await newTask.save();
   let project = (await Project.findById(projectId).populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
+    select: taskSelect
+  }).select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
   project.tasks.push(newTask);
 
@@ -89,8 +90,8 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 
   let project = (await Project.findById(projectId).populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
+    select: taskSelect
+  }).select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
 
 
@@ -110,8 +111,8 @@ async function deleteTask(projectId: string, taskId: string) {
 
   let project = (await Project.findById(projectId).populate({
     path: 'tasks',
-    select: '-clickUpTaskId'
-  }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
+    select: taskSelect
+  }).select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;

@@ -4,9 +4,10 @@
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
 //================================Error Management===============================
-import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
+import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidCredentials, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
-import { hash } from "../../utils/bcrypt.ts";
+import { compare, hash } from "../../utils/bcrypt.ts";
+import { projectSelect, taskSelect, userSelect } from "../../utils/modelsSelect.ts";
 //===============================================================================
 
 //User
@@ -15,29 +16,45 @@ async function getUserById(id: string) {
   //Finds user, makes projects model be inside, removes password in the return
   const user = await User.findById(id).populate({
     path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
+    select: projectSelect,
     populate: {
       path: 'tasks',
-      select: '-clickUpTaskId'
+      select: taskSelect
     }
-  }).select("-clickUpToken -clickUpWorkspaceId -password");
+  }).select(userSelect);
 
   if (!user) throw new UserDoesNotExist();
   return user;
 }
 
-async function editUserPassword(id: string, newPassword: string) {
+async function editUserPassword(id: string,
+  currentPassword: string, newPassword: string, confirmPassword: string) {
   //Error checking for password
   if (!isPasswordCorrect(newPassword)) throw new UserInvalidPassword();
+  if (!isPasswordCorrect(confirmPassword)) throw new UserInvalidPassword();
+  if (!isPasswordCorrect(currentPassword)) throw new UserInvalidPassword();
+
+  if (newPassword != confirmPassword) throw new UserInvalidPassword();
+
+  const user = await User.findById(id).populate({
+    path: 'projects',
+    select: projectSelect,
+    populate: {
+      path: 'tasks',
+      select: taskSelect
+    }
+  }).select(userSelect);
+
+  if(!user) throw new UserDoesNotExist();
+  const isSamePassword = await compare(currentPassword, user.password);
+  if (!isSamePassword) throw new UserInvalidCredentials();
+
+
   const hashedPassword = await hash(newPassword);
 
-  const updatedUser = User.findOneAndUpdate(
-    { _id: id }, //Tries finding user by its id
-    { $set: { password: hashedPassword } }, //changes the password
-    { new: true }).select("-clickUpToken -clickUpWorkspaceId -password"); //makes it returns the updated version
-
-  if (!updatedUser) throw new UserDoesNotExist();
-  return updatedUser;
+  user.password = hashedPassword;
+  await user.save();
+  return user;
 }
 
 //Admin
@@ -46,12 +63,12 @@ async function getAllUsers() {
   //Finds all users, makes projects model be inside, removes password in the return
   const users = await User.find().populate({
     path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
+    select: projectSelect,
     populate: {
       path: 'tasks',
-      select: '-clickUpTaskId'
+      select: taskSelect
     }
-  }).select("-clickUpToken -clickUpWorkspaceId -password");
+  }).select(userSelect);
   if (!users || users.length <= 0) throw new UserDoesNotExist();
   return users;
 }
@@ -63,13 +80,13 @@ async function editUser(id: string, data: userInterface) {
   //Makes projects model be inside, removes password in the return
   const user = await User.findByIdAndUpdate(
     id, data, { new: true }).populate({
-    path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
-    populate: {
-      path: 'tasks',
-      select: '-clickUpTaskId'
-    }
-  }).select("-clickUpToken -clickUpWorkspaceId -password");
+      path: 'projects',
+      select: projectSelect,
+      populate: {
+        path: 'tasks',
+        select: taskSelect
+      }
+    }).select(userSelect);
   if (!user) throw new UserDoesNotExist();
   return user;
 }
@@ -91,13 +108,13 @@ async function addProjectToUser(userId: string, projectId: string) {
   //Update the user password
   const userWithNewPassword = await User.findByIdAndUpdate(
     userId, user, { new: true }).populate({
-    path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
-    populate: {
-      path: 'tasks',
-      select: '-clickUpTaskId'
-    }
-  }).select("-clickUpToken -clickUpWorkspaceId -password");
+      path: 'projects',
+      select: projectSelect,
+      populate: {
+        path: 'tasks',
+        select: taskSelect
+      }
+    }).select(userSelect);
   return userWithNewPassword;
 }
 
@@ -112,13 +129,13 @@ async function removeProjectToUser(userId: string, projectId: string) {
   //Update the user password
   const userWithNewPassword = await User.findByIdAndUpdate(
     userId, user, { new: true }).populate({
-    path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
-    populate: {
-      path: 'tasks',
-      select: '-clickUpTaskId'
-    }
-  }).select("-clickUpToken -clickUpWorkspaceId -password");
+      path: 'projects',
+      select: projectSelect,
+      populate: {
+        path: 'tasks',
+        select: taskSelect
+      }
+    }).select(userSelect);
   return userWithNewPassword;
 }
 
