@@ -30,6 +30,17 @@ async function getAllProjects() {
   return projects;
 }
 
+async function getAllProjectsNotifs() {
+  //Finds all projects, makes tasks model be inside
+  const projects = await Project.find().select(projectSelect);
+  if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
+  let projectsNotif: String[] = [];
+  projects.forEach((project)=> {
+    project.notifications.forEach((notif)=> projectsNotif.push(notif));
+  });
+  return projectsNotif;
+}
+
 async function createProject(data: projectInterface) {
   if (!data) throw new DataDoesNotExist();
   //Creates a new project using the data
@@ -134,6 +145,7 @@ export default {
   getProjectById,
   getAllProjects,
   createProject,
+  getAllProjectsNotifs,
   editProject,
   removeProject,
   finalizeProject,

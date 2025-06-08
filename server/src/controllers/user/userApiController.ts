@@ -64,6 +64,21 @@ async function getUserProjects(req: Request, res: Response) {
   }
 }
 
+async function getUserNotifs(req: Request, res: Response) {
+  try {
+    //Get parameters for function to work
+    const id = req.params.id;
+    
+    //Do the function and send the result in json format
+    const result = (await userController.getUsersNotifications(id));
+    res.json(result);
+  } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
 async function editUserPassword(req: Request, res: Response) {
   try {
     //Get parameters for function to work
@@ -167,6 +182,7 @@ export default {
   getUserByCookie,
   getUserProjects,
   editUserPassword,
+  getUserNotifs,
   getAllUsers,
   editUser,
   removeUser,
