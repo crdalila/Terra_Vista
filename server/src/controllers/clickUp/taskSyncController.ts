@@ -91,6 +91,8 @@ async function syncPendingTasks(userId: string) {
 				tags: [task.requestType],
 				time_estimate: Number(task.estimateTime) * 60 * 1000, // Convert to milliseconds
 				status: "With Feedback",
+				start_date: Date.now(),
+				priority: task.priority,
 				custom_fields: [
 					{ id: customFieldMap.Device, value: task.device },
 					{ id: customFieldMap.Browser, value: task.browser },
