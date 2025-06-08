@@ -14,7 +14,9 @@ import { upload } from "../utils/middlewares/multerMiddleware.ts";
 const router = Router();
 
 router.get("/", verifyToken, verifyRole, projectController.getAllProjects);
-router.get("/tasks/:id", verifyToken, verifyUserHasProject, projectController.getProjectTasks);
+router.get("/notif", verifyToken, verifyRole, projectController.getAllProjectsNotifs);
+router.get("/tasks/:id/:filter", verifyToken, verifyUserHasProject, projectController.getProjectTasks);
+router.get("/notif/:id", verifyToken, verifyUserHasProject, projectController.getProjectNotifsById);
 router.get("/:id", verifyToken, verifyUserHasProject, projectController.getProjectById);
 
 router.post("/create", verifyToken, verifyRole, projectController.createProject);
