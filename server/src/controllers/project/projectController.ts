@@ -3,7 +3,7 @@
 //=================================Common Imports================================
 import { Types } from "mongoose";
 import Project, { projectInterface } from "../../models/project.ts";
-import Task, { taskInterface } from "../../models/task.ts"
+import Task, { requestEnum, requestOrder, statusEnum, statusOrder, taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
 import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../utils/errors/projectError.ts";
 import { removeFile } from "../../utils/middlewares/multerMiddleware.ts";
@@ -35,8 +35,8 @@ async function getAllProjectsNotifs() {
   const projects = await Project.find().select(projectSelect);
   if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   let projectsNotif: String[] = [];
-  projects.forEach((project)=> {
-    project.notifications.forEach((notif)=> projectsNotif.push(notif));
+  projects.forEach((project) => {
+    project.notifications.forEach((notif) => projectsNotif.push(notif));
   });
   return projectsNotif;
 }
@@ -141,10 +141,39 @@ async function deleteTask(projectId: string, taskId: string) {
   return project;
 }
 
+
+function getFilteredTasks(tasks: [taskInterface], filter: String) {
+  switch (filter.toString()) {
+    case "request":
+      return tasks.sort((a, b) => {
+        return (requestOrder.indexOf(a.request as requestEnum)) -
+          (requestOrder.indexOf(b.request as requestEnum));
+      });
+    case "status":
+      return tasks.sort((a, b) => {
+        return (statusOrder.indexOf(a.request as statusEnum)) -
+          (statusOrder.indexOf(b.request as statusEnum));
+      });
+
+    case "requester":
+      return tasks.sort((a, b) => {
+        return parseInt(a.requester.valueOf()) - parseInt(b.requester.valueOf());
+      });
+    case "date":
+      return tasks.sort((a, b) => {
+        return (a.inputDate.valueOf()) - (b.inputDate.valueOf());
+      });
+    default:
+      console.log("Default Every Time");
+      return tasks;
+  }
+}
+
 export default {
   getProjectById,
   getAllProjects,
   createProject,
+  getFilteredTasks,
   getAllProjectsNotifs,
   editProject,
   removeProject,

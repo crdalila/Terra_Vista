@@ -48,6 +48,7 @@ async function getUsersNotifications(id: string) {
   return projectsNotif;
 }
 
+
 async function editUserPassword(id: string,
   currentPassword: string, newPassword: string, confirmPassword: string) {
   //Error checking for password

@@ -56,6 +56,8 @@ async function getUserProjects(req: Request, res: Response) {
 
     //Do the function and send the result in json format
     const result = (await userController.getUserById(id)).projects;
+
+
     res.json(result);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
