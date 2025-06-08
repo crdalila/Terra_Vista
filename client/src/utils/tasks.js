@@ -11,7 +11,7 @@ async function createTask(projectId, taskData) {
 }
 
 async function removeTask(projectId, taskId) {
-    const result = await fetchData(`project/tasks/${projectId}/${taskId}`, "DELETE");
+    const result = await fetchData(`/project/tasks/${projectId}/${taskId}`, "DELETE");
     return result;
 }
 
