@@ -61,6 +61,7 @@ interface taskInterface {
   request: String;
   page: String;
   screenshots: String;
+  comment: String;
 }
 
 /**
@@ -135,6 +136,10 @@ const taskSchema = new mongoose.Schema<taskInterface>({
     type: String,
     required: false
   },
+  comment: {
+    type: String,
+    required: false
+  }
 });
 
 export default mongoose.model("Task", taskSchema);

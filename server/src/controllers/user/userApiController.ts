@@ -41,7 +41,7 @@ async function getUserByCookie(req: Request, res: Response) {
     const result = await userController.getUserById(id);
     res.json(result);
   } catch (error) {
-     /* If something went wrong it will catch it an show it with a personalize message */
+    /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
     res.status(myError.statusCode).json(myError.message);
   }
@@ -66,14 +66,12 @@ async function getUserProjects(req: Request, res: Response) {
 
 async function editUserPassword(req: Request, res: Response) {
   try {
-    console.log("Hello there");
     //Get parameters for function to work
     const id = req.params.id;
-    console.log("Wasaaaaaaah");
-    const { password } = req.body;
-    console.log("General Kenobi");
+    const { currentPassword, newPassword, confirmPassword } = req.body;
     //Do the function and send the result in json format
-    const result = await userController.editUserPassword(id, password);
+    const result = await userController.editUserPassword(id, 
+      currentPassword, newPassword, confirmPassword );
     res.json(result);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
