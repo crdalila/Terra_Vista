@@ -8,7 +8,6 @@ import './ProjectList.css';
 function ProjectList({ projects = [] }) {
     const { userData } = useContext(AuthContext);
     projects = useLoaderData();
-	console.log("ProjectList received:", projects);
 
     const canCreateProject =
         userData && userData.role === "admin" || userData.role === "projectManager";

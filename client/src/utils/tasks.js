@@ -10,7 +10,13 @@ async function createTask(projectId, taskData) {
     return result;
 }
 
+async function removeTask(projectId, taskId) {
+    const result = await fetchData(`project/tasks/${projectId}/${taskId}`, "DELETE");
+    return result;
+}
+
 export default {
     getTasks,
-    createTask
+    createTask,
+    removeTask
 }

@@ -59,7 +59,8 @@ function ProjectDetail() {
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
                     <h2>Issues</h2>
-                    <TaskList tasks={selectedProject.tasks} /> 
+                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} /> 
+                    
                 </div>
             </section>
         </article>

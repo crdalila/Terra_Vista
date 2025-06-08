@@ -1,19 +1,16 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-// import RequestModel from "../../models/Request";
 
-// import "./RequestForm.css";
+import { AuthContext } from "../../context/AuthContext";
+import "./RequestForm.css";
 
 function RequestForm() {
     const { user } = useContext(AuthContext);
     // const navigate = useNavigate(); TODO BACK BUTTON
-
+// TODO que solo pueda crear el campo de status y Terra Comments el PM
     return (
-        <section className="create-task">
+        <section className="create-request article">
             <h3>Request</h3>
-            <form action="" method="post" className="create-Request__form" >
+            <form action="" method="post" className="request__form" >
                 <label htmlFor="request-type">Request Type:</label>
                 <select name="request-type" id="request-type" required>
                     <option value="copy-revision">Copy Revision</option>
@@ -61,9 +58,8 @@ function RequestForm() {
                 <label htmlFor="terra-comments">Terra Comments:</label>
                 <textarea name="terra-comments" id="terra-comments" cols="30" rows="10" className="request-project-manager"></textarea>
 
-                <button type="submit">Create Request</button>
-                <button type="submit">Edit Request</button>
-                <button type="submit" className="request-project-manager">Update Request</button>
+                <button type="submit" className="button-request-create">Create Request</button>
+                <button type="submit" className="button-request-update">Update Request</button>
             </form>
         </section>
     );
