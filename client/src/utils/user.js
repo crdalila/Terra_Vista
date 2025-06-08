@@ -20,6 +20,11 @@ async function addUserToProject(userId, projectId) {
     return result;
 }
 
+async function createUser(user) {
+    const result = await fetchData("/register", "POST", user);
+    return result;
+}
+
 
 async function updateUser(updateData) {
 	const data = {
@@ -59,6 +64,7 @@ async function removeUser() {
 export default {
     getUserAllProjects,
     getAllUsers,
+    createUser,
     addUserToProject,
     updateUser,
     getUserById,

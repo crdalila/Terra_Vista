@@ -4,12 +4,16 @@ import { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
+import { ProjectContext } from "../../context/ProjectContext";
 import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
 import userService from '../../utils/user';
 
+import DoughnutChart from "../../components/doughnutChart/DoughnutChart";
+
 function ProjectDetail() {
     const navigate = useNavigate();
+    const project = useLoaderData();
     const { selectedProject } = useProject();
     const projectTaskListRef = useRef(null);
 
@@ -124,7 +128,11 @@ function ProjectDetail() {
             <section className="projects-data"> {/* TODO COMPONENTS */}
                 <p>Notifications</p>
                 <p>Review history</p>
-                <p>Progress</p>
+
+                <div className="project--chart">
+                    <p>Progress</p>
+					<DoughnutChart project={project} />
+				</div>
             </section>
 
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
