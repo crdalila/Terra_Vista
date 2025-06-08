@@ -1,24 +1,43 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
 import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
-import "./ProjectDetail.css";
+import projectService from "../../utils/projects";
+import userService from '../../utils/user';
+import './ProjectDetail.css';
 
 function ProjectDetail() {
     const navigate = useNavigate();
-    const { selectedProject } = useProject();
+    const { selectedProject, setSelectedProject } = useProject();
     const projectTaskListRef = useRef(null);
+
+    const { userData } = useContext(AuthContext);
+
+    const [users, setUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     // SELECTED PROJECT
     useEffect(() => {
         if (!selectedProject) {
-            navigate("/"); //redirects if project is not selected
+            navigate("/");
+            return;
         }
-    }, [selectedProject, navigate]);
+        const fetchUpdatedProject = async () => {
+            try {
+                const updatedProject = await projectService.getProjectId(selectedProject._id);
+                setSelectedProject(updatedProject);
+            } catch (err) {
+                console.error("Failed to reload project:", err);
+            }
+        };
+        fetchUpdatedProject();
+    }, [navigate]);
+
 
     if (!selectedProject) return null;
 
@@ -27,17 +46,82 @@ function ProjectDetail() {
         projectTaskListRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const result = await userService.getAllUsers();
+                if (Array.isArray(result)) {
+                    const clients = result.filter(user => user.role === "client");
+                    setUsers(clients);
+                } else {
+                    console.error("Can't get users");
+                }
+            } catch (err) {
+                console.error("Error getting users:", err);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    const handleAddUsersToProject = async (e) => {
+        e.preventDefault();
+
+        if (!selectedUsers.length) {
+            alert("Please select at least one user.");
+            return;
+        }
+
+        try {
+            for (const userId of selectedUsers) {
+                await userService.addUserToProject(userId, selectedProject._id);
+            }
+            alert("Users added successfully.");
+            setSelectedUsers([]); // Limpiar selección
+        } catch (err) {
+            console.error("Error adding users to project", err);
+            alert("Failed to add users to the project.");
+        }
+    };
+
+
     return (
         <article className="project-page article">
 
             <section className="project-detail">
-                <h1>{selectedProject.name}</h1>
+                <h2>{selectedProject.name}</h2>
                 <div className="project-detail__info">
                     <div className="project-detail__info--text">
-                        <h2>Your website is ready for you.</h2>
+                        <h3>Your website is ready for you.</h3>
                         <p>Explore your website and observe the details.</p>
                         <Link to='/instructions'>Read more</Link>
                     </div>
+                    {userData && userData.role === "projectManager" && (
+                        <button className="add-user-to-project-button button" onClick={() => document.querySelector('add-user-to-project-form').className.toggle('hidden')}>Add User To Project</button>
+                    )}
+                    <form className="add-user-to-project-form hidden" onSubmit={handleAddUsersToProject}>
+                        <label htmlFor="users">Select clients to add to this project: </label>
+                        <select
+                            id="users"
+                            value={selectedUsers}
+                            multiple
+                            required
+                            onChange={(e) =>
+                                setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                            }
+                        >
+                            <option value="">-- Select clients --</option>
+                            {users.map(user => (
+                                <option key={user._id} value={user._id}>
+                                    {user.name} ({user.email})
+                                </option>
+                            ))}
+                        </select>
+
+                        <button type="submit" disabled={loading} className="add-user-button button">
+                            {loading ? "Adding..." : "Add User"}
+                        </button>
+                    </form>
 
                     <div className="project-detail__info--icons">
                         <div className="project-detail__info--icon-list">
@@ -45,12 +129,12 @@ function ProjectDetail() {
                             <svg></svg>
                             <svg></svg> */}
                         </div>
-                        <button className="start-project-button" onClick={handleScrollToTasks}>Go to tasks</button>
+                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks</button>
                     </div>
                 </div>
             </section>
 
-            <section className="project-data"> {/* TODO COMPONENTS */}
+            <section className="projects-data"> {/* TODO COMPONENTS */}
                 <p>Notifications</p>
                 <p>Review history</p>
                 <p>Progress</p>
@@ -58,8 +142,9 @@ function ProjectDetail() {
 
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
-                    <p>Tasks</p>
-                    {/*  <TaskList /> */}
+                    <h2>Issues</h2>
+                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
+
                 </div>
             </section>
         </article>

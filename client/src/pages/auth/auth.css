@@ -27,12 +27,6 @@
     gap: 1em;
 }
 
-.register h2, .login h2 {
-    font-size: 5rem;
-    font-family: var(--main-font);
-    font-weight: 700;
-}
-
 .icons-card {
     max-height: inherit;
     object-fit: contain;

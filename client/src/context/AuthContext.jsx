@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import { login, register, logout } from "../utils/auth";
 import getUserByCookies from "../utils/cookies";
@@ -69,7 +70,7 @@ const AuthProvider = ({ children }) => {
             console.error("Logout error:", error);
         } finally {
             setUserData(null);
-            navigate("/");
+            <Navigate to="/" />;
         }
     };
 
