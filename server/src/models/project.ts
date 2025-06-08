@@ -17,7 +17,9 @@ interface projectInterface {
   clickUpListId: String;
   clickUpFolderId: String;
   clickUpSpaceId: String;
+  clickUpWebhookId: String;
   name: String;
+  description: String;
   notifications: [String];
   isFinalize: Boolean;
   tasks: [taskInterface];
@@ -44,6 +46,10 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     type: String,
     required: true
   },
+  clickUpWebhookId: {
+    type: String,
+    required: false,
+  },
   isFinalize: {
     type: Boolean,
     default: false
@@ -51,6 +57,12 @@ const projectSchema = new mongoose.Schema<projectInterface>({
   name: {
     type: String,
     default: "Project Name",
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    default: "This is the description of the project.",
     required: true,
     trim: true
   },
@@ -64,7 +76,6 @@ const projectSchema = new mongoose.Schema<projectInterface>({
      * The project manager can only go to the ones they are managing
      * The client can only go to their projects (usually only one)
     */
-
     type: mongoose.Types.ObjectId,
     ref: "Task",
     required: false
