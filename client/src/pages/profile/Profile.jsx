@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import updateUser from "../../utils/user";
-import { useNavigate,Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import getUserByCookies from "../../utils/cookies";
 
-// import './Profile.css';
+import './Profile.css';
 
 function Profile() {
-    const { userData, loading } = useContext(AuthContext);
+    const { userData } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [oldPassword, setOldPassword] = useState("");
@@ -50,10 +50,9 @@ function Profile() {
     }
 
     const handleEditPassword = () => {
-        document.querySelector(".edit-password-form").classList.toggle("hidden");
+        document.querySelector(".my-profile-right").classList.toggle("hidden");
     }
 
-    
     return (
         <article className="article my-profile">
             <button className="back-button" onClick={() => navigate(-1)}>
@@ -74,8 +73,8 @@ function Profile() {
             </button>
 
             <form action="" onSubmit={handleSubmit} method="post" className="edit-password-form hidden">
-                <label htmlFor="actual-password">Actual password</label>
-                <input type="password" id="actual-password" /> {/* TODO VACIAR CAMPO */}
+                <label htmlFor="current-password">Current password</label>
+                <input type="password" id="current-password" /> {/* TODO VACIAR CAMPO */}
 
                 <label htmlFor="new-password">Password</label>
                 <input type="password" id="new-password" />

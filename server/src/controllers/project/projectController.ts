@@ -6,6 +6,7 @@ import Project, { projectInterface } from "../../models/project.ts";
 import Task, { taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
 import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../utils/errors/projectError.ts";
+import { removeFile } from "../../utils/middlewares/multerMiddleware.ts";
 //===============================================================================
 
 async function getProjectById(id: string) {
@@ -73,13 +74,13 @@ async function createTask(projectId: string, taskData: taskInterface) {
   //Creates new task
   const newTask = new Task(taskData);
   await newTask.save();
-
   let project = (await Project.findById(projectId).populate({
     path: 'tasks',
     select: '-clickUpTaskId'
   }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
   if (!project) throw new ProjectDoesNotExist();
   project.tasks.push(newTask);
+
   await project.save();
   return project;
 }
@@ -91,6 +92,7 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
     select: '-clickUpTaskId'
   }).select("-clickUpListId -clickUpFolderId -clickUpSpaceId"));
   if (!project) throw new ProjectDoesNotExist();
+
 
   if (!project.tasks.some((myTask) => {
     let stringId = (myTask as taskInterface & { _id: Types.ObjectId; })
@@ -114,12 +116,14 @@ async function deleteTask(projectId: string, taskId: string) {
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;
 
+
   if (!project.tasks.some((myTask) => {
     let stringId = (myTask as taskInterface & { _id: Types.ObjectId; })
       ._id.toString();
     return stringId == taskId;
   })) throw new TaskDoesNotExist();
 
+  removeFile(task.screenshots as string);
   await Task.findByIdAndDelete(task);
 
   return project;

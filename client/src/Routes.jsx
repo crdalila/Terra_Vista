@@ -1,58 +1,81 @@
-    import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
-    import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 
-    import CreateUser from "./pages/auth/CreateUser";
-    import Register from "./pages/auth/Register";
-    import Login from "./pages/auth/Login";
-    import Instructions from "./pages/instructions/Instructions";
-    import Root from "./pages/root/Root";
-    import Layout from "./components/layout/Layout";
-    import Profile from "./pages/profile/Profile";
-    import Projects from "./pages/projects/Projects";
+import CreateUser from "./pages/auth/CreateUser";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
+import Instructions from "./pages/instructions/Instructions";
+import Root from "./pages/root/Root";
+import Layout from "./components/layout/Layout";
+import Profile from "./pages/profile/Profile";
+import Projects from "./pages/projects/Projects";
+import ProjectDetail from "./pages/projects/ProjectDetail";
+import CreateProjectForm from "./components/createProjectForm/createProjectForm";
 
-    import { getUserAllProjects } from "./utils/user"; // TODO le pongo aquí el id? y de dónde 
-    import getUserByCookies from "./utils/cookies";
+import projectUtils from "./utils/projects";
+import { getUserAllProjects } from "./utils/user";
+import getUserByCookies from "./utils/cookies";
 
-    const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <Root />,
-            children: [
-                {
-                    path: "/login",
-                    element: <Login />,
-                },
-                {
-                    path: "/register",
-                    element: <Register />,
-                },
-                {
-                    path: "/create-user",
-                    element: <CreateUser />,
-                },
-                {
-                    element: <Layout />,
-                    shouldRevalidate: () => true,
-                    children: [
-                        {
-                            path: "/instructions",
-                            element: <Instructions />
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Root />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
+            {
+                path: "/create-user",
+                element: <CreateUser />,
+            },
+            {
+                element: <Layout />,
+                shouldRevalidate: () => true,
+                children: [
+                    {
+                        path: "/instructions",
+                        element: <Instructions />
+                    },
+                    {
+                        path: '/profile',
+                        element: <Profile />
+                    },
+                    {
+                        path: "/",
+                        loader: async () => {
+                            const userData = await getUserByCookies();
+                            return getUserAllProjects(userData._id);
                         },
-                        {
-                            path: '/profile',
-                            
-                            element: <Profile />
-                        },
-                        {
-                            path: "/projects",
-                            loader: async () => getUserAllProjects(),
-                            element: <Projects />
-                        }
-                    ],
-                }
-            ]
-        }
-    ]);
+                        element: <Projects />
+                    },
+                    {
+                        path: "/project",
+                        loader: async () => {
+                            const userData = await getUserByCookies();
+                            const projectIds = await getUserAllProjects(userData._id);
 
-    export default router;
+                            const projects = await Promise.all(
+                                projectIds.map(p => projectUtils.getProjectId(p._id))
+                            );
+
+                            return projects;
+                        },
+                        element: <ProjectDetail />
+                    },
+                    {
+                        path: "/create-project",
+                        element: <CreateProjectForm />
+                    }
+                ],
+            }
+        ]
+    }
+]);
+
+export default router;

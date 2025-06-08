@@ -5,8 +5,18 @@ async function getUserById() {
     return result;
 }
 
+async function getAllUsers() {
+    const result = await fetchData("/user", "GET");
+    return result;
+}
+
 export async function getUserAllProjects(userId) {
     const result = await fetchData(`/user/projects/${userId}`, "GET");
+    return result;
+}
+
+async function addUserToProject(userId, projectId) {
+    const result = await fetchData(`/user/project/${userId}/${projectId}`, "PUT");
     return result;
 }
 
@@ -33,6 +43,9 @@ async function removeUser() {
 }
 
 export default {
+    getUserAllProjects,
+    getAllUsers,
+    addUserToProject,
     updateUser,
     getUserById,
     editUserPassword,
