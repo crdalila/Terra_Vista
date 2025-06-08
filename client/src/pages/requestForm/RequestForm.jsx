@@ -61,7 +61,7 @@ function RequestForm() {
                 });
                 alert("Request created successfully");
             }
-            navigate("/project");
+            navigate("/project", { state: { reaload: true } });
         } catch (err) {
             console.error("Error submitting task", err);
             alert("There was a problem submitting the request");

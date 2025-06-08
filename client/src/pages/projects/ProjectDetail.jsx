@@ -6,19 +6,31 @@ import { useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
+import projectService from "../../utils/projects";
 import "./ProjectDetail.css";
 
 function ProjectDetail() {
     const navigate = useNavigate();
-    const { selectedProject } = useProject();
+    const { selectedProject, setSelectedProject } = useProject();
     const projectTaskListRef = useRef(null);
 
     // SELECTED PROJECT
     useEffect(() => {
         if (!selectedProject) {
-            navigate("/"); //redirects if project is not selected
+            navigate("/");
+            return;
         }
-    }, [selectedProject, navigate]);
+        const fetchUpdatedProject = async () => {
+            try {
+                const updatedProject = await projectService.getProjectId(selectedProject._id);
+                setSelectedProject(updatedProject);
+            } catch (err) {
+                console.error("Failed to reload project:", err);
+            }
+        };
+        fetchUpdatedProject();
+    }, [navigate]);
+
 
     if (!selectedProject) return null;
 
@@ -59,8 +71,8 @@ function ProjectDetail() {
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
                     <h2>Issues</h2>
-                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} /> 
-                    
+                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
+
                 </div>
             </section>
         </article>
