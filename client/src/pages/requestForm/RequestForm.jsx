@@ -1,65 +1,148 @@
-import { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 
+import taskService from "../../utils/tasks";
 import { AuthContext } from "../../context/AuthContext";
+import { ProjectContext } from "../../context/ProjectContext";
 import "./RequestForm.css";
 
 function RequestForm() {
-    const { user } = useContext(AuthContext);
-    // const navigate = useNavigate(); TODO BACK BUTTON
-// TODO que solo pueda crear el campo de status y Terra Comments el PM
+
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const { task, project } = state || {};
+    const { userData } = useContext(AuthContext);
+    const { selectedProject, setSelectedProject } = useContext(ProjectContext);
+
+    const isExisting = !!task;
+    const [isEditing, setIsEditing] = useState(!isExisting);
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        name: task?.name || "",
+        requestType: task?.requestType || "",
+        status: task?.status || "With Feedback",
+        device: task?.device || "",
+        browser: task?.browser || "",
+        request: task?.request || "",
+        page: task?.page || "",
+        picture: task?.picture || "",
+        terraComments: task?.terraComments || "",
+    });
+
+    useEffect(() => {
+        if (project) {
+            setSelectedProject(project);
+        }
+    }, [project, setSelectedProject]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Submitting form with:", formData);
+
+        if (!selectedProject || !userData) {
+            console.error("Missing selectedProject or userData", selectedProject, userData);
+            return;
+        }
+
+        setLoading(true);
+        try {
+            if (isExisting && isEditing) {
+                await taskService.editTask(selectedProject._id, task._id, formData);
+                alert("Request updated successfully");
+            } else if (!isExisting) {
+                await taskService.createTask(selectedProject._id, {
+                    ...formData,
+                    requester: userData.name
+                });
+                alert("Request created successfully");
+            }
+            navigate("/project");
+        } catch (err) {
+            console.error("Error submitting task", err);
+            alert("There was a problem submitting the request");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    /*     // Esperar datos esenciales
+        if (!userData || !selectedProject) {
+            return <p>Loading form...</p>;
+        } */
+
     return (
         <section className="create-request article">
-            <h3>Request</h3>
-            <form action="" method="post" className="request__form" >
+            <h3>{isExisting ? (isEditing ? "Edit Request" : "View Request") : "Create Request"}</h3>
+
+            <form onSubmit={handleSubmit} className="request__form">
+                <label htmlFor="name">Title:</label>
+                <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} disabled={!isEditing} required
+                    placeholder="Please enter a title for your request" />
+
                 <label htmlFor="request-type">Request Type:</label>
-                <select name="request-type" id="request-type" required>
-                    <option value="copy-revision">Copy Revision</option>
-                    <option value="desgin-issues">Design Issues:</option>
-                    <option value="requested-change">Requested Change:</option>
-                    <option value="new-item">New Item:</option>
+                <select name="requestType" id="request-type" value={formData.requestType} onChange={handleChange} disabled={!isEditing} required>
+                    <option value="">-- Select a type --</option>
+                    <option value="Copy Revision">Copy Revision</option>
+                    <option value="Design Issues">Design Issues</option>
+                    <option value="Requested Change">Requested Change</option>
+                    <option value="New Item">New Item</option>
                 </select>
 
-                <label htmlFor="status"></label>
-                <select name="status" id="status" className="request-project-manager">
-                    <option value="new">To Do</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="done">Complete</option>
+                <select name="status" id="status" value={formData.status} onChange={handleChange} disabled={!isEditing || userData.role !== "projectManager"} required>
+                    <option value="">-- Select a status --</option>
+                    <option value="On Hold">On Hold</option>
+                    <option value="Needs Input">Needs Input</option>
+                    <option value="Assigned">Assigned</option>
+                    <option value="For Dev Testing">For Dev Testing</option>
+                    <option value="With Feedback">With Feedback</option>
+                    <option value="For Manager Testing">For Manager Testing</option>
+                    <option value="For Client Review">For Client Review</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Complete">Complete</option>
                 </select>
 
-                {/* <label htmlFor="requester">Requester:</label>
-                <input type="text" name="requester" id="requester" /> */}
-
-                <label htmlFor="device">Device:</label>
-                <select name="device" id="device" required>
-                    <option value="desktop">Desktop</option>
-                    <option value="tablet">Tablet</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="all">All Devices</option>
+                <select name="device" id="device" value={formData.device} onChange={handleChange} disabled={!isEditing} required>
+                    <option value="">-- Select device --</option>
+                    <option value="Desktop">Desktop</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Mobile">Mobile</option>
                 </select>
 
                 <label htmlFor="browser">Browser:</label>
-                <select name="browser" id="browser" required>
+                <select name="browser" id="browser" value={formData.browser} onChange={handleChange} disabled={!isEditing} required>
+                    <option value="">-- Select browser --</option>
                     <option value="chrome">Chrome</option>
                     <option value="firefox">Firefox</option>
                     <option value="safari">Safari</option>
                     <option value="other">Other</option>
                 </select>
-                <input type="text" name="other-browser" id="other-browser" />
 
                 <label htmlFor="request">Request:</label>
-                <textarea name="request" id="request" cols="30" rows="10" required></textarea>
+                <textarea name="request" id="request" value={formData.request} onChange={handleChange} disabled={!isEditing} required />
 
                 <label htmlFor="page">Page:</label>
-                <input type="url" name="page" id="page" required />
+                <input type="url" name="page" id="page" value={formData.page} onChange={handleChange} disabled={!isEditing} required />
 
-                <label htmlFor="screenshot">Screenshot:</label>
-                <input type="file" name="screenshot" id="screenshot" />
+                <label htmlFor="picture">Screenshot:</label>
+                <input type="url" name="picture" id="picture" value={formData.picture} onChange={handleChange} disabled={!isEditing} />
 
-                <label htmlFor="terra-comments">Terra Comments:</label>
-                <textarea name="terra-comments" id="terra-comments" cols="30" rows="10" className="request-project-manager"></textarea>
+                <label htmlFor="terraComments">Terra Comments:</label>
+                <textarea name="terraComments" id="terra-comments" value={formData.terraComments} onChange={handleChange} disabled={!isEditing || userData.role !== "projectManager"} />
 
-                <button type="submit" className="button-request-create">Create Request</button>
-                <button type="submit" className="button-request-update">Update Request</button>
+                {isExisting && !isEditing && (
+                    <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
+                )}
+
+                {(isEditing || !isExisting) && (
+                    <button type="submit" disabled={loading} className="request-form-button">
+                        {loading ? "Submitting..." : (isExisting ? "Update" : "Create")}
+                    </button>
+                )}
             </form>
         </section>
     );

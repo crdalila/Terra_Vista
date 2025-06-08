@@ -8,6 +8,7 @@ import "./TaskList.css";
 
 function TaskList({ tasks = [], projectId }) {
     const { userData } = useContext(AuthContext);
+    const { selectedProject } = useContext(ProjectContext);
 
     // Show only if it's client
     const isClient = userData && userData.role === "client";
@@ -25,7 +26,7 @@ function TaskList({ tasks = [], projectId }) {
                     <button onClick={handleFeedback} className="button-feedback">Send Feedback</button>
 
                     <div className="tasks-buttons">
-                        <Link to="/create-issue">
+                        <Link to="/request" state={{ project: selectedProject }}>
                             <button className="button-create-task">+ Create Request</button>
                         </Link>
                     </div>

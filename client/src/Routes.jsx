@@ -75,11 +75,7 @@ const router = createBrowserRouter([
                         element: <CreateProjectForm />
                     },
                     {
-                        path: "/issue",
-                        element: <TaskDetail />
-                    },
-                    {
-                        path: "/create-issue",
+                        path: "/request",
                         element: <RequestForm />
                     }
                 ],

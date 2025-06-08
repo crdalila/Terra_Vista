@@ -10,6 +10,11 @@ async function createTask(projectId, taskData) {
     return result;
 }
 
+async function editTask(projectId, taskId, taskData) {
+    const result = await fetchData(`/project/tasks/${projectId}/${taskId}`, "PUT", taskData);
+    return result;
+}
+
 async function removeTask(projectId, taskId) {
     const result = await fetchData(`/project/tasks/${projectId}/${taskId}`, "DELETE");
     return result;
@@ -18,5 +23,6 @@ async function removeTask(projectId, taskId) {
 export default {
     getTasks,
     createTask,
+    editTask,
     removeTask
 }

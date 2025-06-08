@@ -46,7 +46,7 @@ function TaskCard({ task, projectId }) {
 
             {/*LINK TO ISSUE*/}
             <div className="task-card__link">
-                <Link to={`/issue`} state={{ task }}> {/* we use state to pass the task */}
+                <Link to={`/request`} state={{ task }}> {/* we use state to pass the task */}
                     <section className="task-id">
                         <p>#{task._id}</p>
                     </section>
