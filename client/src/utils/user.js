@@ -20,6 +20,7 @@ async function addUserToProject(userId, projectId) {
     return result;
 }
 
+
 async function updateUser(updateData) {
 	const data = {
 		username: updateData.username,
@@ -32,15 +33,22 @@ async function updateUser(updateData) {
 	return result;
 }
 
-async function editUserPassword() {
-    const result = await fetchData("/user/password/:id", "PUT");
-    return result;
+async function changeUserPassword({ oldPassword, newPassword, userId }) {
+	const data = {
+		oldPassword,
+		newPassword
+	};
+
+	const result = await fetchData(`/user/password/${userId}`, "PUT", data);
+	return result;
 }
+
 
 async function removeUser() {
     const result = await fetchData("/user/:id", "DELETE");
     return result;
 }
+
 
 export default {
     getUserAllProjects,
@@ -48,6 +56,6 @@ export default {
     addUserToProject,
     updateUser,
     getUserById,
-    editUserPassword,
-    removeUser
+    changeUserPassword,
+    removeUser,
 }
