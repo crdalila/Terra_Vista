@@ -18,7 +18,8 @@ interface projectInterface {
   clickUpFolderId: String;
   clickUpSpaceId: String;
   name: String;
-  isFinalize: Boolean,
+  notifications: [String];
+  isFinalize: Boolean;
   tasks: [taskInterface];
 }
 
@@ -53,19 +54,22 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     required: true,
     trim: true
   },
+  notifications: [{
+    type: String,
+    required: false
+  }],
+  tasks: [{
+    /** An array of all projects the user is able to go to
+     * The admin will be able to go to all
+     * The project manager can only go to the ones they are managing
+     * The client can only go to their projects (usually only one)
+    */
 
-  tasks:  [{
-      /** An array of all projects the user is able to go to
-       * The admin will be able to go to all
-       * The project manager can only go to the ones they are managing
-       * The client can only go to their projects (usually only one)
-      */
-  
-      type: mongoose.Types.ObjectId,
-      ref: "Task",
-      required: false
-  
-    }],
+    type: mongoose.Types.ObjectId,
+    ref: "Task",
+    required: false
+
+  }],
 });
 
 export default mongoose.model("Project", projectSchema);
