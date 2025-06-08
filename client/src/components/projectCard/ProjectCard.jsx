@@ -8,7 +8,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 import './ProjectCard.css';
 
 function ProjectCard({ project }) {
-	const {setSelectedProject} = useContext(ProjectContext);
+	const { setSelectedProject } = useContext(ProjectContext);
 
 	// SAVES THE SELECTED PROJECT IN PROJECT CONTEXT
 	const handleClick = () => {
@@ -16,16 +16,16 @@ function ProjectCard({ project }) {
 	}
 
 	return (
-		<article className="project">
-			<Link to={`/project`} onClick={handleClick}>
-				<section className="project-data">
-					<h2>{project.name}</h2>
-					<div className="chart">
-						<DoughnutChart project={project} />
-					</div>
-				</section>
-			</Link>
-		</article >
+		<Link to={`/project`} onClick={handleClick} className="project">
+			<div className="project--info">
+				<h3>{project.name}</h3>
+				<img src="../../../public/images/icons-card.png" alt="" />
+				<p>Description</p> {/* TODO ADD DESCRIPTION */}
+			</div>
+			<div className="project--chart">
+				<DoughnutChart project={project} />
+			</div>
+		</Link>
 	)
 }
 

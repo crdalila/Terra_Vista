@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
-import "./ProjectDetail.css";
 
 function ProjectDetail() {
     const navigate = useNavigate();
@@ -31,7 +30,7 @@ function ProjectDetail() {
         <article className="project-page article">
 
             <section className="project-detail">
-                <h1>{selectedProject.name}</h1>
+                <h2>{selectedProject.name}</h2>
                 <div className="project-detail__info">
                     <div className="project-detail__info--text">
                         <h3>Your website is ready for you.</h3>

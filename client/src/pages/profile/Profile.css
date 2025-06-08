@@ -4,17 +4,6 @@
     gap: 1em;
 }
 
-.my-profile h2 {
-    font-size: 5rem;
-    font-family: var(--main-font);
-    font-weight: 700;
-}
-
-.my-profile h3 {
-    font-size: 3rem;
-    font-weight: 700;
-}
-
 .my-profile-left, .my-profile-right {
     width: 50%;
     height: 100%;

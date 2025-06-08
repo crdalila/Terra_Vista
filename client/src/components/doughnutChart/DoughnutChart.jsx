@@ -21,9 +21,7 @@ const DoughnutChart = ({ project }) => {
   const centerTextPlugin = {
     id: 'centerText',
     beforeDraw: (chart) => {
-      const { width } = chart;
-      const { height } = chart;
-      const ctx = chart.ctx;
+      const { width, height, ctx } = chart;
       ctx.restore();
       const fontSize = (height / 114).toFixed(2);
       ctx.font = `${fontSize}em sans-serif`;
@@ -37,9 +35,7 @@ const DoughnutChart = ({ project }) => {
     },
   };
 
-
   const data = {
-    labels: ['Done', 'Pending'],
     datasets: [
       {
         label: 'Tasks',
@@ -58,13 +54,12 @@ const DoughnutChart = ({ project }) => {
     responsive: true,
     cutout: '70%',
     plugins: {
-      legend: { display: 'false' },
+      legend: { display: false },
       tooltip: {
         callbacks: {
           label: (context) => {
-            const label = context.label || '';
             const value = context.parsed;
-            return `${label}: ${value}`;
+            return `${value} tasks`;
           },
         },
       },

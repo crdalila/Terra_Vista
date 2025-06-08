@@ -157,6 +157,27 @@ button {
   color: var(--main-color);
 }
 
+.button {
+    padding: .75rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid;
+    border-radius: 40px;
+
+    transition: all .3s ease;
+
+    font-weight: 600;
+}
+
+.button:hover {
+    border-radius: 10px;
+}
+
 /* END RESET */
 
 
@@ -201,6 +222,23 @@ body {
   overscroll-behavior: none;
   position: relative;
   padding-bottom: 2em;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--main-font);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 5rem;
+}
+
+h2 {
+  font-size: 4rem;
+}
+
+h3 {
+  font-size: 3rem;
 }
 
 .article {
