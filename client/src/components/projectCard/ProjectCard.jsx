@@ -4,11 +4,13 @@ import { useContext } from "react";
 import DoughnutChart from "../doughnutChart/DoughnutChart";
 
 import { ProjectContext } from "../../context/ProjectContext";
+import { AuthContext } from "../../context/AuthContext";
 
 import './ProjectCard.css';
 
 function ProjectCard({ project }) {
 	const { setSelectedProject } = useContext(ProjectContext);
+	const { userData } = useContext(AuthContext);
 
 	// SAVES THE SELECTED PROJECT IN PROJECT CONTEXT
 	const handleClick = () => {
@@ -25,6 +27,9 @@ function ProjectCard({ project }) {
 			<div className="project--chart">
 				<DoughnutChart project={project} />
 			</div>
+			{userData && userData.role === "projectManager" && (
+				<button className="delete-project-button button">Delete</button>
+			)}
 		</Link>
 	)
 }

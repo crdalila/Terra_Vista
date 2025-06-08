@@ -172,6 +172,9 @@ button {
     transition: all .3s ease;
 
     font-weight: 600;
+
+    background-color: var(--main-color);
+    color: var(--text-color);
 }
 
 .button:hover {
