@@ -34,10 +34,16 @@ async function updateUser(updateData) {
 }
 
 async function changeUserPassword({ oldPassword, newPassword, userId }) {
+    if (!oldPassword || !newPassword || !userId) {
+        return { error: "Missing data" };
+    }
+    
 	const data = {
-		oldPassword,
-		newPassword
+		currentPassword: oldPassword,
+		newPassword: newPassword,
+        confirmPassword: newPassword
 	};
+    console.log(data);
 
 	const result = await fetchData(`/user/password/${userId}`, "PUT", data);
 	return result;
