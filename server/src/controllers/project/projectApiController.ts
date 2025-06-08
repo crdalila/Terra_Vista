@@ -8,12 +8,15 @@
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express'
 //=================================Common Imports================================
+import Project from '../../models/project.ts';
 import projectController from "./projectController.ts";
 import { projectInterface } from '../../models/project.ts';
 import clickUpController from '../clickUp/clickUpController.ts';
 import userController from "../user/userController.ts"
+import { createClickUpWebhook } from '../../utils/clickUp/webhookUtils.ts';
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
+import { ProjectAlreadyExists } from '../../utils/errors/projectError.ts';
 import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clickUpError.ts';
 import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
 import { JwtPayload } from 'jsonwebtoken';
@@ -51,6 +54,7 @@ async function getAllProjects(_: Request, res: Response) {
 
 async function createProject(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const projectManagerId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     const projectData: projectInterface = req.body;
@@ -58,6 +62,12 @@ async function createProject(req: Request, res: Response) {
 
     if (!projectManagerId) throw new UserNotFound();
     if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
+
+	// Check if project already exists
+	const existingProject = await Project.findOne({ clickUpSpaceId });
+	if (existingProject) {
+		throw new ProjectAlreadyExists();
+	}
 
     const {
       folderId: clickUpFolderId,
@@ -67,6 +77,10 @@ async function createProject(req: Request, res: Response) {
     // Add new data to project
     projectData.clickUpFolderId = clickUpFolderId;
     projectData.clickUpListId = clickUpListId;
+
+	// Create webhook
+	const webhookId = await createClickUpWebhook(clickUpListId);
+	projectData.clickUpWebhookId = webhookId;
 
     //Do the function and send the result in json format
     const result: projectInterface & {
