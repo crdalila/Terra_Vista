@@ -1,0 +1,5 @@
+.button-edit-tasks {
+    color: black;
+    border: 1px solid black;
+    background-color: var(--items-color);
+}

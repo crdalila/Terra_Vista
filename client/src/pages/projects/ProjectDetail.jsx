@@ -34,7 +34,7 @@ function ProjectDetail() {
                 <h1>{selectedProject.name}</h1>
                 <div className="project-detail__info">
                     <div className="project-detail__info--text">
-                        <h2>Your website is ready for you.</h2>
+                        <h3>Your website is ready for you.</h3>
                         <p>Explore your website and observe the details.</p>
                         <Link to='/instructions'>Read more</Link>
                     </div>
@@ -50,7 +50,7 @@ function ProjectDetail() {
                 </div>
             </section>
 
-            <section className="project-data"> {/* TODO COMPONENTS */}
+            <section className="projects-data"> {/* TODO COMPONENTS */}
                 <p>Notifications</p>
                 <p>Review history</p>
                 <p>Progress</p>
@@ -58,8 +58,9 @@ function ProjectDetail() {
 
             <section className="project-tasklist"> {/* TODO COMPONENTS */}
                 <div ref={projectTaskListRef}>
-                    <p>Tasks</p>
-                    {/*  <TaskList /> */}
+                    <h2>Issues</h2>
+                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} /> 
+                    
                 </div>
             </section>
         </article>
