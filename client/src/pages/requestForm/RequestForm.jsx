@@ -53,27 +53,22 @@ function RequestForm() {
         try {
             if (isExisting && isEditing) {
                 await taskService.editTask(selectedProject._id, task._id, formData);
-                alert("Request updated successfully");
+                alert("Request updated successfully"); // TODO otro tipo de alerta
             } else if (!isExisting) {
                 await taskService.createTask(selectedProject._id, {
                     ...formData,
                     requester: userData.name
                 });
-                alert("Request created successfully");
+                alert("Request created successfully"); // TODO otro tipo de alerta
             }
             navigate("/project", { state: { reaload: true } });
         } catch (err) {
             console.error("Error submitting task", err);
-            alert("There was a problem submitting the request");
+            alert("There was a problem submitting the request"); // TODO otro tipo de alerta
         } finally {
             setLoading(false);
         }
     };
-
-    /*     // Esperar datos esenciales
-        if (!userData || !selectedProject) {
-            return <p>Loading form...</p>;
-        } */
 
     return (
         <section className="create-request article">
@@ -93,6 +88,7 @@ function RequestForm() {
                     <option value="New Item">New Item</option>
                 </select>
 
+                <label htmlFor="status">Status:</label>
                 <select name="status" id="status" value={formData.status} onChange={handleChange} disabled={!isEditing || userData.role !== "projectManager"} required>
                     <option value="">-- Select a status --</option>
                     <option value="On Hold">On Hold</option>
@@ -106,6 +102,7 @@ function RequestForm() {
                     <option value="Complete">Complete</option>
                 </select>
 
+                <label htmlFor="device">Device:</label>
                 <select name="device" id="device" value={formData.device} onChange={handleChange} disabled={!isEditing} required>
                     <option value="">-- Select device --</option>
                     <option value="Desktop">Desktop</option>

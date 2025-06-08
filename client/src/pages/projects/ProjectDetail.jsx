@@ -8,7 +8,6 @@ import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
 import projectService from "../../utils/projects";
 import userService from '../../utils/user';
-
 import './ProjectDetail.css';
 
 function ProjectDetail() {
