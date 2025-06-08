@@ -130,3 +130,56 @@ export const validateUserAccess = async (listId: string, token: string) => {
 			error: error.response?.data || error.message};
 	}
 }
+
+// Type 0 = text
+const REQUIRED_FIELDS = [
+	{ name: "Device", type: 0},
+	{ name: "Browser", type: 0},
+	{ name: "Page", type: 0},
+	{ name: "Requester", type: 0},
+];
+
+// Function to check if all custom fields are present and create them if not
+export async function ensureCustomFields(listId: string, token:string) {
+	const apiBase = `https://api.clickup.com/api/v2/list/${listId}`;
+
+	// Get existing custom fields
+	const existingFieldsRes = await axios.get(`${apiBase}/field`, {
+		headers: {
+			Authorization: token,
+		}
+	});
+
+	if (!token.startsWith("pk_")) {
+	console.warn("Warning: ClickUp token may be invalid (not a personal token)");
+}
+
+	const existingFields = existingFieldsRes.data.fields;
+	const result: Record<string, string> = {};
+
+	// Check if all custom fields are present and create them if not
+	for (const field of REQUIRED_FIELDS) {
+		const existing = existingFields.find((f: any) => f.name === field.name);
+		if (existing) {
+			result[field.name] = existing.id;
+		} else {
+			// Create custom field if it doesn't exit
+			const createRes = await axios.post(
+				"https://api.clickup.com/api/v2/custom_field",
+				{
+					name: field.name,
+					type: field.type,
+					required: false,
+					list_id: listId
+				},
+				{
+					headers: {
+						Authorization: token,
+					}
+				}
+			);
+			result[field.name] = createRes.data.id;
+		}
+	}
+	return result;
+}

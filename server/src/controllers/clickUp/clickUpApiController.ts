@@ -7,6 +7,8 @@ import { Request, Response } from 'express';
 //import { getDevFolderQAList } from '../../utils/clickUp/clickUpProjectUtils';
 //import userController  from "../user/userController";
 import clickUpController from "./clickUpController";
+import Task from '../../models/task';
+import syncPendingTasks from './taskSyncController';
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
 //===============================================================================
@@ -59,19 +61,18 @@ async function getLists(req: Request, res: Response) {
 		res.status(myError.statusCode).json(myError.message);
 	}
 }
-/*
+
 // Sync task to ClickUp
-async function syncTask(req: Request, res: Response) {
+async function syncPendingTasksHandler(req: Request, res: Response) {
+	console.log("📨 Received request to /clickup/sync/" + req.params.userId);
 	try {
 		const { userId } = req.params;
-		const taskData = req.body;
-		const result = await clickUpController.syncUserTask(userId, taskData);
-		res.status(200).json({ success: true, data: result });
-	} catch (error: any) {
-		const myError = catchError(error);
-		res.status(myError.statusCode).json(myError.message);
+		const result = await syncPendingTasks(userId);
+		res.status(200).json(result );
+	} catch (err: any) {
+		res.status(500).json({ success: false, error: err.message });
 	}
-}*/
+}
 
 // Create Task
 async function createTask(req: Request, res: Response) {
@@ -137,6 +138,22 @@ async function getClickUpInfo(req: Request, res: Response) {
 	}
 }
 
+// Get Tasks not sent to clickUp
+async function getPendingTasks(req: Request, res: Response) {
+	try {
+		const { userId } = req.params;
+		const tasks = await Task.find({ requester: userId, isSend: false });
+		res.status(200).json({
+			success: true,
+			pendingCount: tasks.length,
+			tasks
+		})
+	} catch (error: any) {
+		res.status(500).json({ success: false, error: error.message });
+	}
+}
+
+
 //===============================================================================
 // Exports
 
@@ -145,10 +162,11 @@ export default{
 	ensureDevFolderQAList,
 	getFolders,
 	getLists,
-	//syncTask,
+	syncPendingTasksHandler,
 	createTask,
 	updateTask,
 	deleteTask,
 	//updateTaskStatus,
-	getClickUpInfo
+	getClickUpInfo,
+	getPendingTasks
 }
