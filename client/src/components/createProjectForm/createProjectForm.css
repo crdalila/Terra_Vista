@@ -29,3 +29,34 @@
 .create-project-form input:hover, .create-project-form #space:hover, .create-project-form #users:hover {
     border-radius: 10px;
 }
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+
+    max-width: 400px;
+    width: 90%;
+}
+
+.button-modal {
+    color: var(--main-color);
+    background-color: var(--text-color);
+}

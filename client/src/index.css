@@ -390,7 +390,7 @@ body.dark-theme {
   }
 
   .page-title {
-    font-size: 14rem;
+    font-size: 12rem;
     left: -1rem;
   }
 
@@ -401,7 +401,7 @@ body.dark-theme {
   }
 
   .page-content {
-    padding: 0 2em;
+    padding: 2em;
     gap: 1em;
   }
 
@@ -438,10 +438,13 @@ body.dark-theme {
     margin: 0 3em 0 0;
 
     width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
   }
 
   .page-header {
     min-height: 10em;
+    padding: 1em 1em 4em 1em;
   }
 
   .page-title {
@@ -459,11 +462,11 @@ body.dark-theme {
   }
 
   h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h4 {

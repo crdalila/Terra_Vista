@@ -75,3 +75,11 @@
 .project-user:hover {
     border-radius: 10px;
 }
+
+
+
+@media (max-width: 768px) {
+  .projects-data {
+    flex-flow: column;
+}
+}

@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -12,6 +12,7 @@ import userService from '../../utils/user';
 import './ProjectDetail.css';
 
 import DoughnutChart from "../../components/doughnutChart/DoughnutChart";
+import user from "../../utils/user";
 
 function ProjectDetail() {
     const navigate = useNavigate();
@@ -103,7 +104,7 @@ function ProjectDetail() {
 
     useEffect(() => {
         fetchUsers();
-    }, fetchUsers);
+    }, []);
 
     const handleAddUsersToProject = async (e) => {
         e.preventDefault();
@@ -125,8 +126,6 @@ function ProjectDetail() {
         }
     };
 
-
-    console.log("UsersProject", usersInProject);
     return (
         <article className="project-page article">
 
@@ -139,65 +138,54 @@ function ProjectDetail() {
                 </div>
             </section>
 
-            <section className="page-content project-detail-content">
-                <div className="project-users">
-                    <h3>Users In This Project</h3>
-                    {usersInProject.map(user => (
-                        <div className="project-user">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="var(--text-color)" width='24' height='24'>
-                                <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
-                            </svg>
-                            <p key={user._id} value={user._id}>
+            <section className="page-content">
+                <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                    <label htmlFor="users">Select clients to add to this project: </label>
+                    <select
+                        id="users"
+                        value={selectedUsers}
+                        multiple
+                        required
+                        onChange={(e) =>
+                            setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                        }
+                    >
+                        <option disabled value="">-- Select clients --</option>
+                        {users.map(user => (
+                            <option key={user._id} value={user._id}>
                                 {user.name} ({user.email})
-                            </p>
-                        </div>
-                    ))}
-                </div>
+                            </option>
+                        ))}
+                    </select>
+
+                    <button type="submit" disabled={loading} className="add-user-button button">
+                        {loading ? "Adding..." : "Add User"}
+                    </button>
+                </form>
 
                 <div className="projects-data"> {/* TODO COMPONENTS */}
-                    <h3>Notifications</h3>
-                    <h3>Review history</h3>
+                    {usersInProject.map(user => (
+                        <p key={user._id} value={user._id}>
+                            {user.name} ({user.email})
+                        </p>
+                    ))}
+                    <p>Notifications</p>
+                    <p>Review history</p>
+
+                    <div className="project--chart">
+                        <p>Progress</p>
+                        <ProgressBarChart project={project} />
+                    </div>
                 </div>
 
-                <div className="project-detail--chart">
-                    <h3>Progress</h3>
-                    <ProgressBarChart project={selectedProject} />
-                </div>
-
-                {userData && userData.role === 'admin' || userData.role === 'projectManager' && (
-                    <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                        <label htmlFor="users">Select clients to add to this project: </label>
-                        <img src="../../public/images/icons-instructions.png" alt="icons" className="icons-instructions" />
-                        <select
-                            id="users"
-                            value={selectedUsers}
-                            multiple
-                            required
-                            onChange={(e) =>
-                                setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                            }
-                        >
-                            <option disabled value="">-- Select clients --</option>
-                            {users.map(user => (
-                                <option key={user._id} value={user._id}>
-                                    {user.name} ({user.email})
-                                </option>
-                            ))}
-                        </select>
-
-                        <button type="submit" disabled={loading} className="add-user-button button">
-                            {loading ? "Adding..." : "Add User"}
-                        </button>
-                    </form>
-                )}
-
-                <div className="project-tasklist"> {/* TODO COMPONENTS */}
+                <div className="project-tasklist">
                     <div ref={projectTaskListRef}>
                         <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
                     </div>
                 </div>
+
             </section>
-        </article>
+        </article >
     );
 }
 

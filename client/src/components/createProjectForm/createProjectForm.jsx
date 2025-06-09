@@ -55,7 +55,7 @@ function CreateProjectForm() {
                     console.error("Can't get users");
                 }
             } catch (err) {
-                console.error("Error getting users:", err);
+                console.error("Error getting users: ", err);
             }
         };
 
@@ -111,18 +111,32 @@ function CreateProjectForm() {
 
     return (
         <article className="create-project-form-page article">
+
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Project {projectName} successfully created! If you want to give access to more users, you can do it from the project page.</p>
+                        <button className="button-modal button" onClick={() => navigate("/")}>Go to projects<i>!</i></button>
+                    </div>
+                </div>
+            )}
+
             <section className="page-header">
                 <h2 className="page-title">New<br />Project</h2>
             </section>
 
             <section className="page-content">
+
                 <form onSubmit={handleSubmit} className="create-project-form">
+                    <h2>Create a new project</h2>
+
                     <label htmlFor="projectName">Name: </label>
                     <input
                         type="text"
                         id="projectName"
                         value={projectName}
                         onChange={(e) => setProjectName(e.target.value)}
+                        required
                     />
 
                     <label htmlFor="space">Select a clickUp Space: </label>
