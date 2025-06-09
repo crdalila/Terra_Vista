@@ -1,24 +1,24 @@
 Company,Industry,GrowthPotential,CulturalFit,Reputation,Profitability,LongTermRelationship,ClientPortfolioWeight,ClientStrategicFit
-Airbnb,5,4,4,5,5,5,0.044,3.77
-UN,2,2,3,3,1,5,0.096,2.25
-Abbott,4,4,4,4,4,5,0.076,3.39
-Healthline Media,4,4,4,4,3,4,0.064,3.08
-Talkdesk,4,5,4,4,2,4,0.024,3.01
-Stifel Bank,3,4,3,3,4,4,0.024,2.81
-DAT,3,3,3,3,3,4,0.015,2.56
-Ruby's Rainbow,1,1,4,2,1,3,0.088,1.74
-SEI,4,5,4,4,4,4,0.064,3.33
-New York Hall of Science,2,2,3,3,1,4,0.074,2.09
-USC,3,3,4,4,3,5,0.012,3.01
+Airbnb,5,4,4,5,5,5,0.044,3.74
+UN,2,2,3,3,1,5,0.096,2.2
+Abbott,4,4,4,4,4,5,0.076,3.43
+Healthline Media,4,4,4,4,3,4,0.064,3.11
+Talkdesk,4,5,4,4,2,4,0.024,3.12
+Stifel Bank,3,4,3,3,4,4,0.024,2.92
+DAT,3,3,3,3,3,4,0.015,2.57
+Ruby's Rainbow,1,1,4,2,1,3,0.088,1.59
+SEI,4,5,4,4,4,4,0.064,3.46
+New York Hall of Science,2,2,3,3,1,4,0.074,2.02
+USC,3,3,4,4,3,5,0.012,2.91
 Essilor Luxottica,5,4,4,5,5,5,0.097,3.8
-Healthgrades,3,3,3,3,3,3,0.085,2.44
-Lucet,3,3,3,2,2,3,0.029,2.11
-Valorx,4,3,4,4,3,4,0.026,2.96
-Unqork,4,5,4,4,2,4,0.027,3.01
-nTopology,4,5,4,4,2,4,0.037,3.02
-Rev Clinics,2,2,3,2,3,3,0.057,2.08
-Dental Sleep Solutions,2,2,3,2,3,3,0.049,2.07
-Cardata,4,4,3,3,3,4,0.036,2.77
-Transcent,3,3,3,3,3,3,0.065,2.43
-Telink,5,5,4,4,4,5,0.023,3.56
-AXA,5,4,4,5,5,5,0.036,3.77
+Healthgrades,3,3,3,3,3,3,0.085,2.49
+Lucet,3,3,3,2,2,3,0.029,2.18
+Valorx,4,3,4,4,3,4,0.026,2.88
+Unqork,4,5,4,4,2,4,0.027,3.13
+nTopology,4,5,4,4,2,4,0.037,3.14
+Rev Clinics,2,2,3,2,3,3,0.057,2.06
+Dental Sleep Solutions,2,2,3,2,3,3,0.049,2.05
+Cardata,4,4,3,3,3,4,0.036,2.89
+Transcent,3,3,3,3,3,3,0.065,2.47
+Telink,5,5,4,4,4,5,0.023,3.67
+AXA,5,4,4,5,5,5,0.036,3.74
