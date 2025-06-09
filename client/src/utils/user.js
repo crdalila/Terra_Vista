@@ -43,7 +43,6 @@ async function changeUserPassword({ oldPassword, newPassword, userId }) {
 		newPassword: newPassword,
         confirmPassword: newPassword
 	};
-    console.log(data);
 
 	const result = await fetchData(`/user/password/${userId}`, "PUT", data);
 	return result;
