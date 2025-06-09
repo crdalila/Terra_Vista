@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -12,6 +12,7 @@ import userService from '../../utils/user';
 import './ProjectDetail.css';
 
 import DoughnutChart from "../../components/doughnutChart/DoughnutChart";
+import user from "../../utils/user";
 
 function ProjectDetail() {
     const navigate = useNavigate();
@@ -84,26 +85,25 @@ function ProjectDetail() {
     };
 
     const ProgressBarChart = ({ project }) => {
-		if (!project || !project.tasks || project.tasks.length === 0) {
-			return <p>There are no tasks.</p>;
-		}
+        if (!project || !project.tasks || project.tasks.length === 0) {
+            return <p>There are no tasks.</p>;
+        }
 
-		const totalTasks = project.tasks.length;
-		const completedTasks = project.tasks.filter(task => task.done).length;
-		const percentage = Math.round((completedTasks / totalTasks) * 100);
+        const totalTasks = project.tasks.length;
+        const completedTasks = project.tasks.filter(task => task.done).length;
+        const percentage = Math.round((completedTasks / totalTasks) * 100);
 
-		return (
-			<div className="progress-container">
-				<div className="progress-bar" style={{ width: `${percentage}%` }} />
-				<span className="progress-label">{percentage}% completed</span>
-			</div>
-		);
-	};
-
+        return (
+            <div className="progress-container">
+                <div className="progress-bar" style={{ width: `${percentage}%` }} />
+                <span className="progress-label">{percentage}% completed</span>
+            </div>
+        );
+    };
 
     useEffect(() => {
         fetchUsers();
-    }, fetchUsers);
+    }, []);
 
     const handleAddUsersToProject = async (e) => {
         e.preventDefault();
@@ -125,8 +125,6 @@ function ProjectDetail() {
         }
     };
 
-
-    console.log("UsersProject", usersInProject);
     return (
         <article className="project-page article">
 
@@ -139,53 +137,55 @@ function ProjectDetail() {
                 </div>
             </section>
 
-            <section className="page-content">
-                <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                    <label htmlFor="users">Select clients to add to this project: </label>
-                    <select
-                        id="users"
-                        value={selectedUsers}
-                        multiple
-                        required
-                        onChange={(e) =>
-                            setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                        }
-                    >
-                        <option disabled value="">-- Select clients --</option>
-                        {users.map(user => (
-                            <option key={user._id} value={user._id}>
-                                {user.name} ({user.email})
-                            </option>
-                        ))}
-                    </select>
+            {userData && (userData.role === "admin" || userData.role === "projectManager") && (
+                <section className="page-content">
+                    <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                        <label htmlFor="users">Select clients to add to this project: </label>
+                        <select
+                            id="users"
+                            value={selectedUsers}
+                            multiple
+                            required
+                            onChange={(e) =>
+                                setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                            }
+                        >
+                            <option disabled value="">-- Select clients --</option>
+                            {users.map(user => (
+                                <option key={user._id} value={user._id}>
+                                    {user.name} ({user.email})
+                                </option>
+                            ))}
+                        </select>
 
-                    <button type="submit" disabled={loading} className="add-user-button button">
-                        {loading ? "Adding..." : "Add User"}
-                    </button>
-                </form>
+                        <button type="submit" disabled={loading} className="add-user-button button">
+                            {loading ? "Adding..." : "Add User"}
+                        </button>
+                    </form>
+                </section>
+            )}
 
-                <div className="projects-data"> {/* TODO COMPONENTS */}
-                    {usersInProject.map(user => (
-                        <p key={user._id} value={user._id}>
-                            {user.name} ({user.email})
-                        </p>
-                    ))}
-                    <p>Notifications</p>
-                    <p>Review history</p>
+            <div className="projects-data">
+                {usersInProject.map(user => (
+                    <p key={user._id} value={user._id}>
+                        {user.name} ({user.email})
+                    </p>
+                ))}
+                <p>Notifications</p>
+                <p>Review history</p>
 
-                    <div className="project--chart">
-                        <p>Progress</p>
-                        <ProgressBarChart project={project} />
-                    </div>
+                <div className="project--chart">
+                    <p>Progress</p>
+                    <ProgressBarChart project={project} />
                 </div>
+            </div>
 
-                <div className="project-tasklist"> {/* TODO COMPONENTS */}
-                    <div ref={projectTaskListRef}>
-                        <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
-                    </div>
+            <div className="project-tasklist">
+                <div ref={projectTaskListRef}>
+                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
                 </div>
-            </section>
-        </article>
+            </div>
+        </article >
     );
 }
 

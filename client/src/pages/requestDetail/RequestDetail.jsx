@@ -19,7 +19,6 @@ const handleSendComment = async () => {
     if (!newComment.trim()) return;
 
     try {
-        console.log("task", task)
         await sendCommentToClickUp(task.clickUpTaskId, newComment);
         alert("Comment sent to ClickUp!");
         setNewComment("");
