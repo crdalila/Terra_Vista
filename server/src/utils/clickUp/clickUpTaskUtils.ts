@@ -133,10 +133,10 @@ export const validateUserAccess = async (listId: string, token: string) => {
 
 // Type 0 = text
 const REQUIRED_FIELDS = [
-	{ name: "Device", type: 0},
-	{ name: "Browser", type: 0},
-	{ name: "Page", type: 0},
-	{ name: "Requester", type: 0},
+	{ name: "Device", type: "short_text"},
+	{ name: "Browser", type: "short_text"},
+	{ name: "Page", type: "short_text"},
+	{ name: "Requester", type: "short_text"},
 ];
 
 // Function to check if all custom fields are present and create them if not
@@ -165,16 +165,15 @@ export async function ensureCustomFields(listId: string, token:string) {
 		} else {
 			// Create custom field if it doesn't exit
 			const createRes = await axios.post(
-				"https://api.clickup.com/api/v2/custom_field",
+				`https://api.clickup.com/api/v2/list/${listId}/field`,
 				{
 					name: field.name,
-					type: field.type,
-					required: false,
-					list_id: listId
+					type: field.type
 				},
 				{
 					headers: {
 						Authorization: token,
+      					"Content-Type": "application/json"
 					}
 				}
 			);
