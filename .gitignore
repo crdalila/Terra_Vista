@@ -1,5 +1,8 @@
 .DS_Store
 ml_api/models/
+
+instrucciones_ngrok.txt
+
 .scannerwork
 sonar-project.properties
 .env

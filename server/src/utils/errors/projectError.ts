@@ -34,10 +34,18 @@ class TaskDoesNotExist extends Error {
     }
 }
 
+class ProjectAlreadyExists extends Error {
+  statusCode = 409;
+  constructor() {
+    super("Project with this clickUpSpaceId already exists");
+  }
+}
+
 
 export {
     DataDoesNotExist,
     ProjectIdNotGiven,
     ProjectDoesNotExist,
-    TaskDoesNotExist
+    TaskDoesNotExist,
+	ProjectAlreadyExists
 }
