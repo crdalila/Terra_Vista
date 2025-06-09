@@ -5,12 +5,14 @@
     background-color: var(--items-color);
     padding: 2em;
     border-radius: 20px;
+
+    position: relative;
 }
 
 .project--data {
     display: flex;
-    flex-flow: row;
-    gap: 1em;
+    flex-flow: column;
+    gap: 2em;
     align-items: center;
 }
 
@@ -20,4 +22,10 @@
 
 .project--chart {
     width: 5em;
+}
+
+.project-card__trash {
+    position: absolute;
+    top: 2em;
+    right: 2em;
 }

@@ -1,14 +1,31 @@
 import ProjectList from "../../components/projectList/ProjectList";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import "./Projects.css"
 
 function Projects() {
+    const userData = useContext(AuthContext);
+    const canCreateProject =
+        userData && userData.role === "admin" || userData.role === "projectManager";
 
     return (
         <article className="projects article">
-            <div className="projects-header">
-                <h1>Projects</h1>
+            <div className="projects-header page-header">
+                <h2 className="page-title">Projects</h2>
+
+                <div className="page-info">
+                    <h3>Add projects from ClickUp<i>!</i></h3>
+                    <p>Description</p>
+                    <div className="page-buttons">
+                        {canCreateProject && (
+                            <Link to="/create-project" className="create-project-button button">Add Project From ClickUp<i>!</i></Link>
+                        )}
+                    </div>
+                </div>
             </div>
-            <ProjectList />
+            <div className="page-content">
+                <ProjectList />
+            </div>
         </article>
     )
 }
