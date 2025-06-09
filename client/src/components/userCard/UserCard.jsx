@@ -30,6 +30,7 @@ function UserCard() {
 
     const handleRemoveUser = async (userId) => {
         try {
+            console.log("User Id", userId);
             const result = await userService.removeUser(userId);
 
             if (result.error) {

@@ -54,8 +54,8 @@ async function changeUserPassword({ oldPassword, newPassword, userId }) {
 }
 
 
-async function removeUser() {
-    const result = await fetchData("/user/:id", "DELETE");
+async function removeUser(userId) {
+    const result = await fetchData(`/user/${userId}`, "DELETE");
     return result;
 }
 
