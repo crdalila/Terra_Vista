@@ -7,14 +7,18 @@ function NotificationList(projects = []) {
 
     useEffect(() => {
         let mynotifications = [];
-        projects.forEach((project)=> {
+        if(projects) {
+            projects.forEach((project)=> {
             project.notifications.forEach((task)=>{
                 mynotifications.push(task);
             });
         });
         setNotifications(mynotifications);
-    },setNotifications);
+        }
+        
+    },[setNotifications]);
 
+    if(!notifications) return null;
     return (
         <article className="notifications">
             <h2>notificationsications</h2>

@@ -54,7 +54,8 @@ function ProjectDetail() {
     }
 
     const fetchUsers = async () => {
-            try {
+        try {
+            if (userData.role != "client") {
                 const result = await userService.getAllUsers();
                 if (Array.isArray(result)) {
                     const clients = result.filter(user => user.role === "client");
@@ -78,10 +79,11 @@ function ProjectDetail() {
                 } else {
                     console.error("Can't get users");
                 }
-            } catch (err) {
-                console.error("Error getting users:", err);
             }
-        };
+        } catch (err) {
+            console.error("Error getting users:", err);
+        }
+    };
 
 
     useEffect(() => {
