@@ -19,17 +19,22 @@ const storage = multer.diskStorage({
   }
 });
 
-export const upload = multer({ storage: storage });
+export const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 8000000 // Compliant: 8MB
+  }
+});
 
-export function removeFile(fileName : string,folder="images") {
-    try{
-        const filePath = path.join(process.cwd(), 'public', folder, `${fileName}`);
-        fs.unlinkSync(filePath);
-        return true;
-    }catch(error){
-        console.log(error);
-        return false;
-    }
+export function removeFile(fileName: string, folder = "images") {
+  try {
+    const filePath = path.join(process.cwd(), 'public', folder, `${fileName}`);
+    fs.unlinkSync(filePath);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 
