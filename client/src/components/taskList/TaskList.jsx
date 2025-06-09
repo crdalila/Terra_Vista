@@ -5,16 +5,23 @@ import { ProjectContext } from "../../context/ProjectContext";
 import { AuthContext } from "../../context/AuthContext";
 import TaskCard from "../taskCard/TaskCard";
 import "./TaskList.css";
+import { sendFeedback } from "../../utils/clickup";
 
 function TaskList({ tasks = [], projectId }) {
     const { userData } = useContext(AuthContext);
     const { selectedProject } = useContext(ProjectContext);
+    const issuesNotSent = tasks.filter(task => task.isSend === "false"); //ARRAY?
 
     // Show only if it's client
     const isClient = userData && userData.role === "client";
 
     const handleFeedback = () => {
-        //TODO llamar a enviar feedback de tasks que conecta con CLickup
+        try {
+            sendFeedback(userData._id, issuesNotSent);
+            alert ("Feedback sent successfully");
+        } catch (err) {
+            console.error("Error sending feedback", err);
+        }
     }
 
     return (
