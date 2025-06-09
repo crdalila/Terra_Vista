@@ -56,7 +56,7 @@ async function register(userData: userInterface) {
     const newUser = new User(userData);
     await newUser.save();
     const userWithoutPassword = await User.findOne({ email: userData.email })
-        .select(userSelect);
+        ;
     return userWithoutPassword;
 }
 
