@@ -1,29 +1,22 @@
-import { useEffect,useState } from "react";
+
 import NotificationCard from "./NotificationCard";
+import { Fragment } from "react";
+function NotificationList({ projects }) {
 
-function NotificationList(projects = []) {
 
-    const [notifications, setNotifications] = useState([]);
-
-    useEffect(() => {
-        let mynotifications = [];
-        if(projects) {
-            projects.forEach((project)=> {
-            project.notifications.forEach((task)=>{
-                mynotifications.push(task);
-            });
-        });
-        setNotifications(mynotifications);
-        }
-        
-    },[setNotifications]);
-
-    if(!notifications) return null;
     return (
         <article className="notifications">
             <h2>notificationsications</h2>
-            {notifications.map((notif)=>{
-                <NotificationCard notif={notif}/>
+            {projects.map((project) => {
+                return (
+                    <Fragment key={project._id}>
+                        {project.notifications.map((notif) => {
+                            return (
+                                <NotificationCard key={project._id + notif} notif={notif} />
+                            );
+                        })}
+                    </Fragment>
+                );
             })}
         </article>
     );

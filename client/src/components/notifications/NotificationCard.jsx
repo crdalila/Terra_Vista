@@ -1,5 +1,5 @@
 
-function NotificationCard(notif) {
+function NotificationCard({notif}) {
     return (
         <article className="notification-card">
             <div className="notification-card--icon">
@@ -9,7 +9,7 @@ function NotificationCard(notif) {
             </div>
 
             <div className="notification-card--info">
-                {notif}
+                <p>{notif}</p>
             </div>
         </article>
     )
