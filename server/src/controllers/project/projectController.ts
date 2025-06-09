@@ -145,30 +145,29 @@ async function deleteTask(projectId: string, taskId: string) {
 function getFilteredTasks(tasks: [taskInterface], filter: String) {
   switch (filter.toString()) {
     case "request":
-      console.log(filter.toString());
       return tasks.sort((a, b) => {
         return (requestOrder.indexOf(a.requestType as requestEnum)) -
           (requestOrder.indexOf(b.requestType as requestEnum));
       });
     case "status":
-      console.log(filter.toString());
       return tasks.sort((a, b) => {
         return (statusOrder.indexOf(a.status as statusEnum)) -
           (statusOrder.indexOf(b.status as statusEnum));
       });
 
     case "requester":
-      console.log(filter.toString());
       return tasks.sort((a, b) => {
         return parseInt(a.requester.valueOf()) - parseInt(b.requester.valueOf());
       });
     case "date":
-      console.log(filter.toString());
       return tasks.sort((a, b) => {
         return (a.inputDate.valueOf()) - (b.inputDate.valueOf());
       });
+    case "send":
+      return tasks.sort((a, b) => {
+        return Number(b.isSend) - Number(a.isSend);
+      });
     default:
-      console.log(filter.toString());
       return tasks;
   }
 }

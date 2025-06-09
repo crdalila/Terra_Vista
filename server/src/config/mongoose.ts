@@ -48,7 +48,7 @@ const seedData = async () => {
     page: 'All Pages',
     device: 'Mobile',
     browser: 'Chrome',
-    isSend: false
+    isSend: true
   });
 
   const task3 = new TaskModel({
