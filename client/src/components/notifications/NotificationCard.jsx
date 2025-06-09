@@ -1,8 +1,5 @@
-function NotificationCard() {
-    const handleNotification = () => {
-        
-    }
 
+function NotificationCard(notif) {
     return (
         <article className="notification-card">
             <div className="notification-card--icon">
@@ -12,10 +9,7 @@ function NotificationCard() {
             </div>
 
             <div className="notification-card--info">
-                <p>Notification</p>
-                <p>Description</p>
-                <p>Date</p>
-                <input type="checkbox">Read</input>
+                {notif}
             </div>
         </article>
     )
