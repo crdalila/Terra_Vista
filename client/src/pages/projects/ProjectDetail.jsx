@@ -95,7 +95,6 @@ function ProjectDetail() {
             alert("Please select at least one user.");
             return;
         }
-
         try {
             for (const userId of selectedUsers) {
                 await userService.addUserToProject(userId, selectedProject._id);
