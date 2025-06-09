@@ -34,7 +34,6 @@ function TaskCard({ task, projectId }) {
     };
 
 
-
     return (
         <article className="task-card">
 

@@ -18,7 +18,7 @@ function RequestForm() {
     const [isEditing, setIsEditing] = useState(!isExisting);
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null);
-    
+
     const [formData, setFormData] = useState({
         name: task?.name || "",
         requestType: task?.requestType || "",
@@ -42,7 +42,6 @@ function RequestForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form with:", formData);
 
         if (!selectedProject || !userData) {
             console.error("Missing selectedProject or userData", selectedProject, userData);
