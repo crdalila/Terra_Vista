@@ -78,10 +78,10 @@ function TaskCard({ task, projectId }) {
                     <div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
                         <p>Are you sure you want to delete this request?</p>
                         <div className="delete-confirmation__buttons">
-                            <button onClick={() => setIssueToDelete(null)} className="button-cancel">
+                            <button onClick={() => setIssueToDelete(null)} className="button-cancel button">
                                 Cancel
                             </button>
-                            <button onClick={() => handleRemoveIssue(issueToDelete._id)} className="button-delete">
+                            <button onClick={() => handleRemoveIssue(issueToDelete._id)} className="button-delete button">
                                 Delete
                             </button>
                         </div>

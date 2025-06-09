@@ -3,3 +3,42 @@
     flex-flow: column;
     gap: 2em;
 }
+
+.project-detail__info--buttons {
+    display: flex;
+    flex-flow: row;
+    gap: 1em;
+}
+
+.project-instructions-button, .add-user-to-project-button {
+    background-color: var(--main-color);
+    color: var(--text-color);
+}
+
+.start-project-button {
+    background-color: var(--text-color);
+    color: var(--main-color);
+}
+
+.project-instructions-button:hover, .add-user-to-project-button:hover, .start-project-button:hover {
+    border-radius: 10px;
+}
+
+
+
+.projects-data, .project-tasklist {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+}
+
+.project--pannels {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    gap: 2em;
+}
+
+.project--pannels p {
+    width: 100%;
+}

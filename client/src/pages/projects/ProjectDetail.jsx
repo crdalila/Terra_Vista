@@ -81,70 +81,64 @@ function ProjectDetail() {
     return (
         <article className="project-page article">
 
-            <section className="project-detail">
-                <h2>{selectedProject.name}</h2>
-                <div className="project-detail__info">
+            <section className="project-detail page-header">
+                <h2 className="page-title">{selectedProject.name}</h2>
+                <div className="project-detail__info page-info">
                     <div className="project-detail__info--text">
                         <h3>Your website is ready for you.</h3>
                         <p>Explore your website and observe the details.</p>
-                        <Link to='/instructions' className="button">Instructions</Link>
                     </div>
-                    {userData && userData.role === "projectManager" && (
-                        <button className="add-user-to-project-button button" onClick={() => setShowAddUserForm(prev => !prev)}>{showAddUserForm ? "Cancel" : "Add User To Project"}</button>
-                    )}
-                    {showAddUserForm && (
-                        <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                            <label htmlFor="users">Select clients to add to this project: </label>
-                            <select
-                                id="users"
-                                value={selectedUsers}
-                                multiple
-                                required
-                                onChange={(e) =>
-                                    setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                                }
-                            >
-                                <option value="">-- Select clients --</option>
-                                {users.map(user => (
-                                    <option key={user._id} value={user._id}>
-                                        {user.name} ({user.email})
-                                    </option>
-                                ))}
-                            </select>
+                    <div className="project-detail__info--buttons">
+                        {userData && userData.role === "projectManager" && (
+                            <button className="add-user-to-project-button button" onClick={() => setShowAddUserForm(prev => !prev)}>{showAddUserForm ? "Cancel" : "Add User To Project"}</button>
+                        )}
+                        {showAddUserForm && (
+                            <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                                <label htmlFor="users">Select clients to add to this project: </label>
+                                <select
+                                    id="users"
+                                    value={selectedUsers}
+                                    multiple
+                                    required
+                                    onChange={(e) =>
+                                        setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                                    }
+                                >
+                                    <option value="">-- Select clients --</option>
+                                    {users.map(user => (
+                                        <option key={user._id} value={user._id}>
+                                            {user.name} ({user.email})
+                                        </option>
+                                    ))}
+                                </select>
 
-                            <button type="submit" disabled={loading} className="add-user-button button">
-                                {loading ? "Adding..." : "Add User"}
-                            </button>
-                        </form>
-                    )}
+                                <button type="submit" disabled={loading} className="add-user-button button">
+                                    {loading ? "Adding..." : "Add User"}
+                                </button>
+                            </form>
+                        )}
 
-
-                    <div className="project-detail__info--icons">
-                        <div className="project-detail__info--icon-list">
-                            {/* <svg></svg>
-                            <svg></svg>
-                            <svg></svg> */}
-                        </div>
                         <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks</button>
+
                     </div>
                 </div>
             </section>
 
-            <section className="projects-data"> {/* TODO COMPONENTS */}
-                <p>Notifications</p>
-                <p>Review history</p>
+            <section className="project-content page-content">
+                <div className="projects-data"> {/* TODO COMPONENTS */}
+                    <div className="project--pannels">
+                        <p>Notifications</p>
+                        <p>Review history</p>
+                    </div>
 
-                <div className="project--chart">
-                    <p>Progress</p>
-                    <DoughnutChart project={project} />
+                    <div className="projects-data--chart">
+                        <p>Progress</p>
+                        <DoughnutChart project={project} />
+                    </div>
                 </div>
-            </section>
 
-            <section className="project-tasklist"> {/* TODO COMPONENTS */}
-                <div ref={projectTaskListRef}>
-                    <h2>Issues</h2>
-                    <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
-
+                <div className="project-tasklist"> {/* TODO COMPONENTS */}
+                    <TaskList ref={projectTaskListRef} tasks={selectedProject.tasks} projectId={selectedProject._id} />
                 </div>
             </section>
         </article>

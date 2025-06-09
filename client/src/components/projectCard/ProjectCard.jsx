@@ -42,7 +42,7 @@ function ProjectCard({ project }) {
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
-					<img src="../../../public/images/icons-card.png" alt="" />
+					<img src="../../../public/images/icons-card.png" alt="icons" className="project--icons" />
 					<p>{project.description}</p> {/* TODO ADD DESCRIPTION */}
 				</div>
 				<div className="project--chart">

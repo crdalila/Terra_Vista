@@ -1,38 +1,23 @@
-.project-data {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
-    gap: 1rem;
-    background-color: var(--items-color);
-    border: 1px solid black;
-    padding: 1rem;
-    border-radius: 10px;
-}
-
 .project {
-    width: 100%;
-    max-width: 500px;
-
-    background-color: var(--items-color);
-    border-radius: 20px;
-    padding: 1rem;
-    text-decoration: none;
-    color: black;
-
-    display: flex;
-    flex-flow: row;
-    align-items: flex-end;
-    gap: 1em;
-}
-
-.project--info {
     display: flex;
     flex-flow: column;
+
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+}
+
+.project--data {
+    display: flex;
+    flex-flow: row;
     gap: 1em;
+    align-items: center;
+}
+
+.project--icons {
+    width: 8em;
 }
 
 .project--chart {
-    max-width: 10em;
+    width: 5em;
 }
