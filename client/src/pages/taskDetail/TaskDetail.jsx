@@ -16,15 +16,18 @@ function TaskDetail() {
 
     if (!task) return null;
 
-//TODO buttons edit tasks
+    //TODO buttons edit tasks
 
     return (
         <article className="task-detail article">
-            <h1>ISSUE DETAIL</h1>
-{/*             <section className="task-detail--buttons">
+            <div className="page-header">
+                <h1 className="page-title">ISSUE DETAIL</h1>
+
+            </div>
+            {/*             <section className="task-detail--buttons">
                 <button className="button-edit-tasks">Update Tasks</button>
             </section> */}
-            <section className="task-detail--info">
+            <section className="task-detail--info page-content">
                 <h2>{task.name}</h2>
                 <p><strong>Request:</strong> {task.request}</p>
                 <p><strong>Status:</strong> {task.status}</p>

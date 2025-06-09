@@ -24,11 +24,15 @@ function TaskList({ tasks = [], projectId }) {
 
     return (
         <article className="tasks-list">
+            <section className="tasks-list--title">
+                <h2>Issues</h2>
+            </section>
 
             {isClient && (
                 <section className="tasks-list--buttons">
-                    <button onClick={handleFeedback} className="button-feedback">Send Feedback</button>
-                    
+
+                    <button onClick={handleFeedback} className="button-feedback button">Send Feedback</button>
+
                     <div className="tasks-buttons">
                         <Link to="/request" state={{ project: selectedProject }}>
                             <button className="button-create-task">+ Create Request</button>
