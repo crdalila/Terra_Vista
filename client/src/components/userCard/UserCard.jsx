@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import userService from "../../utils/user";
-import user from "../../utils/user";
 
 function UserCard() {
     const [users, setUsers] = useState([]);
 
     const [userToDelete, setUserToDelete] = useState(null);
-    const [error, setError] = useState("");
+    const [setError] = useState("");
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
@@ -30,7 +29,6 @@ function UserCard() {
 
     const handleRemoveUser = async (userId) => {
         try {
-            console.log("User Id", userId);
             const result = await userService.removeUser(userId);
 
             if (result.error) {
