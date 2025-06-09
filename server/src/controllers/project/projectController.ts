@@ -7,25 +7,19 @@ import Task, { requestEnum, requestOrder, statusEnum, statusOrder, taskInterface
 //================================Error Management===============================
 import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../utils/errors/projectError.ts";
 import { removeFile } from "../../utils/middlewares/multerMiddleware.ts";
-import { projectSelect, taskSelect } from "../../utils/modelsSelect.ts";
+import { projectSelect } from "../../utils/modelsSelect.ts";
 //===============================================================================
 
 async function getProjectById(id: string) {
   //Finds project, makes tasks model be inside
-  const project = await Project.findById(id).populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect);
+  const project = await Project.findById(id).populate("tasks").select(projectSelect);
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
 
 async function getAllProjects() {
   //Finds all projects, makes tasks model be inside
-  const projects = await Project.find().populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect);
+  const projects = await Project.find().populate("tasks").select(projectSelect);
   if (!projects || projects.length <= 0) throw new ProjectDoesNotExist();
   return projects;
 }
@@ -54,10 +48,7 @@ async function createProject(data: projectInterface) {
 async function editProject(id: string, data: projectInterface) {
   if (!data) throw new DataDoesNotExist();
   //Finds project, updates project, makes tasks model be insides
-  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect);
+  const project = await Project.findByIdAndUpdate(id, data, { new: true }).populate("tasks").select(projectSelect);
   if (!project) throw new ProjectDoesNotExist();
   return project;
 }
@@ -72,10 +63,7 @@ async function removeProject(id: string) {
 async function finalizeProject(id: string) {
   //Finds project and sets isFinalize to true
   const finalizeProject = await Project.findByIdAndUpdate(
-    id, { $set: { isFinalize: true } }, { new: true }).populate({
-      path: 'tasks',
-      select: taskSelect
-    }).select(projectSelect);
+    id, { $set: { isFinalize: true } }, { new: true }).populate("tasks").select(projectSelect);
   if (!finalizeProject) throw new ProjectDoesNotExist();
 
   return finalizeProject;
@@ -86,10 +74,7 @@ async function createTask(projectId: string, taskData: taskInterface) {
   //Creates new task
   const newTask = new Task(taskData);
   await newTask.save();
-  let project = (await Project.findById(projectId).populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect));
+  let project = (await Project.findById(projectId).populate("tasks").select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
   project.tasks.push(newTask);
 
@@ -99,10 +84,7 @@ async function createTask(projectId: string, taskData: taskInterface) {
 
 async function editTask(projectId: string, taskId: string, taskData: taskInterface) {
 
-  let project = (await Project.findById(projectId).populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect));
+  let project = (await Project.findById(projectId).populate("tasks").select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
 
 
@@ -120,10 +102,7 @@ async function editTask(projectId: string, taskId: string, taskData: taskInterfa
 
 async function deleteTask(projectId: string, taskId: string) {
 
-  let project = (await Project.findById(projectId).populate({
-    path: 'tasks',
-    select: taskSelect
-  }).select(projectSelect));
+  let project = (await Project.findById(projectId).populate("tasks").select(projectSelect));
   if (!project) throw new ProjectDoesNotExist();
 
   let task: taskInterface = (await Task.findById(taskId)) as taskInterface;

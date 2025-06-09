@@ -1,12 +1,10 @@
 .task-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
     cursor: pointer;
-    width: 20%;
+
+    width: fit-content;
 }
 
 .task-card__trash {
@@ -28,32 +26,25 @@
 }
 
 .delete-confirmation__content {
-    background-color: white;
+    background-color: var(--items-color);
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
 }
 
 .delete-confirmation__buttons {
-    margin-top: 1rem;
+    margin-top: 1em;
     display: flex;
-    gap: 1rem;
+    gap: 1em;
     justify-content: center;
 }
 
-.button-cancel,
-.button-delete {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
 .button-cancel {
-    background-color: #ccc;
+    background-color: var(--main-color);
+    color: var(--text-color);
 }
 
 .button-delete {
-    background-color: #e74c3c;
-    color: white;
+    background-color: var(--text-color);
+    color: var(--main-color);
 }

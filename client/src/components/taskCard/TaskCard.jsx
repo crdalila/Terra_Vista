@@ -15,7 +15,6 @@ function TaskCard({ task, projectId }) {
 
     const handleRemoveIssue = async (taskId) => {
         try {
-            console.log("attempting to remove task: ", taskId, "from project: ", projectId);
             const result = await taskUtils.removeTask(projectId, taskId);
 
             if (result.error) {
@@ -25,7 +24,6 @@ function TaskCard({ task, projectId }) {
                     ...prev,
                     tasks: prev.tasks.filter(task => task._id !== taskId),
                 }));
-                console.log("Task removed successfully");
             }
         } catch (error) {
             console.error("Error removing task: ", error);
@@ -65,7 +63,7 @@ function TaskCard({ task, projectId }) {
                     </section>
 
                     <section className="task-date">
-                        <p>{new Date(task.inputDate).toISOString().slice(0, 10).replaceAll("-", "/")}</p>
+                        <p>{new Date(task.inputDate).toLocaleDateString('en-CA').slice(0, 10)}</p>
                         
                     </section>
                 </Link>

@@ -3,11 +3,12 @@ import './Instructions.css'
 function Instructions() {
     return (
         <article className="instructions article">
-            <section className="instructions-text">
-                <h2>Instructions</h2>
+            <section className="page-header">
+                <h2 className="page-title">Manual</h2>
+            </section>
 
+            <section className="page-content">
                 {/* <video src=""></video> */}
-
                 <h3>What kind of request do you ask for?</h3>
                 <p>You can select between four kind of request types, which are:</p>
 
