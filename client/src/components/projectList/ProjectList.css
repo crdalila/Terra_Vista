@@ -1,12 +1,21 @@
-.project-list {
+.projects-list {
     display: flex;
     flex-flow: column;
     gap: 2em;
 }
 
 .create-project-button {
-    color: black;
-    border: 1px solid black;
-    background-color: var(--items-color);
+    width: fit-content;
+
+    background-color: var(--text-color);
+    color: var(--main-color);
+    cursor: pointer;
+}
+
+.projects-list--projects {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    gap: 2em;
 }
 

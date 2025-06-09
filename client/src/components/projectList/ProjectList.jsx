@@ -3,12 +3,12 @@ import { useContext } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
 import ProjectCard from "../projectCard/ProjectCard";
+
 import './ProjectList.css';
 
 function ProjectList({ projects = [] }) {
     const { userData } = useContext(AuthContext);
     projects = useLoaderData();
-	console.log("ProjectList received:", projects);
 
     const canCreateProject =
         userData && userData.role === "admin" || userData.role === "projectManager";
@@ -18,9 +18,7 @@ function ProjectList({ projects = [] }) {
         <article className="projects-list">
             
             {canCreateProject && (
-                <Link to="/create-project">
-                    <button className="create-project-button">Add Project From ClickUp</button>
-                </Link>
+                <Link to="/create-project" className="create-project-button button">Add Project From ClickUp<i>!</i></Link>
             )}
 
             <section className="projects-list--projects">

@@ -1,5 +1,6 @@
 import express from "express";
 import clickUpApiController from "../controllers/clickUp/clickUpApiController";
+import { handleClickUpWebhook } from "../controllers/clickUp/clickUpWebhookController";
 
 const router = express.Router();
 
@@ -26,15 +27,12 @@ router.put("/update/:userId/:taskId", clickUpApiController.updateTask);
 
 // Delete task
 router.delete("/delete/:userId/:taskId", clickUpApiController.deleteTask);
-/*
-// Update task status
-router.put("/status/:userId/:taskId", clickUpApiController.updateTaskStatus); */
+
+// Update task status and comments from clickup
+router.post("/webhook", handleClickUpWebhook);
 
 // Sync task
-router.post("/sync/:userId", (req, res, next) => {
-  console.log("🟠 ROUTE HIT: /clickup/sync/" + req.params.userId);
-  next(); // pasa al controlador real
-}, clickUpApiController.syncPendingTasksHandler);
+router.post("/sync/:userId", clickUpApiController.syncPendingTasksHandler);
 
 // Get tasks not sent to clickUp
 router.get("/pending/:userId", clickUpApiController.getPendingTasks);

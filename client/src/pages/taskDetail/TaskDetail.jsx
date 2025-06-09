@@ -1,16 +1,39 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import "./TaskDetail.css";
 
 function TaskDetail() {
-    const task = useLoaderData();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const task = location.state?.task;
+
+    useEffect(() => {
+        if (!task) {
+            navigate("/project"); // Volver si no hay task
+        }
+    }, [task, navigate]);
+
+    if (!task) return null;
+
+//TODO buttons edit tasks
 
     return (
-        <section className="task-detail">
-        </section>
+        <article className="task-detail article">
+            <h1>ISSUE DETAIL</h1>
+{/*             <section className="task-detail--buttons">
+                <button className="button-edit-tasks">Update Tasks</button>
+            </section> */}
+            <section className="task-detail--info">
+                <h2>{task.name}</h2>
+                <p><strong>Request:</strong> {task.request}</p>
+                <p><strong>Status:</strong> {task.status}</p>
+                <p><strong>Priority:</strong> {task.priority}</p>
+                <p><strong>Device:</strong> {task.device}</p>
+                <p><strong>Browser:</strong> {task.browser}</p>
+                <p><strong>Page:</strong> {task.page}</p>
+            </section>
+        </article>
     );
 }
 

@@ -63,7 +63,11 @@ interface taskInterface {
   request: String;
   page: String;
   screenshots: String;
-  comment: String;
+  comments?: {
+	author: string;
+	comment: string;
+	date: Date;
+  }[];
 }
 
 /**
@@ -138,9 +142,15 @@ const taskSchema = new mongoose.Schema<taskInterface>({
     type: String,
     required: false
   },
-  comment: {
-    type: String,
-    required: false
+  comments: {
+    type: [
+		{ 
+			author: String, 
+			comment: String, 
+			date: Date 
+		}
+	],
+	default: []
   }
 });
 

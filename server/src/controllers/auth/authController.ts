@@ -121,5 +121,5 @@ async function login(email: string, password: string) {
 export default {
     register,
     firstLogin,
-    login
+    login,
 }

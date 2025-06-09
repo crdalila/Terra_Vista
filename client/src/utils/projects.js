@@ -15,8 +15,14 @@ async function createProject(body) {
     return result;
 }
 
+async function deleteProject(projectId) {
+    const result = await fetchData(`/project/${projectId}`, "DELETE");
+    return result;
+}
+
 export default {
     getUserProjects,
     getProjectId,
-    createProject
+    createProject, 
+    deleteProject
 };

@@ -1,32 +1,21 @@
 .my-profile {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     gap: 1em;
 }
 
-.my-profile h2 {
-    font-size: 5rem;
-    font-family: var(--main-font);
-    font-weight: 700;
-}
-
-.my-profile h3 {
-    font-size: 3rem;
-    font-weight: 700;
-}
-
-.my-profile-left, .my-profile-right {
+.my-profile--left, .my-profile--right {
     width: 50%;
     height: 100%;
 }
 
-.my-profile-right {
+.my-profile--right {
     background-color: var(--items-color);
     padding: 2em;
     border-radius: 20px;
 }
 
-.my-profile-right.hidden {
+.my-profile--right.hidden {
     display: none;
 }
 
