@@ -109,15 +109,14 @@ function CreateProjectForm() {
         label: `${user.name} (${user.email})`,
     }));
 
-
     return (
         <article className="create-project-form-page article">
 
-                        {showSuccessModal && (
+            {showSuccessModal && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <p>Project {projectName} successfully created! {userData.name} can now access to it. If you want to give access to more users, you can do it from the project page.</p>
-                        <button className="button-modal" onClick={() => navigate("/project")}>Go to projects</button>
+                        <p>Project {projectName} successfully created! If you want to give access to more users, you can do it from the project page.</p>
+                        <button className="button-modal button" onClick={() => navigate("/projects")}>Go to projects</button>
                     </div>
                 </div>
             )}
@@ -127,18 +126,18 @@ function CreateProjectForm() {
             </section>
 
             <section className="page-content">
-            
-            <form onSubmit={handleSubmit}>
-                <h2>Create a new project</h2>
 
-                <label htmlFor="projectName">Name: </label>
-                <input
-                    type="text"
-                    id="projectName"
-                    value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
-                    required
-                />
+                <form onSubmit={handleSubmit}>
+                    <h2>Create a new project</h2>
+
+                    <label htmlFor="projectName">Name: </label>
+                    <input
+                        type="text"
+                        id="projectName"
+                        value={projectName}
+                        onChange={(e) => setProjectName(e.target.value)}
+                        required
+                    />
 
                     <label htmlFor="space">Select a clickUp Space: </label>
                     <Select

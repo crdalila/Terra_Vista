@@ -15,16 +15,20 @@ function RequestDetail() {
 
     const [newComment, setNewComment] = useState("");
 
-    const handleSendComment = () => {
-        try {
-            sendCommentToClickUp(task._id, newComment);
-            alert("Comment sent successfully");
-        } catch (err) {
-            console.error("Error sending comment", err);
-            alert("There was a problem sending the comment");
-        }
+const handleSendComment = async () => {
+    if (!newComment.trim()) return;
+
+    try {
+        console.log("task", task)
+        await sendCommentToClickUp(task.clickUpTaskId, newComment);
+        alert("Comment sent to ClickUp!");
         setNewComment("");
-    };
+        navigate(0);
+    } catch (err) {
+        console.error(err);
+        alert("Failed to send comment to ClickUp");
+    }
+};
 
     return (
         <article className="request-detail article">
