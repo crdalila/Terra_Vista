@@ -14,6 +14,8 @@ import ProjectDetail from "./pages/projects/ProjectDetail";
 import CreateProjectForm from "./components/createProjectForm/createProjectForm";
 import TaskDetail from "./pages/taskDetail/TaskDetail";
 import RequestForm from "./pages/requestForm/RequestForm";
+import Users from "./pages/users/Users";
+import UserCard from "./components/userCard/UserCard";
 
 import projectUtils from "./utils/projects";
 import { getUserAllProjects } from "./utils/user";
@@ -77,6 +79,10 @@ const router = createBrowserRouter([
                     {
                         path: "/request",
                         element: <RequestForm />
+                    },
+                    {
+                        path: '/users',
+                        element: <Users />
                     }
                 ],
             }

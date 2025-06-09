@@ -15,6 +15,7 @@ import catchError from '../../utils/errors/controllerError.ts';
 //Register a user or throws an error
 async function register(req: Request, res: Response) {
   try {
+    console.log("Register has been entered")
     //Get parameters for function to work
     const userData: userInterface = req.body;
 
