@@ -69,7 +69,6 @@ const projectSchema = new mongoose.Schema<projectInterface>({
   notifications: {
     type: [String],
     required: false,
-    default: ["firstNotif","secondNotif"]
   },
   tasks: [{
     /** An array of all projects the user is able to go to
