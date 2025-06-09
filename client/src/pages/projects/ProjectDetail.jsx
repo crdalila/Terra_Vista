@@ -92,31 +92,6 @@ function ProjectDetail() {
                         {userData && userData.role === "projectManager" && (
                             <button className="add-user-to-project-button button" onClick={() => setShowAddUserForm(prev => !prev)}>{showAddUserForm ? "Cancel" : "Add User To Project"}</button>
                         )}
-                        {showAddUserForm && (
-                            <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                                <label htmlFor="users">Select clients to add to this project: </label>
-                                <select
-                                    id="users"
-                                    value={selectedUsers}
-                                    multiple
-                                    required
-                                    onChange={(e) =>
-                                        setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                                    }
-                                >
-                                    <option value="">-- Select clients --</option>
-                                    {users.map(user => (
-                                        <option key={user._id} value={user._id}>
-                                            {user.name} ({user.email})
-                                        </option>
-                                    ))}
-                                </select>
-
-                                <button type="submit" disabled={loading} className="add-user-button button">
-                                    {loading ? "Adding..." : "Add User"}
-                                </button>
-                            </form>
-                        )}
 
                         <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks</button>
 
@@ -125,6 +100,32 @@ function ProjectDetail() {
             </section>
 
             <section className="project-content page-content">
+                {showAddUserForm && (
+                    <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                        <label htmlFor="users">Select clients to add to this project: </label>
+                        <select
+                            id="users"
+                            value={selectedUsers}
+                            multiple
+                            required
+                            onChange={(e) =>
+                                setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                            }
+                        >
+                            <option value="">-- Select clients --</option>
+                            {users.map(user => (
+                                <option key={user._id} value={user._id}>
+                                    {user.name} ({user.email})
+                                </option>
+                            ))}
+                        </select>
+
+                        <button type="submit" disabled={loading} className="add-user-button button">
+                            {loading ? "Adding..." : "Add User"}
+                        </button>
+                    </form>
+                )}
+
                 <div className="projects-data"> {/* TODO COMPONENTS */}
                     <div className="project--pannels">
                         <p>Notifications</p>

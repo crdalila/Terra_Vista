@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import userService from "../../utils/user";
 import user from "../../utils/user";
 
+import "./UserCard.css";
+
 function UserCard() {
     const [users, setUsers] = useState([]);
 
@@ -47,7 +49,7 @@ function UserCard() {
         <article className="user-card">
             {users.map(user => (
                 <div key={user._id}>
-                    <p>{user.name}</p>
+                    <p className="user-card__name">{user.name}</p>
                     <p>{user.email}</p>
 
                     {/*DELETE BUTTON*/}
