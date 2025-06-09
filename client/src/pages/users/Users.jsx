@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import userService from "../../utils/user";
 
 import UserCard from "../../components/userCard/UserCard";
@@ -6,27 +6,8 @@ import UserCard from "../../components/userCard/UserCard";
 import "./Users.css";
 
 function Users() {
-    const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
-
-    // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
-    const fetchUsers = async () => {
-        try {
-            const result = await userService.getAllUsers();
-            if (Array.isArray(result)) {
-                const clients = result.filter(user => user.role === "client");
-                setUsers(clients);
-            } else {
-                console.error("Can't get users");
-            }
-        } catch (err) {
-            console.error("Error getting users:", err);
-        }
-    };
-
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+    const [keyValue, setKeyValue] = useState(0);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +20,7 @@ function Users() {
             const result = await userService.createUser(newUser);
             if (result && result._id) {
                 setNewUser({ name: "", email: "", role: "client" });
-                await fetchUsers(); // Refresca la lista de usuarios
+                setKeyValue(keyValue => keyValue + 1);
             } else {
                 console.error("Error creating user");
             }
@@ -50,8 +31,10 @@ function Users() {
 
     return (
         <article className="users article">
-            <section className="page-header">
-                <h2 className="page-title">Users</h2>
+            <h2>Users</h2>
+            <section className="users-list">
+                <h3>Users List</h3>
+                <UserCard key={keyValue} />
             </section>
             <section className="page-content">
                 <div className="users-list">

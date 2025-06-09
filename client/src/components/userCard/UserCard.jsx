@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import userService from "../../utils/user";
-import user from "../../utils/user";
 
 import "./UserCard.css";
 
@@ -9,7 +8,7 @@ function UserCard() {
     const [users, setUsers] = useState([]);
 
     const [userToDelete, setUserToDelete] = useState(null);
-    const [error, setError] = useState("");
+    const [setError] = useState("");
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {

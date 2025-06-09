@@ -20,7 +20,7 @@ interface projectInterface {
   clickUpWebhookId: String;
   name: String;
   description: String;
-  notifications: [String];
+  notifications: String[];
   isFinalize: Boolean;
   tasks: [taskInterface];
 }
@@ -66,10 +66,11 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     required: true,
     trim: true
   },
-  notifications: [{
-    type: String,
-    required: false
-  }],
+  notifications: {
+    type: [String],
+    required: false,
+    default: ["firstNotif","secondNotif"]
+  },
   tasks: [{
     /** An array of all projects the user is able to go to
      * The admin will be able to go to all

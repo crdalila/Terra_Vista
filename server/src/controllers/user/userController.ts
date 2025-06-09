@@ -3,6 +3,7 @@
 //=================================Common Imports================================
 import { ObjectId } from "mongoose";
 import User, { userInterface } from "../../models/user.ts";
+import Project from "../../models/project.ts";
 //================================Error Management===============================
 import { ProjectIsNotInUser, UserDoesNotExist, UserInvalidCredentials, UserInvalidPassword } from "../../utils/errors/userErrors.ts"
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
@@ -27,6 +28,27 @@ async function getUserById(id: string) {
   return user;
 }
 
+async function getUsersNotifications(id: string) {
+  const user = await User.findById(id).select(userSelect);
+  if (!user) throw new UserDoesNotExist();
+
+  let projectsNotif: String[] = [];
+
+  for await (let projectId of user.projects) {
+    let project = await Project.findById(projectId);
+
+    if (project) {
+      console.log(project);
+      project.notifications.forEach((notif) => {
+        projectsNotif.push(notif);
+      })
+    }
+  }
+
+  return projectsNotif;
+}
+
+
 async function editUserPassword(id: string,
   currentPassword: string, newPassword: string, confirmPassword: string) {
   //Error checking for password
@@ -43,17 +65,16 @@ async function editUserPassword(id: string,
       path: 'tasks',
       select: taskSelect
     }
-  }).select(userSelect);
+  }).select("-clickUpToken -clickUpWorkspaceId");
+  if (!user) throw new UserDoesNotExist();
 
-  if(!user) throw new UserDoesNotExist();
   const isSamePassword = await compare(currentPassword, user.password);
   if (!isSamePassword) throw new UserInvalidCredentials();
 
-
   const hashedPassword = await hash(newPassword);
-
   user.password = hashedPassword;
   await user.save();
+  user.password = "";
   return user;
 }
 
@@ -142,6 +163,7 @@ async function removeProjectToUser(userId: string, projectId: string) {
 export default {
   getUserById,
   getAllUsers,
+  getUsersNotifications,
   editUser,
   editUserPassword,
   removeUser,

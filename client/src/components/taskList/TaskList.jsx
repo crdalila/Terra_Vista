@@ -8,6 +8,7 @@ import "./TaskList.css";
 
 function TaskList({ tasks = [], projectId }) {
     const { userData } = useContext(AuthContext);
+    const { selectedProject } = useContext(ProjectContext);
 
     // Show only if it's client
     const isClient = userData && userData.role === "client";

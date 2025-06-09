@@ -101,6 +101,8 @@ async function syncPendingTasks(userId: string) {
 					{ id: customFieldMap.Requester, value: requesterMail }
 				]
 			};
+			console.log("Payload enviado a ClickUp:", payload);
+
 
 			const response = await axios.post(
 				`https://api.clickup.com/api/v2/list/${listId}/task`,
@@ -125,7 +127,8 @@ async function syncPendingTasks(userId: string) {
 			results.push({ taskId: task._id, success: false, error: err.message });
 		}
 	}
-	notifyOfTasksSend(user.projects[0].toString(),pendingTasks.length);
+	const projectId = (user.projects[0] as any)._id;
+	await notifyOfTasksSend(projectId, pendingTasks.length);
 	return { success: true, synced: results };
 }
 

@@ -15,6 +15,8 @@ enum requestEnum {
   newItem = "New Item",
   requestedChange = "Requested Change"
 }
+
+
 enum statusEnum {
   onHold = "On Hold",
   needsInput = "Needs Input",
@@ -61,7 +63,11 @@ interface taskInterface {
   request: String;
   page: String;
   screenshots: String;
-  comment: String;
+  comments?: {
+	author: string;
+	comment: string;
+	date: Date;
+  }[];
 }
 
 /**
@@ -136,11 +142,19 @@ const taskSchema = new mongoose.Schema<taskInterface>({
     type: String,
     required: false
   },
-  comment: {
-    type: String,
-    required: false
+  comments: {
+    type: [
+		{ 
+			author: String, 
+			comment: String, 
+			date: Date 
+		}
+	],
+	default: []
   }
 });
 
 export default mongoose.model("Task", taskSchema);
-export { taskInterface };
+export const requestOrder = Object.values(requestEnum);
+export const statusOrder = Object.values(statusEnum);
+export { requestEnum, statusEnum, taskInterface };

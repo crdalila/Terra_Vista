@@ -8,12 +8,15 @@
 //===============================Dependency Imports==============================
 import { Request, Response } from 'express'
 //=================================Common Imports================================
+import Project from '../../models/project.ts';
 import projectController from "./projectController.ts";
 import { projectInterface } from '../../models/project.ts';
 import clickUpController from '../clickUp/clickUpController.ts';
 import userController from "../user/userController.ts"
+import { createClickUpWebhook } from '../../utils/clickUp/webhookUtils.ts';
 //================================Error Management===============================
 import catchError from '../../utils/errors/controllerError.ts';
+import { ProjectAlreadyExists } from '../../utils/errors/projectError.ts';
 import { UserNotFound, ClickUpSpaceIdNotProvided } from '../../utils/errors/clickUpError.ts';
 import { IGetUserAuthInfoRequest } from '../../utils/token.ts';
 import { JwtPayload } from 'jsonwebtoken';
@@ -37,6 +40,21 @@ async function getProjectById(req: Request, res: Response) {
   }
 }
 
+async function getProjectNotifsById(req: Request, res: Response) {
+  try {
+    //Get parameters for function to work
+    const id = req.params.id;
+
+    //Do the function and send the result in json format
+    const result = ((await projectController.getProjectById(id)).notifications);
+    res.json(result);
+  } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
 async function getAllProjects(_: Request, res: Response) {
   try {
     //Do the function and send the result in json format
@@ -49,8 +67,21 @@ async function getAllProjects(_: Request, res: Response) {
   }
 }
 
+async function getAllProjectsNotifs(_: Request, res: Response) {
+  try {
+    //Do the function and send the result in json format
+    const result = (await projectController.getAllProjectsNotifs());
+    res.json(result);
+  } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
 async function createProject(req: Request, res: Response) {
   try {
+
     //Get parameters for function to work
     const projectManagerId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     const projectData: projectInterface = req.body;
@@ -58,6 +89,12 @@ async function createProject(req: Request, res: Response) {
 
     if (!projectManagerId) throw new UserNotFound();
     if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
+
+	// Check if project already exists
+	const existingProject = await Project.findOne({ clickUpSpaceId });
+	if (existingProject) {
+		throw new ProjectAlreadyExists();
+	}
 
     const {
       folderId: clickUpFolderId,
@@ -67,6 +104,10 @@ async function createProject(req: Request, res: Response) {
     // Add new data to project
     projectData.clickUpFolderId = clickUpFolderId;
     projectData.clickUpListId = clickUpListId;
+
+	// Create webhook
+	const webhookId = await createClickUpWebhook(clickUpListId);
+	projectData.clickUpWebhookId = webhookId;
 
     //Do the function and send the result in json format
     const result: projectInterface & {
@@ -134,10 +175,13 @@ async function getProjectTasks(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const id = req.params.id;
+    const filter = req.params.filter;
 
     //Do the function and send the result in json format
     const result = (await projectController.getProjectById(id));
-    res.json(result.tasks);
+    console.log("Filter",filter);
+    const tasks = projectController.getFilteredTasks(result.tasks, filter);
+    res.json(tasks);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
@@ -152,8 +196,8 @@ async function createTaskIntoProject(req: Request, res: Response) {
     const projectId = req.params.id;
     const taskData: taskInterface = req.body;
 
-	const userId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
-	taskData.requester = userId;
+    const userId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+    taskData.requester = userId;
 
     taskData.screenshots = req.file?.filename as String;
 
@@ -162,11 +206,11 @@ async function createTaskIntoProject(req: Request, res: Response) {
     res.json(result);
   } catch (error) {
     console.log("Entered in error area");
-	console.error(error);
-    
-	if (req.file?.filename) {
-		removeFile(req.file.filename);
-	}
+    console.error(error);
+
+    if (req.file?.filename) {
+      removeFile(req.file.filename);
+    }
 
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
@@ -215,8 +259,10 @@ async function deleteTaskFromProject(req: Request, res: Response) {
 
 export default {
   getProjectById,
+  getProjectNotifsById,
   getAllProjects,
   getProjectTasks,
+  getAllProjectsNotifs,
   createProject,
   editProject,
   removeProject,

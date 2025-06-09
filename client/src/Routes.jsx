@@ -15,6 +15,7 @@ import CreateProjectForm from "./components/createProjectForm/createProjectForm"
 import TaskDetail from "./pages/taskDetail/TaskDetail";
 import RequestForm from "./pages/requestForm/RequestForm";
 import Users from "./pages/users/Users";
+import UserCard from "./components/userCard/UserCard";
 
 import projectUtils from "./utils/projects";
 import { getUserAllProjects } from "./utils/user";
@@ -76,11 +77,7 @@ const router = createBrowserRouter([
                         element: <CreateProjectForm />
                     },
                     {
-                        path: "/issue",
-                        element: <TaskDetail />
-                    },
-                    {
-                        path: "/create-issue",
+                        path: "/request",
                         element: <RequestForm />
                     },
                     {

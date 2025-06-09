@@ -55,8 +55,8 @@ async function register(userData: userInterface) {
     userData.password = hashedPassword;
     const newUser = new User(userData);
     await newUser.save();
-    const userWithoutPassword = await User.findOne({ email: userData.email })
-        .select(userSelect);
+    const userWithoutPassword = await User.findOne({ email: userData.email }).select("-password");
+
     return userWithoutPassword;
 }
 
