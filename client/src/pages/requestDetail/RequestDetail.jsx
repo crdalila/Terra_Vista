@@ -67,7 +67,7 @@ function RequestDetail() {
 
                     <div className="request-detail__info">
                         <h3>Request Info</h3>
-                        
+
                         <img src="../../public/images/icons-card.png" alt="icons" className="icons-card" />
 
                         <h4>Project:</h4>
@@ -88,8 +88,12 @@ function RequestDetail() {
                         <h4>Page:</h4>
                         <p>{task.page}</p>
 
-                        <h4>Screenshot:</h4>
-                        <p>{task.picture}</p>
+                        {task.picture && (
+                            <div className="request-detail__picture">
+                                <h4>Screenshot:</h4>
+                                <p>{task.picture}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
