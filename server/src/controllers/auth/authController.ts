@@ -18,6 +18,7 @@ import {
     UserDoesNotExist,
 } from "../../utils/errors/userErrors.ts";
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
+import { projectSelect, taskSelect, userSelect } from "../../utils/modelsSelect.ts";
 //===============================================================================
 
 /**
@@ -35,7 +36,7 @@ async function register(userData: userInterface) {
     if (!userData.name) throw new UserNameNotProvided();
     if (!userData.email) throw new UserEmailNotProvided();
 
-    if(!isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
+    if (!isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
     if (!userData.password) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 
@@ -54,7 +55,8 @@ async function register(userData: userInterface) {
     userData.password = hashedPassword;
     const newUser = new User(userData);
     await newUser.save();
-    const userWithoutPassword = await User.findOne({ email: userData.email }).select("-clickUpToken -clickUpWorkspaceId -password");
+    const userWithoutPassword = await User.findOne({ email: userData.email })
+        .select(userSelect);
     return userWithoutPassword;
 }
 
@@ -62,9 +64,9 @@ async function firstLogin(email: string, temporalPassword: string, password: str
     if (!email) throw new UserEmailNotProvided();
     //This regex force the password to have a lower case, 
     //upper case, number, symbol and at least be 8 character long
-    
-    if(!isPasswordCorrect(temporalPassword)) throw new UserInvalidPassword();
-    if(!isPasswordCorrect(password)) throw new UserInvalidPassword();
+
+    if (!isPasswordCorrect(temporalPassword)) throw new UserInvalidPassword();
+    if (!isPasswordCorrect(password)) throw new UserInvalidPassword();
     if (!temporalPassword) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 
@@ -75,13 +77,13 @@ async function firstLogin(email: string, temporalPassword: string, password: str
 
     const user: userInterface & { _id: ObjectId; } =
         (await User.findOne({ email: email })) as userInterface & { _id: ObjectId; };
-    if(!user) throw new UserDoesNotExist;
+    if (!user) throw new UserDoesNotExist;
     const hashedPassword = await hash(password);
     const updatedUser = await User.findByIdAndUpdate(
         { _id: user._id },
         { $set: { password: hashedPassword } },
-        { new: true }).select("-clickUpToken -clickUpWorkspaceId -password");
-    if(!updatedUser) throw new UserDoesNotExist;
+        { new: true }).select(userSelect);
+    if (!updatedUser) throw new UserDoesNotExist;
     return updatedUser;
 }
 
@@ -98,14 +100,14 @@ async function login(email: string, password: string) {
     //Error checking for email and password
     if (!email) throw new UserEmailNotProvided();
     if (!password) throw new UserPasswordNotProvided();
-    const user = await User.findOne({ email:email }).populate({
-    path: 'projects',
-    select: '-clickUpListId -clickUpFolderId -clickUpSpaceId',
-    populate: {
-      path: 'tasks',
-      select: '-clickUpTaskId'
-    }
-  });
+    const user = await User.findOne({ email: email }).populate({
+        path: 'projects',
+        select: projectSelect,
+        populate: {
+            path: 'tasks',
+            select: taskSelect
+        }
+    });
     //Error checking for user
     if (!user) throw new UserInvalidCredentials();
 
@@ -119,5 +121,5 @@ async function login(email: string, password: string) {
 export default {
     register,
     firstLogin,
-    login
+    login,
 }

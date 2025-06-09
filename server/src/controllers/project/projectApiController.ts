@@ -37,10 +37,37 @@ async function getProjectById(req: Request, res: Response) {
   }
 }
 
+async function getProjectNotifsById(req: Request, res: Response) {
+  try {
+    //Get parameters for function to work
+    const id = req.params.id;
+
+    //Do the function and send the result in json format
+    const result = ((await projectController.getProjectById(id)).notifications);
+    res.json(result);
+  } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
 async function getAllProjects(_: Request, res: Response) {
   try {
     //Do the function and send the result in json format
     const result = (await projectController.getAllProjects());
+    res.json(result);
+  } catch (error) {
+    /* If something went wrong it will catch it an show it with a personalize message */
+    const myError = catchError(error);
+    res.status(myError.statusCode).json(myError.message);
+  }
+}
+
+async function getAllProjectsNotifs(_: Request, res: Response) {
+  try {
+    //Do the function and send the result in json format
+    const result = (await projectController.getAllProjectsNotifs());
     res.json(result);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
@@ -56,17 +83,6 @@ async function createProject(req: Request, res: Response) {
     const projectData: projectInterface = req.body;
     const { clickUpSpaceId } = projectData; //TODO
 
-    if (!projectManagerId) throw new UserNotFound();
-    if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();
-
-    const {
-      folderId: clickUpFolderId,
-      listId: clickUpListId
-    } = await clickUpController.ensureDevFolderQAList(projectManagerId, String(clickUpSpaceId));
-
-    // Add new data to project
-    projectData.clickUpFolderId = clickUpFolderId;
-    projectData.clickUpListId = clickUpListId;
 
     //Do the function and send the result in json format
     const result: projectInterface & {
@@ -134,10 +150,13 @@ async function getProjectTasks(req: Request, res: Response) {
   try {
     //Get parameters for function to work
     const id = req.params.id;
+    const filter = req.params.filter;
 
     //Do the function and send the result in json format
     const result = (await projectController.getProjectById(id));
-    res.json(result.tasks);
+    console.log("Filter",filter);
+    const tasks = projectController.getFilteredTasks(result.tasks, filter);
+    res.json(tasks);
   } catch (error) {
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
@@ -151,6 +170,10 @@ async function createTaskIntoProject(req: Request, res: Response) {
     //Get parameters for function to work
     const projectId = req.params.id;
     const taskData: taskInterface = req.body;
+
+    const userId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
+    taskData.requester = userId;
+
     taskData.screenshots = req.file?.filename as String;
 
     //Do the function and send the result in json format
@@ -158,8 +181,11 @@ async function createTaskIntoProject(req: Request, res: Response) {
     res.json(result);
   } catch (error) {
     console.log("Entered in error area");
-    const taskData: taskInterface = req.body;
-    removeFile(taskData.screenshots as string);
+    console.error(error);
+
+    if (req.file?.filename) {
+      removeFile(req.file.filename);
+    }
 
     /* If something went wrong it will catch it an show it with a personalize message */
     const myError = catchError(error);
@@ -208,8 +234,10 @@ async function deleteTaskFromProject(req: Request, res: Response) {
 
 export default {
   getProjectById,
+  getProjectNotifsById,
   getAllProjects,
   getProjectTasks,
+  getAllProjectsNotifs,
   createProject,
   editProject,
   removeProject,

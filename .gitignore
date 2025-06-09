@@ -1,3 +1,5 @@
+.DS_Store
+ml_api/models/
 .scannerwork
 sonar-project.properties
 .env

@@ -18,10 +18,6 @@ import {
 	deleteClickUpTask,
 } from "../../utils/clickUp/clickUpTaskUtils";
 
-/*import {
-	syncTaskToClickUp,
-	updateTaskStatusInClickUp
-} from "../../utils/clickUp/taskSyncService";*/
 import {
 	UserNotFound,
 	ClickUpTokenNotProvided,
@@ -90,18 +86,7 @@ async function getFoldersLists(userId:string, spaceId: string) {
 	if (!result.success) throw new ClickUpAPIError();
 	
 	return result.data;
-}
-/*
-// Synchronize Tasks
-async function syncUserTask(projectId:string, taskId: string) {
-	if (!projectId) throw new ClickUpTaskIdNotProvided();
-	if (!taskId) throw new ClickUpTaskIdNotProvided();
-	
-	const result = await syncTaskToClickUp(projectId, taskId);
-	if (!result.success) throw new ClickUpAPIError();
-	
-	return result.data;
-}*/
+};
 
 // Create Task
 async function createTask(listId: string, userId: string, taskData: any) {
@@ -180,14 +165,12 @@ async function getUserClickUpInfo(listId: string, userId: string) {
 	return result.data;
 }
 
-// Setup Client Structure: Get Dev Folder 
 
 export default {
 	getUserWorkspaceSpaces,
 	ensureDevFolderQAList,
 	getSpaceFolders,
 	getFoldersLists,
-	//syncUserTask,
 	createTask,
 	updateTask,
 	deleteTask,

@@ -17,8 +17,11 @@ interface projectInterface {
   clickUpListId: String;
   clickUpFolderId: String;
   clickUpSpaceId: String;
+  clickUpWebhookId: String;
   name: String;
-  isFinalize: Boolean,
+  description: String;
+  notifications: String[];
+  isFinalize: Boolean;
   tasks: [taskInterface];
 }
 
@@ -43,6 +46,10 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     type: String,
     required: true
   },
+  clickUpWebhookId: {
+    type: String,
+    required: false,
+  },
   isFinalize: {
     type: Boolean,
     default: false
@@ -53,19 +60,28 @@ const projectSchema = new mongoose.Schema<projectInterface>({
     required: true,
     trim: true
   },
+  description: {
+    type: String,
+    default: "This is the description of the project.",
+    required: true,
+    trim: true
+  },
+  notifications: {
+    type: [String],
+    required: false,
+    default: ["firstNotif","secondNotif"]
+  },
+  tasks: [{
+    /** An array of all projects the user is able to go to
+     * The admin will be able to go to all
+     * The project manager can only go to the ones they are managing
+     * The client can only go to their projects (usually only one)
+    */
+    type: mongoose.Types.ObjectId,
+    ref: "Task",
+    required: false
 
-  tasks:  [{
-      /** An array of all projects the user is able to go to
-       * The admin will be able to go to all
-       * The project manager can only go to the ones they are managing
-       * The client can only go to their projects (usually only one)
-      */
-  
-      type: mongoose.Types.ObjectId,
-      ref: "Task",
-      required: false
-  
-    }],
+  }],
 });
 
 export default mongoose.model("Project", projectSchema);

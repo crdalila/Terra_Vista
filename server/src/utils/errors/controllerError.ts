@@ -9,6 +9,7 @@ interface errorInterface {
 };
 
 function catchError(error: any) {
+  console.log(error);
   if (error.statusCode) {
     const myError: errorInterface = {
       statusCode: error.statusCode,
