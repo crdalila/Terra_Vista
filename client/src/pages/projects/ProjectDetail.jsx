@@ -22,6 +22,7 @@ function ProjectDetail() {
     const { userData } = useContext(AuthContext);
 
     const [users, setUsers] = useState([]);
+    const [usersInProject, setUsersInProject] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -52,13 +53,28 @@ function ProjectDetail() {
         projectTaskListRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
-    useEffect(() => {
-        const fetchUsers = async () => {
+    const fetchUsers = async () => {
             try {
                 const result = await userService.getAllUsers();
                 if (Array.isArray(result)) {
                     const clients = result.filter(user => user.role === "client");
-                    setUsers(clients);
+                    let clientsWithoutSelectedProject = [];
+                    let clientWithSelectedProject = [];
+                    clients.forEach((client) => {
+                        let isProjectAlreadyAdded = false;
+                        client.projects.forEach((project) => {
+                            if (project._id == selectedProject._id) {
+                                isProjectAlreadyAdded = true;
+                            }
+                        });
+                        if (!isProjectAlreadyAdded) {
+                            clientsWithoutSelectedProject.push(client);
+                        } else {
+                            clientWithSelectedProject.push(client);
+                        }
+                    });
+                    setUsers(clientsWithoutSelectedProject);
+                    setUsersInProject(clientWithSelectedProject);
                 } else {
                     console.error("Can't get users");
                 }
@@ -67,8 +83,10 @@ function ProjectDetail() {
             }
         };
 
+
+    useEffect(() => {
         fetchUsers();
-    }, []);
+    }, fetchUsers);
 
     const handleAddUsersToProject = async (e) => {
         e.preventDefault();
@@ -77,20 +95,20 @@ function ProjectDetail() {
             alert("Please select at least one user.");
             return;
         }
-
         try {
             for (const userId of selectedUsers) {
                 await userService.addUserToProject(userId, selectedProject._id);
             }
             alert("Users added successfully.");
             setSelectedUsers([]); // Limpiar selección
+            fetchUsers();
         } catch (err) {
             console.error("Error adding users to project", err);
             alert("Failed to add users to the project.");
         }
     };
 
-
+    console.log(usersInProject);
     return (
         <article className="project-page article">
 
@@ -117,7 +135,7 @@ function ProjectDetail() {
                                     setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
                                 }
                             >
-                                <option value="">-- Select clients --</option>
+                                <option disabled value="">-- Select clients --</option>
                                 {users.map(user => (
                                     <option key={user._id} value={user._id}>
                                         {user.name} ({user.email})
@@ -144,6 +162,11 @@ function ProjectDetail() {
             </section>
 
             <section className="projects-data"> {/* TODO COMPONENTS */}
+                {usersInProject.map(user => (
+                    <p key={user._id} value={user._id}>
+                        {user.name} ({user.email})
+                    </p>
+                ))}
                 <p>Notifications</p>
                 <p>Review history</p>
 
