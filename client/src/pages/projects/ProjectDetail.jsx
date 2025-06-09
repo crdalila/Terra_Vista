@@ -58,7 +58,19 @@ function ProjectDetail() {
                 const result = await userService.getAllUsers();
                 if (Array.isArray(result)) {
                     const clients = result.filter(user => user.role === "client");
-                    setUsers(clients);
+                    let clientsWithoutSelectedProject = [];
+                    clients.forEach((client) => {
+                        let isProjectAlreadyAdded = false;
+                        client.projects.forEach((project) => {
+                            if (project._id == selectedProject._id) {
+                                isProjectAlreadyAdded = true;
+                            }
+                        });
+                        if (!isProjectAlreadyAdded) {
+                            clientsWithoutSelectedProject.push(client);
+                        }
+                    });
+                    setUsers(clientsWithoutSelectedProject);
                 } else {
                     console.error("Can't get users");
                 }
@@ -117,7 +129,7 @@ function ProjectDetail() {
                                     setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
                                 }
                             >
-                                <option value="">-- Select clients --</option>
+                                <option disabled value="">-- Select clients --</option>
                                 {users.map(user => (
                                     <option key={user._id} value={user._id}>
                                         {user.name} ({user.email})
