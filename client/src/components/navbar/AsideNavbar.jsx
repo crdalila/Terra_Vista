@@ -38,7 +38,7 @@ function AsideNavbar() {
           </li>
         )}
         <li>
-          <NavLink to="/instructions" className='aside-navbar--button instructions-button'>Instructions</NavLink>
+          <NavLink to="/instructions" className='aside-navbar--button instructions-button'>Manual</NavLink>
         </li>
       </ul>
       {/* <button className="settings-button">Settings</button> */}

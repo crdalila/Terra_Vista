@@ -5,25 +5,33 @@ import { ProjectContext } from "../../context/ProjectContext";
 import { AuthContext } from "../../context/AuthContext";
 import TaskCard from "../taskCard/TaskCard";
 import "./TaskList.css";
+import { sendFeedback } from "../../utils/clickup";
 
 function TaskList({ tasks = [], projectId }) {
     const { userData } = useContext(AuthContext);
-    const { selectedProject } = useContext(ProjectContext);
-
-    // Show only if it's client
+    const { selectedProject, setSelectedProject } = useContext(ProjectContext);
     const isClient = userData && userData.role === "client";
 
-    const handleFeedback = () => {
-        //TODO llamar a enviar feedback de tasks que conecta con CLickup
+    const handleFeedback = async () => {
+        try {
+            await sendFeedback(userData._id);
+            alert ("Feedback sent successfully");
+        } catch (err) {
+            console.error("Error sending feedback", err);
+            alert("There was a problem sending the feedback");
+        }
     }
 
     return (
         <article className="tasks-list">
+            <section className="tasks-list--title">
+                <h2>Issues</h2>
+            </section>
 
             {isClient && (
                 <section className="tasks-list--buttons">
 
-                    <button onClick={handleFeedback} className="button-feedback">Send Feedback</button>
+                    <button onClick={handleFeedback} className="button-feedback button">Send Feedback</button>
 
                     <div className="tasks-buttons">
                         <Link to="/request" state={{ project: selectedProject }}>
@@ -41,7 +49,6 @@ function TaskList({ tasks = [], projectId }) {
                         <TaskCard task={task} key={task._id} projectId={projectId} />)
                 )}
             </section>
-
         </article>
     );
 }

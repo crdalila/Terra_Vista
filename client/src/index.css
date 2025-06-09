@@ -1,4 +1,5 @@
 @import url('https://fonts.cdnfonts.com/css/uncut-sans');
+
 * {
   box-sizing: border-box;
 }
@@ -158,27 +159,26 @@ button {
 }
 
 .button {
-    padding: .75rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
+  padding: .75rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
 
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 
-    border: 2px solid;
-    border-radius: 40px;
+  border: 2px solid;
+  border-radius: 40px;
 
-    transition: all .3s ease;
+  font-weight: 600;
 
-    font-weight: 600;
+  width: fit-content;
 
-    background-color: var(--main-color);
-    color: var(--text-color);
+  transition: all .3s ease;
 }
 
 .button:hover {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 /* END RESET */
@@ -227,7 +227,10 @@ body {
   padding-bottom: 2em;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--main-font);
   font-weight: 700;
 }
@@ -245,14 +248,98 @@ h3 {
 }
 
 .article {
-  padding: 6em 0 0 12em;
+  padding: 5em 0 0 10em;
   margin: 0 3em 0 0;
+
+  width: 100%;
 }
 
 
 
+.page-header {
+  position: relative;
 
+  z-index: 1;
 
+  background-color: var(--text-color);
+  color: var(--main-color);
+
+  padding: 2em;
+
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 2em;
+
+  min-height: 20em;
+
+  overflow: hidden;
+}
+
+.page-title {
+  position: absolute;
+  left: -3rem;
+  bottom: -2rem;
+
+  font-size: 18rem;
+
+  line-height: .8em;
+}
+
+.page-info {
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+
+  align-items: flex-end;
+
+  text-align: right;
+
+  max-width: 30%;
+  height: 100%;
+
+  margin-right: 2em;
+}
+
+.page-buttons {
+    display: flex;
+    flex-flow: row;
+    gap: 1em;
+
+    z-index: 200;
+}
+
+.back-button {
+  position: absolute;
+  top: -1em;
+  left: -1em;
+
+  width: 4em;
+  height: 4em;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 1em;
+
+  background-color: var(--main-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 20px;
+
+  cursor: pointer;
+}
+
+.page-content {
+  padding: 2em 10em;
+
+  display: flex;
+  flex-flow: column;
+  gap: 2em;
+
+  z-index: 0;
+}
 
 
 

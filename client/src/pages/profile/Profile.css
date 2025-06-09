@@ -4,51 +4,30 @@
     gap: 1em;
 }
 
-.my-profile--left, .my-profile--right {
-    width: 50%;
-    height: 100%;
-}
-
-.my-profile--right {
-    background-color: var(--items-color);
-    padding: 2em;
-    border-radius: 20px;
-}
-
-.my-profile--right.hidden {
-    display: none;
-}
-
-.my-profile button {
-    background-color: var(--text-color);
-    color: var(--items-color);
-    cursor: pointer;
-
-    padding: .5em 2em;
-    border-radius: 40px;
-
-    font-size: 1.2rem;
-    font-weight: 700;
-
-    transition: all .3s ease;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .edit-password-button, .logout-button {
+    background-color: var(--main-color);
+    color: var(--text-color);
     gap: .5em;
 }
 
-.my-profile button:hover {
-    border-radius: 10px;
+.logout-button {
+    background-color: var(--text-color);
+    color: var(--main-color);
 }
 
 .edit-password-form {
     display: flex;
     flex-flow: column;
     gap: .5em;
+
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+}
+
+.edit-password-form label {
+    font-size: 2rem;
+    font-weight: 600;
 }
 
 .edit-password-form input {
@@ -61,4 +40,10 @@
     min-width: 300px;
 
     transition: all .3s ease;
+}
+
+.submit-password {
+    background-color: var(--text-color);
+    color: var(--main-color);
+    cursor: pointer;
 }

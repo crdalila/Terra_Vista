@@ -3,7 +3,10 @@ import userService from "../../utils/user";
 
 import UserCard from "../../components/userCard/UserCard";
 
+import "./Users.css";
+
 function Users() {
+    const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
     const [keyValue, setKeyValue] = useState(0);
 
@@ -29,32 +32,42 @@ function Users() {
 
     return (
         <article className="users article">
-            <h2>Users</h2>
-            <section className="users-list">
-                <h3>Users List</h3>
-                <UserCard key={keyValue} />
+            <section className="page-header">
+                <h2 className="page-title">Users</h2>
             </section>
+            
+            <section className="page-content">
+                <div className="users-list">
+                    {users.length === 0 ? (
+                        <h3>There are no users created yet.</h3>
+                    ) : (
+                        users.map(user =>
+                            <UserCard user={user} key={user._id} />)
+                    )}
+                </div>
 
-            <form className="create-user-form" onSubmit={handleCreateUser}>
-                <label>Name:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={newUser.name}
-                    onChange={handleInputChange}
-                    required
-                />
-                <label>Email:</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={newUser.email}
-                    onChange={handleInputChange}
-                    required
-                />
+                <form className="create-user-form" onSubmit={handleCreateUser}>
+                    <h3>Create New User</h3>
+                    <label>Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={newUser.name}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={newUser.email}
+                        onChange={handleInputChange}
+                        required
+                    />
 
-                <button type="submit" className="button">Create User</button>
-            </form>
+                    <button type="submit" className="new-user-button button">Create User<i>!</i></button>
+                </form>
+            </section>
         </article>
     );
 }

@@ -4,20 +4,14 @@
     gap: 2em;
 }
 
-.instructions-text {
-    display: flex;
-    flex-flow: column;
-    gap: 2em;
-}
-
-.instructions-text .instructions-item {
+.instructions-item {
     display: flex;
     flex-flow: row;
     gap: 2em;
     align-items: flex-start;
 }
 
-.instructions-text .icons-instructions {
+.icons-instructions {
     width: 8em;
     margin-top: .5em;
 }
