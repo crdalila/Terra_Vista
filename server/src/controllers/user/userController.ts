@@ -65,17 +65,16 @@ async function editUserPassword(id: string,
       path: 'tasks',
       select: taskSelect
     }
-  }).select(userSelect);
-
+  }).select("-clickUpToken -clickUpWorkspaceId");
   if (!user) throw new UserDoesNotExist();
+
   const isSamePassword = await compare(currentPassword, user.password);
   if (!isSamePassword) throw new UserInvalidCredentials();
 
-
   const hashedPassword = await hash(newPassword);
-
   user.password = hashedPassword;
   await user.save();
+  user.password = "";
   return user;
 }
 

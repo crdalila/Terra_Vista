@@ -146,13 +146,13 @@ function getFilteredTasks(tasks: [taskInterface], filter: String) {
   switch (filter.toString()) {
     case "request":
       return tasks.sort((a, b) => {
-        return (requestOrder.indexOf(a.request as requestEnum)) -
-          (requestOrder.indexOf(b.request as requestEnum));
+        return (requestOrder.indexOf(a.requestType as requestEnum)) -
+          (requestOrder.indexOf(b.requestType as requestEnum));
       });
     case "status":
       return tasks.sort((a, b) => {
-        return (statusOrder.indexOf(a.request as statusEnum)) -
-          (statusOrder.indexOf(b.request as statusEnum));
+        return (statusOrder.indexOf(a.status as statusEnum)) -
+          (statusOrder.indexOf(b.status as statusEnum));
       });
 
     case "requester":
@@ -163,8 +163,11 @@ function getFilteredTasks(tasks: [taskInterface], filter: String) {
       return tasks.sort((a, b) => {
         return (a.inputDate.valueOf()) - (b.inputDate.valueOf());
       });
+    case "send":
+      return tasks.sort((a, b) => {
+        return Number(b.isSend) - Number(a.isSend);
+      });
     default:
-      console.log("Default Every Time");
       return tasks;
   }
 }
