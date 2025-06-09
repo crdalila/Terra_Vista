@@ -140,7 +140,7 @@ function CreateProjectForm() {
                     ))}
                 </select>
 
-                <button type="submit" disabled={loading} className="create-project-button">
+                <button type="submit" disabled={loading} className="create-project-button button">
                     {loading ? "Creating..." : "Create Project"}
                 </button>
             </form>

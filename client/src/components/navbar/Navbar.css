@@ -73,7 +73,7 @@
 
     width: 100%;
 
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 
     border-radius: 40px;
@@ -91,6 +91,10 @@
 
 .projects-button {
     border: 2px solid var(--blue);
+}
+
+.users-button {
+    border: 2px solid var(--dark-green);
 }
 
 .instructions-button {

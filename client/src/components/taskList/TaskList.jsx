@@ -1,32 +1,49 @@
+import { Link } from "react-router-dom";
+import { useContext } from "react";
 
+import { ProjectContext } from "../../context/ProjectContext";
+import { AuthContext } from "../../context/AuthContext";
 import TaskCard from "../taskCard/TaskCard";
+import "./TaskList.css";
 
-import { useLoaderData } from "react-router-dom";
+function TaskList({ tasks = [], projectId }) {
+    const { userData } = useContext(AuthContext);
+    const { selectedProject } = useContext(ProjectContext);
 
-// import './TaskList.css';
+    // Show only if it's client
+    const isClient = userData && userData.role === "client";
 
-
-function TaskList({ tasks = [] }) {
-    tasks = useLoaderData();
+    const handleFeedback = () => {
+        //TODO llamar a enviar feedback de tasks que conecta con CLickup
+    }
 
     return (
         <article className="tasks-list">
+
+            {isClient && (
+                <section className="tasks-list--buttons">
+
+                    <button onClick={handleFeedback} className="button-feedback">Send Feedback</button>
+
+                    <div className="tasks-buttons">
+                        <Link to="/request" state={{ project: selectedProject }}>
+                            <button className="button-create-task">+ Create Request</button>
+                        </Link>
+                    </div>
+                </section>
+            )}
+
             <section className="tasks-list--tasks">
                 {tasks.length === 0 ? (
                     <p>You have no tasks for this project yet.</p>
                 ) : (
-                    tasks.map((project) => ( 
-                        <TaskCard project={project} key={project._id} />))
-                
+                    tasks.map(task =>
+                        <TaskCard task={task} key={task._id} projectId={projectId} />)
                 )}
-                <div className="tasks-buttons">
-                    <button className="create-task">Create Task</button>
-                    <button className="update-tasks">Update Tasks</button>
-                    {/* <button className="done-task">Done Tasks</button> */}
-                </div>
             </section>
+
         </article>
-    )
+    );
 }
 
 export default TaskList;
