@@ -4,12 +4,6 @@
     gap: 2em;
 }
 
-.project-detail__info--buttons {
-    display: flex;
-    flex-flow: row;
-    gap: 1em;
-}
-
 .project-instructions-button, .add-user-to-project-button {
     background-color: var(--main-color);
     color: var(--text-color);

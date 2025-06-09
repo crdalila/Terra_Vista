@@ -88,7 +88,7 @@ function ProjectDetail() {
                         <h3>Your website is ready for you.</h3>
                         <p>Explore your website and observe the details.</p>
                     </div>
-                    <div className="project-detail__info--buttons">
+                    <div className="project-detail__info--buttons page-buttons">
                         {userData && userData.role === "projectManager" && (
                             <button className="add-user-to-project-button button" onClick={() => setShowAddUserForm(prev => !prev)}>{showAddUserForm ? "Cancel" : "Add User To Project"}</button>
                         )}
