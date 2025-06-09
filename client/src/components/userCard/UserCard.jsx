@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import userService from "../../utils/user";
+import user from "../../utils/user";
 
 function UserCard() {
     const [users, setUsers] = useState([]);
@@ -66,14 +67,14 @@ function UserCard() {
 
             {/*CONFIRM DELETE*/}
             {userToDelete && (
-                <div className="delete-confirmation" onClick={() => setIssueToDelete(null)}>
+                <div className="delete-confirmation" onClick={() => setUserToDelete(null)}>
                     <div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
                         <p>Are you sure you want to delete this user?</p>
                         <div className="delete-confirmation__buttons">
-                            <button onClick={() => setIssueToDelete(null)} className="button-cancel">
+                            <button onClick={() => setUserToDelete(null)} className="button-cancel">
                                 Cancel
                             </button>
-                            <button onClick={() => handleRemoveUser(issueToDelete._id)} className="button-delete">
+                            <button onClick={() => handleRemoveUser(userToDelete._id)} className="button-delete">
                                 Delete
                             </button>
                         </div>
