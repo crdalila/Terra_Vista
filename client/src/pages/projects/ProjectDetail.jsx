@@ -84,21 +84,21 @@ function ProjectDetail() {
     };
 
     const ProgressBarChart = ({ project }) => {
-		if (!project || !project.tasks || project.tasks.length === 0) {
-			return <p>There are no tasks.</p>;
-		}
+        if (!project || !project.tasks || project.tasks.length === 0) {
+            return <p>There are no tasks.</p>;
+        }
 
-		const totalTasks = project.tasks.length;
-		const completedTasks = project.tasks.filter(task => task.done).length;
-		const percentage = Math.round((completedTasks / totalTasks) * 100);
+        const totalTasks = project.tasks.length;
+        const completedTasks = project.tasks.filter(task => task.done).length;
+        const percentage = Math.round((completedTasks / totalTasks) * 100);
 
-		return (
-			<div className="progress-container">
-				<div className="progress-bar" style={{ width: `${percentage}%` }} />
-				<span className="progress-label">{percentage}% completed</span>
-			</div>
-		);
-	};
+        return (
+            <div className="progress-container">
+                <div className="progress-bar" style={{ width: `${percentage}%` }} />
+                <span className="progress-label">{percentage}% completed</span>
+            </div>
+        );
+    };
 
 
     useEffect(() => {
@@ -133,13 +133,31 @@ function ProjectDetail() {
             <section className="page-header">
                 <h2 className="page-title">{selectedProject.name}</h2>
                 <div className="page-info">
-                    <h3>Your website is ready for you.</h3>
+                    <h3>Your website is ready for you<i>!</i></h3>
                     <p>Explore your website and observe the details.</p>
                     <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
                 </div>
             </section>
 
-            <section className="page-content">
+            <section className="page-content project-detail-content">
+                <div className="project-users">
+                    {usersInProject.map(user => (
+                        <p key={user._id} value={user._id}>
+                            {user.name} ({user.email})
+                        </p>
+                    ))}
+                </div>
+
+                <div className="projects-data"> {/* TODO COMPONENTS */}
+                    <h3>Notifications</h3>
+                    <h3>Review history</h3>
+                </div>
+
+                <div className="project-detail--chart">
+                    <h3>Progress</h3>
+                    <ProgressBarChart project={project} />
+                </div>
+
                 <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
                     <label htmlFor="users">Select clients to add to this project: </label>
                     <select
@@ -163,21 +181,6 @@ function ProjectDetail() {
                         {loading ? "Adding..." : "Add User"}
                     </button>
                 </form>
-
-                <div className="projects-data"> {/* TODO COMPONENTS */}
-                    {usersInProject.map(user => (
-                        <p key={user._id} value={user._id}>
-                            {user.name} ({user.email})
-                        </p>
-                    ))}
-                    <p>Notifications</p>
-                    <p>Review history</p>
-
-                    <div className="project--chart">
-                        <p>Progress</p>
-                        <ProgressBarChart project={project} />
-                    </div>
-                </div>
 
                 <div className="project-tasklist"> {/* TODO COMPONENTS */}
                     <div ref={projectTaskListRef}>

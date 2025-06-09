@@ -25,13 +25,13 @@ function TaskList({ tasks = [], projectId }) {
     return (
         <article className="tasks-list">
             <section className="tasks-list--title">
-                <h2>Issues</h2>
+                <h3>Issues</h3>
 
                 {isClient && (
                     <section className="tasks-list--buttons">
-                        <button onClick={handleFeedback} className="button-feedback button">Send Feedback</button>
+                        <button onClick={handleFeedback} className="button-feedback button">Send Feedback<i>!</i></button>
 
-                        <Link to="/create-issue" className="button-create-task button">+ Create Request</Link>
+                        <Link to="/create-issue" className="button-create-task button">Create Request</Link>
                     </section>
                 )}
             </section>
