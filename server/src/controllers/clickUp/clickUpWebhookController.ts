@@ -31,19 +31,31 @@ export async function handleClickUpWebhook(req: Request, res: Response) {
 			const comment = payload.history_items?.[0]?.comment || payload.comment;
 
 			if (clickUpTaskId && comment) {
-				await Task.findOneAndUpdate(
-					{ clickUpTaskId }, 
-					{ 
-						$push: { 
-							comments: {
-								author: comment.user?.username || comment.user?.name || "ClickUp User",
-								comment: comment.comment_text || comment.text,
-								date: comment.date ? new Date(comment.date) : new Date()
-							}
-						} 
-					},
-					{ new: true }
-				);
+				const author = comment.user?.username || comment.user?.name || "ClickUp User";
+				const text = comment.text_content?.trim();
+				const parsedDate = comment.date ? new Date(Number(comment.date)) : new Date();;
+
+				if (text && !isNaN(parsedDate.getTime())) {
+					await Task.findOneAndUpdate(
+						{ clickUpTaskId }, 
+						{ 
+							$push: { 
+								comments: {
+									author,
+									comment: text,
+									date: parsedDate
+								}
+							} 
+						},
+						{ new: true }
+					);
+				} else {
+					console.warn("Ignored comment without author, text, or date:", {
+					author,
+					comment: text,
+					date: parsedDate
+					});
+				}
 			} else {
 				console.log("Not enough data to update task comment");
 			}
