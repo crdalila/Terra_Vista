@@ -247,6 +247,10 @@ h3 {
   font-size: 3rem;
 }
 
+h4 {
+  font-size: 2rem;
+}
+
 .article {
   padding: 5em 0 0 10em;
   margin: 0 3em 0 0;
@@ -273,6 +277,7 @@ h3 {
   gap: 2em;
 
   min-height: 24em;
+  height: fit-content;
 
   overflow: hidden;
 }
@@ -303,11 +308,11 @@ h3 {
 }
 
 .page-buttons {
-    display: flex;
-    flex-flow: row;
-    gap: 1em;
+  display: flex;
+  flex-flow: row;
+  gap: 1em;
 
-    z-index: 200;
+  z-index: 200;
 }
 
 .back-button {
@@ -369,4 +374,103 @@ body.dark-theme {
   --button-color: #970065;
   --input-color: #c781b0;
   --text-color: #000000;
+}
+
+
+
+
+
+
+/* MEDIA QUERIES */
+@media (max-width: 1240px) {
+  .page-header {
+    min-height: 20em;
+    height: fit-content;
+    justify-content: flex-start;
+  }
+
+  .page-title {
+    font-size: 14rem;
+    left: -1rem;
+  }
+
+  .page-info {
+    width: 100%;
+    max-width: 1000px;
+    gap: .5em;
+  }
+
+  .page-content {
+    padding: 0 2em;
+    gap: 1em;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-nav--logo {
+    width: 200px;
+  }
+
+  .profile-icon {
+    gap: .2em;
+    font-size: 1rem;
+    margin-right: 0;
+  }
+
+  .article {
+    padding: 4em 0;
+    margin: 0 3em 0 0;
+
+    width: 100%;
+  }
+
+  .page-header {
+    min-height: 10em;
+  }
+
+  .page-title {
+    font-size: 5rem;
+    left: -.8rem;
+    bottom: -.5rem;
+  }
+
+  .page-info {
+    margin-right: 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  .button {
+    font-size: 1rem;
+  }
 }

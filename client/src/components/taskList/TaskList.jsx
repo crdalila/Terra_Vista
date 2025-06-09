@@ -31,7 +31,7 @@ function TaskList({ tasks = [], projectId }) {
                     <section className="tasks-list--buttons">
                         <button onClick={handleFeedback} className="button-feedback button">Send Feedback<i>!</i></button>
 
-                        <Link to="/create-issue" className="button-create-task button">Create Request</Link>
+                        <Link to="/request" className="button-create-task button">Create Request</Link>
                     </section>
                 )}
             </section>
