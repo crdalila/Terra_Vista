@@ -18,6 +18,7 @@ function CreateProjectForm() {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -61,7 +62,6 @@ function CreateProjectForm() {
         fetchUsers();
     }, []);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -87,8 +87,7 @@ function CreateProjectForm() {
                         console.error(`Error adding user ${userId} to project`, err);
                     }
                 }
-                alert("Project created successfully");
-                navigate(`/`);
+                setShowSuccessModal(true);
             } else {
                 alert("Error creating the project");
             }
@@ -112,9 +111,9 @@ function CreateProjectForm() {
 
     return (
         <article className="create-project-form-page article">
-            <sectio className="page-header">
+            <section className="page-header">
                 <h2 className="page-title">New<br />Project</h2>
-            </sectio>
+            </section>
 
             <section className="page-content">
                 <form onSubmit={handleSubmit} className="create-project-form">

@@ -46,10 +46,14 @@ function TaskCard({ task, projectId }) {
 
             {/*LINK TO ISSUE*/}
             <div className="task-card__link">
-                <Link to={`/request`} state={{ task }}> {/* we use state to pass the task */}
+                <Link to={`/request-detail`} state={{ task }}> {/* we use state to pass the task */}
                     <section className="task-id">
                         <p>#{task._id}</p>
                     </section>
+
+                <div className="task-isSend">
+                    {task.isSend ? "Sent" : "!Pending" }
+                </div>
 
                     <section className="task-request">
                         <h4>Name:</h4>
@@ -62,7 +66,8 @@ function TaskCard({ task, projectId }) {
                     </section>
 
                     <section className="task-date">
-                        <p>{task.inputDate}</p>
+                        <p>{new Date(task.inputDate).toISOString().slice(0, 10).replaceAll("-", "/")}</p>
+                        
                     </section>
                 </Link>
             </div>
