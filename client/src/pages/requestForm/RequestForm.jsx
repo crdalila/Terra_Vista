@@ -51,7 +51,10 @@ function RequestForm() {
         setLoading(true);
         try {
             if (isExisting && isEditing) {
-                await taskService.editTask(selectedProject._id, task._id, formData);
+                await taskService.editTask(selectedProject._id, task._id, {
+                    ...formData,
+                    requester: userData.name
+                });
                 alert("Request updated successfully"); // TODO otro tipo de alerta
             } else if (!isExisting) {
                 await taskService.createTask(selectedProject._id, {
@@ -112,7 +115,7 @@ function RequestForm() {
 
                 <label htmlFor="picture">Screenshot:</label>
                 <input type="file" accept="image/*" name="picture" id="picture" value={formData.picture} disabled={!isEditing}
-                onChange={(e) => setImage(e.target.files[0])} />
+                    onChange={(e) => setImage(e.target.files[0])} />
 
                 {isExisting && !isEditing && (
                     <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
