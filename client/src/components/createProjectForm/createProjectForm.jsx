@@ -17,6 +17,7 @@ function CreateProjectForm() {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -60,7 +61,6 @@ function CreateProjectForm() {
         fetchUsers();
     }, []);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -81,8 +81,7 @@ function CreateProjectForm() {
                         console.error(`Error adding user ${userId} to project`, err);
                     }
                 }
-                alert("Project created successfully");
-                navigate(`/`);
+                setShowSuccessModal(true);
             } else {
                 alert("Error creating the project");
             }
@@ -92,10 +91,21 @@ function CreateProjectForm() {
         } finally {
             setLoading(false);
         }
-
     };
+
     return (
         <article className="create-project-form article">
+
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Project {projectName} successfully created! {userData.name} can now access to it. If you want to give access to more users, you can do it from the project page.</p>
+                        <button className="button-modal" onClick={() => navigate("/project")}>Go to projects</button>
+                    </div>
+                </div>
+            )}
+
+
             <form onSubmit={handleSubmit}>
                 <h2>Create a new project</h2>
 
