@@ -6,6 +6,7 @@ import UserCard from "../../components/userCard/UserCard";
 import "./Users.css";
 
 function Users() {
+    const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
     const [keyValue, setKeyValue] = useState(0);
 
@@ -31,15 +32,14 @@ function Users() {
 
     return (
         <article className="users article">
-            <h2>Users</h2>
-            <section className="users-list">
-                <h3>Users List</h3>
-                <UserCard key={keyValue} />
+            <section className="page-header">
+                <h2 className="page-title">Users</h2>
             </section>
+            
             <section className="page-content">
                 <div className="users-list">
                     {users.length === 0 ? (
-                        <p>There are no users created yet.</p>
+                        <h3>There are no users created yet.</h3>
                     ) : (
                         users.map(user =>
                             <UserCard user={user} key={user._id} />)

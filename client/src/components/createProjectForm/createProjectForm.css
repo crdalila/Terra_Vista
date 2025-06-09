@@ -1,0 +1,31 @@
+.create-project-form {
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+}
+
+.create-project-form label {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.create-project-form input, .create-project-form #space, .create-project-form #users {
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    background-color: var(--main-color);
+    color: var(--text-color);
+
+    padding: .5em 1em;
+    border: none;
+    border-radius: 40px;
+
+    transition: all .3s ease;
+}
+
+.create-project-form input:hover, .create-project-form #space:hover, .create-project-form #users:hover {
+    border-radius: 10px;
+}

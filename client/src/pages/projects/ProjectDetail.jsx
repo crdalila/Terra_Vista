@@ -54,34 +54,51 @@ function ProjectDetail() {
     }
 
     const fetchUsers = async () => {
-            try {
-                const result = await userService.getAllUsers();
-                if (Array.isArray(result)) {
-                    const clients = result.filter(user => user.role === "client");
-                    let clientsWithoutSelectedProject = [];
-                    let clientWithSelectedProject = [];
-                    clients.forEach((client) => {
-                        let isProjectAlreadyAdded = false;
-                        client.projects.forEach((project) => {
-                            if (project._id == selectedProject._id) {
-                                isProjectAlreadyAdded = true;
-                            }
-                        });
-                        if (!isProjectAlreadyAdded) {
-                            clientsWithoutSelectedProject.push(client);
-                        } else {
-                            clientWithSelectedProject.push(client);
+        try {
+            const result = await userService.getAllUsers();
+            if (Array.isArray(result)) {
+                const clients = result.filter(user => user.role === "client");
+                let clientsWithoutSelectedProject = [];
+                let clientWithSelectedProject = [];
+                clients.forEach((client) => {
+                    let isProjectAlreadyAdded = false;
+                    client.projects.forEach((project) => {
+                        if (project._id == selectedProject._id) {
+                            isProjectAlreadyAdded = true;
                         }
                     });
-                    setUsers(clientsWithoutSelectedProject);
-                    setUsersInProject(clientWithSelectedProject);
-                } else {
-                    console.error("Can't get users");
-                }
-            } catch (err) {
-                console.error("Error getting users:", err);
+                    if (!isProjectAlreadyAdded) {
+                        clientsWithoutSelectedProject.push(client);
+                    } else {
+                        clientWithSelectedProject.push(client);
+                    }
+                });
+                setUsers(clientsWithoutSelectedProject);
+                setUsersInProject(clientWithSelectedProject);
+            } else {
+                console.error("Can't get users");
             }
-        };
+        } catch (err) {
+            console.error("Error getting users:", err);
+        }
+    };
+
+    const ProgressBarChart = ({ project }) => {
+		if (!project || !project.tasks || project.tasks.length === 0) {
+			return <p>There are no tasks.</p>;
+		}
+
+		const totalTasks = project.tasks.length;
+		const completedTasks = project.tasks.filter(task => task.done).length;
+		const percentage = Math.round((completedTasks / totalTasks) * 100);
+
+		return (
+			<div className="progress-container">
+				<div className="progress-bar" style={{ width: `${percentage}%` }} />
+				<span className="progress-label">{percentage}% completed</span>
+			</div>
+		);
+	};
 
 
     useEffect(() => {
@@ -108,75 +125,64 @@ function ProjectDetail() {
         }
     };
 
-    console.log(usersInProject);
+
+    console.log("UsersProject", usersInProject);
     return (
         <article className="project-page article">
 
-            <section className="project-detail page-header">
+            <section className="page-header">
                 <h2 className="page-title">{selectedProject.name}</h2>
-                <div className="project-detail__info page-info">
-                    <div className="project-detail__info--text">
-                        <h3>Your website is ready for you.</h3>
-                        <p>Explore your website and observe the details.</p>
-                    </div>
-                    {userData && userData.role === "projectManager" && (
-                        <button className="add-user-to-project-button button" onClick={() => setShowAddUserForm(prev => !prev)}>{showAddUserForm ? "Cancel" : "Add User To Project"}</button>
-                    )}
-                    {showAddUserForm && (
-                        <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                            <label htmlFor="users">Select clients to add to this project: </label>
-                            <select
-                                id="users"
-                                value={selectedUsers}
-                                multiple
-                                required
-                                onChange={(e) =>
-                                    setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                                }
-                            >
-                                <option disabled value="">-- Select clients --</option>
-                                {users.map(user => (
-                                    <option key={user._id} value={user._id}>
-                                        {user.name} ({user.email})
-                                    </option>
-                                ))}
-                            </select>
-
-                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks</button>
-
-                    </div>
+                <div className="page-info">
+                    <h3>Your website is ready for you.</h3>
+                    <p>Explore your website and observe the details.</p>
+                    <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
                 </div>
             </section>
 
-            <section className="projects-data"> {/* TODO COMPONENTS */}
-                {usersInProject.map(user => (
-                    <p key={user._id} value={user._id}>
-                        {user.name} ({user.email})
-                    </p>
-                ))}
-                <p>Notifications</p>
-                <p>Review history</p>
+            <section className="page-content">
+                <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                    <label htmlFor="users">Select clients to add to this project: </label>
+                    <select
+                        id="users"
+                        value={selectedUsers}
+                        multiple
+                        required
+                        onChange={(e) =>
+                            setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                        }
+                    >
+                        <option disabled value="">-- Select clients --</option>
+                        {users.map(user => (
+                            <option key={user._id} value={user._id}>
+                                {user.name} ({user.email})
+                            </option>
+                        ))}
+                    </select>
 
-                        <button type="submit" disabled={loading} className="add-user-button button">
-                            {loading ? "Adding..." : "Add User"}
-                        </button>
-                    </form>
-                )}
+                    <button type="submit" disabled={loading} className="add-user-button button">
+                        {loading ? "Adding..." : "Add User"}
+                    </button>
+                </form>
 
                 <div className="projects-data"> {/* TODO COMPONENTS */}
-                    <div className="project--pannels">
-                        <p>Notifications</p>
-                        <p>Review history</p>
-                    </div>
+                    {usersInProject.map(user => (
+                        <p key={user._id} value={user._id}>
+                            {user.name} ({user.email})
+                        </p>
+                    ))}
+                    <p>Notifications</p>
+                    <p>Review history</p>
 
-                    <div className="projects-data--chart">
+                    <div className="project--chart">
                         <p>Progress</p>
-                        <DoughnutChart project={project} />
+                        <ProgressBarChart project={project} />
                     </div>
                 </div>
 
                 <div className="project-tasklist"> {/* TODO COMPONENTS */}
-                    <TaskList ref={projectTaskListRef} tasks={selectedProject.tasks} projectId={selectedProject._id} />
+                    <div ref={projectTaskListRef}>
+                        <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
+                    </div>
                 </div>
             </section>
         </article>

@@ -259,7 +259,7 @@ h3 {
 .page-header {
   position: relative;
 
-  z-index: 0;
+  z-index: 1;
 
   background-color: var(--text-color);
   color: var(--main-color);
@@ -272,17 +272,19 @@ h3 {
   justify-content: flex-end;
   gap: 2em;
 
-  min-height: 18em;
+  min-height: 20em;
+
+  overflow: hidden;
 }
 
 .page-title {
   position: absolute;
-  left: -5rem;
-  bottom: -8rem;
+  left: -3rem;
+  bottom: -2rem;
 
   font-size: 18rem;
 
-  max-width: 80%;
+  line-height: .8em;
 }
 
 .page-info {
@@ -297,7 +299,7 @@ h3 {
   max-width: 30%;
   height: 100%;
 
-  margin-right: 10em;
+  margin-right: 2em;
 }
 
 .page-buttons {
@@ -335,6 +337,8 @@ h3 {
   display: flex;
   flex-flow: column;
   gap: 2em;
+
+  z-index: 0;
 }
 
 

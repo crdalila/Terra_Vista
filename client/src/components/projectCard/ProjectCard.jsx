@@ -58,7 +58,7 @@ function ProjectCard({ project }) {
 				<div className="project--info">
 					<h3>{project.name}</h3>
 					<img src="../../../public/images/icons-card.png" alt="icons" className="project--icons" />
-					<p>{project.description}</p> {/* TODO ADD DESCRIPTION */}
+					<p>{project.description}</p>
 				</div>
 				<ProgressBarChart project={project} />
 			</Link>
