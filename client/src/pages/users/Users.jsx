@@ -56,14 +56,6 @@ function Users() {
             </section>
 
             <section className="page-content">
-                <div className="users-list">
-                    {users.length > 0 ? (users.map(user => (
-                        <UserCard key={keyValue} user={user} />
-                    ))) : (<p>There are no users created yet.</p>)
-                    }
-
-                </div>
-
                 <form className="create-user-form" onSubmit={handleCreateUser}>
                     <h3>Create New User</h3>
                     <label>Name:</label>
@@ -85,6 +77,14 @@ function Users() {
 
                     <button type="submit" className="new-user-button button">Create User<i>!</i></button>
                 </form>
+
+                <div className="users-list">
+                    {users.length > 0 ? (users.map(user => (
+                        <UserCard key={keyValue} user={user} />
+                    ))) : (<p>There are no users created yet.</p>)
+                    }
+
+                </div>
             </section>
         </article>
     );

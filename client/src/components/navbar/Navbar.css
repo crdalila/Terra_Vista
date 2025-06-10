@@ -150,11 +150,11 @@
     /* Burger toggle */
     .burger-toggle {
         position: absolute;
-        top: 3.6em;
-        right: -2.5em;
-        width: 2.5em;
+        top: 50%;
+        right: -1.5em;
+        width: 1.5em;
         height: 2.5em;
-        padding-left: 1em;
+        padding-right: .5em;
 
         background-color: var(--text-color);
         color: var(--main-color);
