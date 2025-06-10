@@ -48,9 +48,7 @@ function TaskList({ tasks = [], projectId }) {
             </section>
 
             <section className="tasks-list--tasks">
-                {tasks.length === 0 ? (
-                    <p>You have no tasks for this project yet.</p>
-                ) : (
+                {tasks.length > 0 && (
                     tasks.map(task => (
                         <TaskCard task={task} key={task._id} projectId={projectId} />
                     ))
