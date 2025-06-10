@@ -1,12 +1,14 @@
 
 import NotificationCard from "./NotificationCard";
 import { Fragment } from "react";
+
+import "./Notifications.css";
 function NotificationList({ projects }) {
 
 
     return (
         <article className="notifications">
-            <h2>notificationsications</h2>
+            <h3>Notifications</h3>
             {projects.map((project) => {
                 return (
                     <Fragment key={project._id}>

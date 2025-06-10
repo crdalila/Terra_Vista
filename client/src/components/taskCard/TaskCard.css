@@ -1,25 +1,11 @@
-.task-card {
-    background-color: var(--items-color);
-    padding: 2em;
-    border-radius: 20px;
-    cursor: pointer;
-
-    width: fit-content;
-}
-
-.task-card__link a {
-    display: flex;
-    flex-flow: column;
-    gap: 1em;
-}
-
 .task-id {
     font-size: .8rem;
 }
 
 .task-card__trash {
     cursor: pointer;
-    justify-self: end;
+
+    margin-top: 1em;
 }
 
 .delete-confirmation {
@@ -52,9 +38,114 @@
 .button-cancel {
     background-color: var(--main-color);
     color: var(--text-color);
+
+    padding: .5em 1em;
+    border: 2px solid var(--text-color);
+    border-radius: 20px;
+
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+
+    transition: all .3s ease;
 }
 
 .button-delete {
     background-color: var(--text-color);
     color: var(--main-color);
+
+    padding: .5em 1em;
+    border-radius: 20px;
+
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+
+    transition: all .3s ease;
+}
+
+.button-cancel:hover,
+.button-delete:hover {
+    border-radius: 10px;
+}
+
+
+.status-container {
+    margin-right: 3em;
+    z-index: 2;
+}
+
+.status-sent {
+    text-align: center;
+    color: var(--light-green);
+    font-weight: bold;
+    background-color: rgba(0, 128, 0, 0.1);
+    padding: 0.2em 0.5em;
+    border-radius: 8px;
+}
+
+.status-pending {
+    text-align: center;
+    color: var(--orange);
+    font-weight: bold;
+    background-color: rgba(255, 165, 0, 0.1);
+    padding: 0.2em 0.5em;
+    border-radius: 8px;
+}
+
+.task-date {
+    font-size: .8rem;
+}
+
+
+
+
+
+
+
+.task-card__link {
+    padding: 2em;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    /* Ajusta según tu diseño */
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.task-card__link.sent {
+    background-color: var(--light-green);
+}
+
+.task-card__link.pending {
+    background-color: var(--orange);
+}
+
+.task-info {
+    z-index: 2;
+}
+
+
+.task-card__link::after {
+    content: '';
+    position: absolute;
+    left: -30px; /* Lado izquierdo */
+    top: -50%;
+    width: 100%;
+    height: 200%;
+    background-color: var(--items-color);
+    border-top-right-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+    z-index: 0;
+    transition: width 0.4s ease, left 0.4s ease;
+}
+
+.task-card__link:hover::after {
+    left: -50px;
 }
