@@ -15,8 +15,7 @@ import clickUpRoutes from "./routes/clickUpRouter.ts";
 dotenv.config();
 connectDB();
 const app = express();
-let example = express();
-example.disable("x-powered-by");
+app.disable("x-powered-by");
 app.use(express.static("public"));
 
 const CLIENT_URL = process.env.CLIENT_URL;
