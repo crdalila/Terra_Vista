@@ -382,7 +382,7 @@ body.dark-theme {
 
 
 /* MEDIA QUERIES */
-@media (max-width: 1240px) {
+@media (max-width: 1400px) {
   .page-header {
     min-height: 20em;
     height: fit-content;
