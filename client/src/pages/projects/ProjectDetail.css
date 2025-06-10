@@ -87,7 +87,7 @@
   align-items: center;
 }
 
-.project-user:hover .user-card--email {
+.project-user:hover .user-card--email, .user-card:hover .user-card--email {
   max-width: 200px;
   opacity: 1;
 }

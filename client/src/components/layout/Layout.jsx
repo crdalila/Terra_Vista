@@ -23,12 +23,14 @@ const Layout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useScrollToTop();
+
+
   if (!userData) {
     if (loading) return <div>Loading...</div>;
     return <Navigate to="/login" />;
   }
 
-  useScrollToTop();
 
   return (
     <>
