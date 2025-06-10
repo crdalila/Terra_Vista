@@ -40,7 +40,7 @@
     position: relative;
     min-height: 50px;
 
-    background-color: var(--main-color);
+    background-color: transparent;
     border: 2px solid var(--pink);
     border-radius: 20px;
 

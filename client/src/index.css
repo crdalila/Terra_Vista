@@ -342,7 +342,7 @@ h4 {
 
   display: flex;
   flex-flow: column;
-  gap: 2em;
+  gap: 5em;
 
   z-index: 50;
 }
@@ -468,5 +468,9 @@ body.dark-theme {
 
   .button {
     font-size: 1rem;
+  }
+
+  .back-button {
+    display: none;
   }
 }
