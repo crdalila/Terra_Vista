@@ -38,11 +38,35 @@
 .button-cancel {
     background-color: var(--main-color);
     color: var(--text-color);
+
+    padding: .5em 1em;
+    border: 2px solid var(--text-color);
+    border-radius: 20px;
+
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+
+    transition: all .3s ease;
 }
 
 .button-delete {
     background-color: var(--text-color);
     color: var(--main-color);
+
+    padding: .5em 1em;
+    border-radius: 20px;
+
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+
+    transition: all .3s ease;
+}
+
+.button-cancel:hover,
+.button-delete:hover {
+    border-radius: 10px;
 }
 
 

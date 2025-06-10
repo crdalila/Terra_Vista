@@ -114,7 +114,7 @@ function TaskCard({ task, projectId }) {
                                     handleRemoveIssue(task._id);
                                 }}
                             >
-                                Delete
+                                Delete<i>!</i>
                             </button>
                         </div>
                     </div>
