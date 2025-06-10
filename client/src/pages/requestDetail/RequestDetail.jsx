@@ -59,7 +59,6 @@ function RequestDetail() {
             </section>
 
             <section className="page-content">
-                <h3>Request Detail</h3>
                 <div className="request-info">
                     {/* Onlyl show if there are comments */}
                     {Array.isArray(task.comments) && task.comments.length > 0 && (

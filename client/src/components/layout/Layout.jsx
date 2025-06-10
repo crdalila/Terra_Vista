@@ -5,6 +5,8 @@ import { AuthContext } from "../../context/AuthContext";
 import TopNavbar from "../navbar/TopNavbar";
 import AsideNavbar from "../navbar/AsideNavbar";
 
+import useScrollToTop from "../../components/scrollToTop/ScrollToTop";
+
 const Layout = () => {
   const { userData, loading } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,6 +27,8 @@ const Layout = () => {
     if (loading) return <div>Loading...</div>;
     return <Navigate to="/login" />;
   }
+
+  useScrollToTop();
 
   return (
     <>

@@ -7,13 +7,15 @@
     border-radius: 20px;
 
     position: relative;
+
+    width: 100%;
 }
 
 .project--data {
     display: flex;
     flex-flow: column;
     gap: 2em;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .project--icons {
@@ -28,6 +30,8 @@
     position: absolute;
     top: 2em;
     right: 2em;
+
+    cursor: pointer;
 }
 
 
