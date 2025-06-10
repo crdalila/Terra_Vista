@@ -11,6 +11,7 @@ export const useScrollToTop = () => {
 
 function ScrollToTop() {
   useScrollToTop();
+  
   return null;
 }
 
