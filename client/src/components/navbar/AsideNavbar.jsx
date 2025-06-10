@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import "./Navbar.css";
 import NotificationList from "../notifications/Notifications";
 
-function AsideNavbar() {
+function AsideNavbar([isOpen, toggleMenu]) {
   const { userData } = useContext(AuthContext);
 
   const [showNotif, setShowNotif] = useState(false);
