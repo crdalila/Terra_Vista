@@ -67,6 +67,9 @@
     width: 100%;
     min-width: 300px;
 
+    background-color: var(--main-color);
+    color: var(--text-color);
+
     transition: all .3s ease;
 }
 
