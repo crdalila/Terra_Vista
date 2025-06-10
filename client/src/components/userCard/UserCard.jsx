@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import userService from "../../utils/user";
-import user from "../../utils/user";
 
 import "./UserCard.css";
 
