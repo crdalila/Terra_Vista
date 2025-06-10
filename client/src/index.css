@@ -343,7 +343,7 @@ h4 {
   flex-flow: column;
   gap: 2em;
 
-  z-index: 0;
+  z-index: 200;
 }
 
 
@@ -455,22 +455,6 @@ body.dark-theme {
 
   .page-info {
     margin-right: 0;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
-
-  h4 {
-    font-size: 1rem;
   }
 
   .button {
