@@ -34,7 +34,7 @@
 .progress-container {
     width: 100%;
     position: relative;
-    height: 30px;
+    min-height: 50px;
 
     background-color: var(--main-color);
     border: 2px solid var(--pink);
@@ -42,24 +42,28 @@
 
     overflow: hidden;
     margin: 1rem 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5em 1em;
 }
 
 .progress-bar {
-    height: 100%;
-    width: 100%;
-
     background-color: var(--pink);
     transition: all 3s ease;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .progress-label {
-    position: absolute;
     width: 100%;
+    height: 100%;
 
     text-align: center;
-    top: 0;
-    left: 0;
-    line-height: 30px;
-    font-weight: bold;
-    color: #333;
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+    color: var(--text-color);
 }
