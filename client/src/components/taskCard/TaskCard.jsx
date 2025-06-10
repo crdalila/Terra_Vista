@@ -35,7 +35,8 @@ function TaskCard({ task, projectId }) {
 
 
     return (
-        <article className="task-card">
+        <div className="project-card--container">
+            <article className="task-card">
 
             {error && (
                 <div className="error-message" style={{ color: 'red', fontSize: '12px' }}>
@@ -78,8 +79,9 @@ function TaskCard({ task, projectId }) {
                     </button>
                 </div>
             )}
+        </article >
 
-            {/*CONFIRM DELETE*/}
+        {/*CONFIRM DELETE*/}
             {issueToDelete && (
                 <div
                     className="delete-confirmation"
@@ -117,8 +119,7 @@ function TaskCard({ task, projectId }) {
                     </div>
                 </div>
             )}
-
-        </article >
+        </div>
     );
 }
 
