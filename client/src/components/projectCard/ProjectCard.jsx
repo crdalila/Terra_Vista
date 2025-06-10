@@ -51,13 +51,17 @@ function ProjectCard({ project }) {
 		);
 	};
 
+	const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
+
 
 	return (
 		<div className="project">
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
-					<img src="../../../public/images/icons-card.png" alt="icons" className="project--icons" />
+					<img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 					<p>{project.description}</p>
 				</div>
 				<ProgressBarChart project={project} />

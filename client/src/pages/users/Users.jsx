@@ -10,6 +10,9 @@ function Users() {
     const [keyValue, setKeyValue] = useState(0);
     const [users, setUsers] = useState([]);
 
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
         try {
@@ -63,6 +66,8 @@ function Users() {
             <section className="page-content">
                 <form className="create-user-form" onSubmit={handleCreateUser}>
                     <h3>Create New User</h3>
+                    <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
+
                     <label>Name:</label>
                     <input
                         type="text"

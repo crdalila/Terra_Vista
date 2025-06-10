@@ -13,7 +13,7 @@ function TopNavbar() {
       <ul>
         <li>
           <Link to="/">
-            <img src="../../../public/images/logo_terra_vista.svg" alt="logo" className="top-nav--logo" />
+            <img src="../../../public/images/logo_terra_vista.png" alt="logo" className="top-nav--logo" />
           </Link>
         </li>
         <li>

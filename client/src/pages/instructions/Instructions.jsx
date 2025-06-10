@@ -1,6 +1,9 @@
 import './Instructions.css'
 
 function Instructions() {
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+    const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
     return (
         <article className="instructions article">
             <section className="page-header">
@@ -23,12 +26,16 @@ function Instructions() {
                     your expectations.</p>
 
                 <h3>What type of comment would you like to make?</h3>
-                <p>When interacting with your site, you’ll be able to select the comment type that
+                <p>When interacting with your site, you will be able to select the comment type that
                     best describes your feedback. This helps us better understand and implement
                     your suggestions.</p>
 
                 <div className="instructions-item">
-                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <img
+                        src={`/images/threeIcons/${Math.floor(Math.random() * 12) + 1}.svg`}
+                        alt="random icon"
+                        className="project--icons"
+                    />
                     <div className="instructions-item--text">
                         <h4>Copy Revision</h4>
                         <p>Use this option to suggest edits to the text, from a headline that feels too
@@ -41,7 +48,11 @@ function Instructions() {
                 </div>
 
                 <div className="instructions-item">
-                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <img
+                        src={`/images/threeIcons/${Math.floor(Math.random() * 12) + 1}.svg`}
+                        alt="random icon"
+                        className="project--icons"
+                    />
                     <div className="instructions-item--text">
                         <h4>Design Issues</h4>
                         <p>Color, size, font, or alignment, this is the place for visual adjustments.</p>
@@ -54,7 +65,11 @@ function Instructions() {
                 </div>
 
                 <div className="instructions-item">
-                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <img
+                        src={`/images/threeIcons/${Math.floor(Math.random() * 12) + 1}.svg`}
+                        alt="random icon"
+                        className="project--icons"
+                    />
                     <div className="instructions-item--text">
                         <h4>Requested Change</h4>
                         <p>Want to reorder something? Remove an element? Move an image?
@@ -69,7 +84,11 @@ function Instructions() {
                 </div>
 
                 <div className="instructions-item">
-                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions' />
+                    <img
+                        src={`/images/threeIcons/${Math.floor(Math.random() * 12) + 1}.svg`}
+                        alt="random icon"
+                        className="project--icons"
+                    />
                     <div className="instructions-item--text">
                         <h4>New Item</h4>
                         <p>Looking to add something that’s not in the design?
@@ -88,7 +107,7 @@ function Instructions() {
                 <h3>Frequently Asked Questions (FAQ)</h3>
                 <div className="instructions-contact--info">
                     <p className="instructions-contact--title">1. Can I view the revision history?</p>
-                    <p>Yes! In the “History” section, you’ll find a log of all changes made and access to previous
+                    <p>Yes! In the “History” section, you will find a log of all changes made and access to previous
                         versions.</p>
 
                     <p className="instructions-contact--title">2. Are my comments public?</p>
@@ -99,13 +118,12 @@ function Instructions() {
                         experience.</p>
 
                     <p className="instructions-contact--title">4. How do I know if my feedback has been applied?</p>
-                    <p>You’ll receive a notification when a new version with your feedback goes live. You can also
+                    <p>You will receive a notification when a new version with your feedback goes live. You can also
                         check it in the History section.</p>
 
                     <p className="instructions-contact--title">5. Where can I see an overview of the project status?</p>
                     <p>The main dashboard shows you a summary with statuses like: pending review, approved,
                         under revision, and final delivery.</p>
-                    <img src="../../public/images/icons-instructions.png" alt="icons" className='icons-instructions-contact' />
                 </div>
             </section>
         </article>
