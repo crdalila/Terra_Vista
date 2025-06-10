@@ -48,6 +48,7 @@ function RequestDetail() {
             </section>
 
             <section className="page-content">
+                <h3>Request Detail</h3>
                 <div className="request-info">
                     {/* Solo mostramos si hay comentarios */}
                     {Array.isArray(task.comments) && task.comments.length > 0 && (
@@ -73,10 +74,12 @@ function RequestDetail() {
                     )}
 
                     <div className="request-detail__info">
-                        <h3>Request Info</h3>
+                        <div className="request-detail__title">
+                            <h3>Request Info</h3>
 
-                        <img src="../../public/images/icons-card.png" alt="icons" className="icons-card" />
-
+                            <img src="../../public/images/icons-card.png" alt="icons" className="icons-card" />
+                        </div>
+                        
                         <h4>Project:</h4>
                         <p>{task.name}</p>
 
