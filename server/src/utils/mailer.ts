@@ -1,8 +1,6 @@
 
 import { Request, Response } from 'express'
-import { Resend } from 'resend';
-
-const resend = new Resend('re_CuzVyDwr_5DVNoQJMHqt875XppsKrhsVd');
+import { createTransport } from 'nodemailer';
 
 interface mailInterface {
   email: string,
@@ -10,24 +8,53 @@ interface mailInterface {
   text: string
 }
 
-async function sendMail(email: string, subject: string, text: string) {
-  const { data, error } = await resend.emails.send({
-    from: 'Terra Vista <terravista@resend.dev>',
-    to: [email],
+function CommentText(userName: string, text: string) {
+  return `<p>Hello ${userName}, <br>
+  A comment has been added to a task : <br>
+  "${text}" <br>
+  Thank you, <br>
+  Terra Vista.</p>`
+}
+//For status change
+function StatusText(userName: string, text: string) {
+  return `<p>Hello ${userName}, <br>
+  A comment has been added to a task : <br>
+  "${text}" <br>
+  Thank you, <br>
+  Terra Vista.</p>`
+}
+
+const transporter = createTransport({
+  service: "gmail",
+  auth: {
+    type: 'OAuth2',
+    user: process.env.MAIL_USERNAME,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN
+  },
+});
+
+function sendMail(email: string, subject: string, text: string) {
+  const mailOptions = {
+    from: process.env.MAIL_USERNAME,
+    to: email,
     subject: subject,
-    html: "<p>" + text + "</p>",
+    text: text
+  };
+
+  return transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(`Error:`, error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
   });
+}
 
-  if (error) {
-    return console.error({ error });
-  }
-
-  console.log({ data });
-};
-
-async function sendMailController(req: Request, res: Response) {
+function sendMailController(req: Request, res: Response) {
   const mailData: mailInterface = req.body;
-  res.json(await sendMail(mailData.email, mailData.subject, mailData.text));
+  res.json(sendMail(mailData.email, mailData.subject, mailData.text));
 }
 
 export { sendMailController };
