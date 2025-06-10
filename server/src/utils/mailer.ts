@@ -2,26 +2,33 @@
 import { Request, Response } from 'express'
 import { createTransport } from 'nodemailer';
 
+enum mailType {
+  comment = "comment",
+  status = "status"
+}
+
 interface mailInterface {
+  name: string,
   email: string,
   subject: string,
   text: string
+  type: mailType
 }
 
 function CommentText(userName: string, text: string) {
-  return `<p>Hello ${userName}, <br>
-  A comment has been added to a task : <br>
-  "${text}" <br>
-  Thank you, <br>
-  Terra Vista.</p>`
+  return `Hello ${userName}, 
+  A comment has been added to a task : 
+  "${text}" 
+  Thank you, 
+  Terra Vista.`
 }
 //For status change
 function StatusText(userName: string, text: string) {
-  return `<p>Hello ${userName}, <br>
-  A comment has been added to a task : <br>
-  "${text}" <br>
-  Thank you, <br>
-  Terra Vista.</p>`
+  return `Hello ${userName}, 
+  A comment has been added to a task : 
+  "${text}" 
+  Thank you, 
+  Terra Vista.`
 }
 
 const transporter = createTransport({
@@ -35,12 +42,12 @@ const transporter = createTransport({
   },
 });
 
-function sendMail(email: string, subject: string, text: string) {
+function sendMail(name: string, email: string, subject: string, text: string, type: mailType) {
   const mailOptions = {
     from: process.env.MAIL_USERNAME,
     to: email,
     subject: subject,
-    text: text
+    text: type == mailType.comment ? CommentText(name, text) : StatusText(name, text)
   };
 
   return transporter.sendMail(mailOptions, function (error, info) {
@@ -54,7 +61,9 @@ function sendMail(email: string, subject: string, text: string) {
 
 function sendMailController(req: Request, res: Response) {
   const mailData: mailInterface = req.body;
-  res.json(sendMail(mailData.email, mailData.subject, mailData.text));
+  res.json(sendMail(mailData.name, 
+    mailData.email, mailData.subject, 
+    mailData.text, mailData.type));
 }
 
 export { sendMailController };
