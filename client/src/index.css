@@ -344,7 +344,7 @@ h4 {
   flex-flow: column;
   gap: 2em;
 
-  z-index: 200;
+  z-index: 50;
 }
 
 
