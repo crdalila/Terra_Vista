@@ -20,6 +20,44 @@ function CreateProjectForm() {
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    const customSelectStyles = {
+        control: (provided, state) => ({
+            ...provided,
+            border: "none",
+            boxShadow: "none",
+            backgroundColor: "var(--main-color)",
+            borderRadius: "40px", 
+            padding: ".5em 1em",
+            fontFamily: "var(--main-font)",
+            fontSize: "var(--main-font-size)",
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: "var(--text-color)",
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: "var(--text-color)",
+        }),
+        multiValue: (provided) => ({
+            ...provided,
+            backgroundColor: "var(--items-color)",
+        }),
+        multiValueLabel: (provided) => ({
+            ...provided,
+            color: "var(--text-color)",
+        }),
+        multiValueRemove: (provided) => ({
+            ...provided,
+            color: "var(--text-color)",
+            ':hover': {
+                backgroundColor: 'var(--text-color)',
+                color: 'var(--main-color)',
+            }
+        }),
+    };
+
+
     const navigate = useNavigate();
 
     // GET CLICKUP SPACES:
@@ -142,6 +180,7 @@ function CreateProjectForm() {
                     <label htmlFor="space">Select a clickUp Space: </label>
                     <Select
                         id="space"
+                        styles={customSelectStyles}
                         options={spaceOptions}
                         value={spaceOptions.find(opt => opt.value === selectedSpace)}
                         onChange={(selectedOption) => setSelectedSpace(selectedOption?.value || "")}
@@ -152,6 +191,7 @@ function CreateProjectForm() {
                     <label htmlFor="users">Select clients to add to this project: </label>
                     <Select
                         id="users"
+                        styles={customSelectStyles}
                         options={userOptions}
                         value={userOptions.filter(opt => selectedUsers.includes(opt.value))}
                         onChange={(selectedOptions) =>

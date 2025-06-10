@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import userService from "../../utils/user";
 
 import UserCard from "../../components/userCard/UserCard";
@@ -8,6 +8,26 @@ import "./Users.css";
 function Users() {
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
     const [keyValue, setKeyValue] = useState(0);
+    const [users, setUsers] = useState([]);
+
+    // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
+    const fetchUsers = async () => {
+        try {
+            const result = await userService.getAllUsers();
+            if (Array.isArray(result)) {
+                const clients = result.filter(user => user.role === "client");
+                setUsers(clients);
+            } else {
+                console.error("Can't get users");
+            }
+        } catch (err) {
+            console.error("Error getting users:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +57,11 @@ function Users() {
 
             <section className="page-content">
                 <div className="users-list">
-                    <UserCard key={keyValue} />
+                    {users.length > 0 ? (users.map(user => (
+                        <UserCard key={keyValue} user={user} />
+                    ))) : (<p>There are no users created yet.</p>)
+                    }
+
                 </div>
 
                 <form className="create-user-form" onSubmit={handleCreateUser}>
