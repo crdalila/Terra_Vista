@@ -15,7 +15,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo
+    image: mongo:4.4
     container_name: ${DB_HOST}
     restart: unless-stopped
     environment:
