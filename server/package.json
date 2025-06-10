@@ -12,7 +12,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/nodemailer": "^6.4.17",
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -23,7 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "multer": "^2.0.1",
-    "nodemailer": "^7.0.3"
+    "resend": "^4.5.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
