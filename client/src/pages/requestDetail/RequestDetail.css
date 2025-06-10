@@ -6,3 +6,7 @@
     flex-flow: column;
     gap: 1em;
 }
+
+.request-detail__title {
+    margin-bottom: 2em;
+}
