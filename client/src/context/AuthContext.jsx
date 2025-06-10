@@ -37,7 +37,10 @@ const AuthProvider = ({ children }) => {
     const handleRegister = async (email, password) => {
         try {
             const result = await register(email, password);
-            if (result.error) return result.error;
+            if (result.error) {
+                if(result.error == true) return result.message;
+                return result.error;
+            }
 
             if (result.userData) {
                 setUserData(result.userData);
@@ -52,7 +55,10 @@ const AuthProvider = ({ children }) => {
     const handleLogin = async (email, password) => {
         try {
             const result = await login(email, password);
-            if (result.error) return result.error;
+            if (result.error) {
+                if(result.error == true) return result.message;
+                return result.error;
+            }
             if (result.userData) {
                 setUserData(result.userData);
             }

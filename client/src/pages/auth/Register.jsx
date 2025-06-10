@@ -1,6 +1,7 @@
 import { useState } from "react";
-// import { AuthContext } from "../../context/AuthContext";
 import "./auth.css";
+import { firstLogin } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -10,12 +11,37 @@ function Register() {
         provisional: false,
         new: false,
     });
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const toggleShowPassword = (field) => {
         setShowPasswords((prev) => ({
             ...prev,
             [field]: !prev[field],
         }));
+    };
+
+    const handleFirstLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const result = await firstLogin(email,
+                provisionalPassword,
+                newPassword);
+            console.log("Error", result.error);
+            if (result.error) {
+                console.log(result.error);
+                if (result.error == true) {
+                    setError(result.message);
+                } else {
+                    setError(result.error);
+                }
+            } else {
+                navigate("/login");
+            }
+        } catch (error) {
+            console.error("First Login error:", error);
+            return "Error processing the first login.";
+        }
     };
 
     return (
@@ -99,11 +125,11 @@ function Register() {
                     </button>
                 </div>
 
-                <button type="submit" className="register-button">
+                <button onClick={handleFirstLogin} type="submit" className="register-button">
                     Register<i>!</i>
                 </button>
             </form>
-
+            {error && <p className="error">{error}</p>}
             <p>Already have an account? <a href="/login">Login</a></p>
         </article>
     );

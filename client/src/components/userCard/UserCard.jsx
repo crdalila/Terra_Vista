@@ -46,7 +46,7 @@ function UserCard() {
 
     return (
         <article className="user-card">
-            {users.map(user => (
+            {users.length > 0 ? (users.map(user => (
                 <div key={user._id}>
                     <p className="user-card__name">{user.name}</p>
                     <p>{user.email}</p>
@@ -64,7 +64,8 @@ function UserCard() {
                         </svg>
                     </div>
                 </div>
-            ))}
+            ))) : (<p>There are no users created yet.</p>)
+            }
 
             {/*CONFIRM DELETE*/}
             {userToDelete && (
