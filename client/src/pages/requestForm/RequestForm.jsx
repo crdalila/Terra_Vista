@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import taskService from "../../utils/tasks";
 import { AuthContext } from "../../context/AuthContext";
 import { ProjectContext } from "../../context/ProjectContext";
+import Modal from "../../components/Modal/Modal"
 import "./RequestForm.css";
 
 function RequestForm() {
@@ -14,6 +15,8 @@ function RequestForm() {
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 
+    const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const isExisting = !!task;
     const [isEditing, setIsEditing] = useState(!isExisting);
     const [loading, setLoading] = useState(false);
@@ -28,6 +31,23 @@ function RequestForm() {
         page: task?.page || "",
         picture: task?.picture || "",
     });
+
+    const handleFeedback = async () => {
+        try {
+            await sendFeedback(userData._id);
+            setModalMessage("Feedback sent successfully!");
+        } catch (err) {
+            console.error("Error sending feedback", err);
+            setModalMessage("Oh no! There was an error sending your feedback. Please try again.");
+        } finally {
+            setShowModal(true);
+        }
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        window.location.reload();
+    };
 
     useEffect(() => {
         if (project) {
@@ -58,14 +78,14 @@ function RequestForm() {
                 alert("Request updated successfully"); // TODO otro tipo de alerta
             } else if (!isExisting) {
                 const taskPayload = {
-					...formData,
-					requester: userData.email
-				};
-				if (image) {
-					await taskService.createTaskWithImage(selectedProject._id, taskPayload, image);
-				} else {
-					await taskService.createTask(selectedProject._id, taskPayload);
-				}
+                    ...formData,
+                    requester: userData.email
+                };
+                if (image) {
+                    await taskService.createTaskWithImage(selectedProject._id, taskPayload, image);
+                } else {
+                    await taskService.createTask(selectedProject._id, taskPayload);
+                }
                 alert("Request created successfully"); // TODO otro tipo de alerta
             }
             navigate("/project", { state: { reaload: true } });

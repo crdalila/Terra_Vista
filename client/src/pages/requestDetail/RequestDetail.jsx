@@ -9,7 +9,8 @@ import "./RequestDetail.css";
 function RequestDetail() {
     const navigate = useNavigate();
     const { state } = useLocation();
-    const { task, project } = state || {};
+    const { task:taskDefault, project } = state || {};
+    const [task,setTask] = useState(taskDefault);
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 
@@ -19,10 +20,16 @@ function RequestDetail() {
         if (!newComment.trim()) return;
 
         try {
-            await sendCommentToClickUp(task.clickUpTaskId, newComment);
-            alert("Comment sent to ClickUp!");
+            const response =await sendCommentToClickUp(task.clickUpTaskId, newComment);
+            console.log("Comment sent to ClickUp!",response);
+            const newCommentData = {
+                comment: newComment,
+                date: new Date(),
+                _id: response.id,
+            }
+            setTask({ ...task, comments: [...task.comments, newCommentData] });
             setNewComment("");
-            navigate(0);
+            //navigate(0);
         } catch (err) {
             console.error(err);
             alert("Failed to send comment to ClickUp");

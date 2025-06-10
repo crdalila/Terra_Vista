@@ -84,7 +84,7 @@ function ProjectCard({ project }) {
 			{issueToDelete && (
 				<div className="delete-confirmation" onClick={() => setIssueToDelete(null)}>
 					<div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
-						<p>Are you sure you want to delete this project?</p>
+						<p>Are you sure you want to delete this project? This action can not be undone, and it will remove the project from the users attached to it as well.</p>
 						<div className="delete-confirmation__buttons">
 							<button onClick={() => setIssueToDelete(null)} className="button-cancel button">
 								Cancel
