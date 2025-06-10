@@ -51,7 +51,10 @@ function RequestForm() {
         setLoading(true);
         try {
             if (isExisting && isEditing) {
-                await taskService.editTask(selectedProject._id, task._id, formData);
+                await taskService.editTask(selectedProject._id, task._id, {
+                    ...formData,
+                    requester: userData.name
+                });
                 alert("Request updated successfully"); // TODO otro tipo de alerta
             } else if (!isExisting) {
                 const taskPayload = {
@@ -140,7 +143,6 @@ function RequestForm() {
 						}
 					}}
 				/>
-
                 {isExisting && !isEditing && (
                     <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
                 )}
