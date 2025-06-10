@@ -57,7 +57,7 @@ function Users() {
             <section className="page-header">
                 <h2 className="page-title">Users</h2>
                 <div className="page-info">
-                    <h3>Connect with your team and manage users without complications.</h3>
+                    <h3>Connect with your team.</h3>
                     <p>Add, edit, or view the profiles of users who are part of Terra Vista. Manage permissions,
                         assign tasks, or communicate directly with your team from this centralized section</p>
                 </div>

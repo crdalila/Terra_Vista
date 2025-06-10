@@ -10,8 +10,7 @@ function Instructions() {
                 <h2 className="page-title">Manual</h2>
                 <div className="page-info">
                     <h3>Quick guide to make the most of Terra Vista.</h3>
-                    <p>Check this manual to learn how to use each section of the platform which includes a short
-                        tutorial, use guides, and frequently asked questions</p>
+                    <p>Check this manual to learn how to use each section of the platform.</p>
                 </div>
             </section>
 
