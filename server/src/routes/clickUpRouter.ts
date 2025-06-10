@@ -22,6 +22,9 @@ router.get("/info/:userId/:listId", clickUpApiController.getClickUpInfo);
 // Create task
 router.post("/create/:userId/:listId", clickUpApiController.createTask);
 
+// Send comment
+router.post('/clickup/comment/:taskId', clickUpApiController.sendComment);
+
 // Update task
 router.put("/update/:userId/:taskId", clickUpApiController.updateTask);
 

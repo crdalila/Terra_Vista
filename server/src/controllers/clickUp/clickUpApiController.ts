@@ -153,6 +153,21 @@ async function getPendingTasks(req: Request, res: Response) {
 	}
 }
 
+// Send comments to ClickUp
+async function sendComment(req: Request, res: Response) {
+    try {
+        const { taskId } = req.params;
+        const { comment } = req.body;
+
+        const result = await clickUpController.sendCommentToClickUp(taskId, comment);
+        res.status(200).json({ success: true, data: result });
+    } catch (error: any) {
+        const myError = catchError(error);
+        res.status(myError.statusCode).json(myError.message);
+    }
+}
+
+
 
 //===============================================================================
 // Exports
@@ -168,5 +183,6 @@ export default{
 	deleteTask,
 	//updateTaskStatus,
 	getClickUpInfo,
-	getPendingTasks
+	getPendingTasks,
+	sendComment
 }

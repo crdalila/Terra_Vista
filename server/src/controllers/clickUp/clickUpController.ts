@@ -173,9 +173,30 @@ async function getUserClickUpInfo(listId: string, userId: string) {
 	
 	return result.data;
 }
+// Send comment to ClickUp
+async function sendCommentToClickUp(taskId: string, comment: string) {
+    const token = process.env.CLICKUP_API_KEY;
 
+    const response = await fetch(`https://api.clickup.com/api/v2/task/${taskId}/comment`, {
+        method: 'POST',
+        headers: {
+            'Authorization': token || '',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ comment_text: comment }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.err || 'Failed to send comment to ClickUp');
+    }
+
+    return data;
+}
 
 export default {
+	sendCommentToClickUp,
 	getUserWorkspaceSpaces,
 	ensureDevFolderQAList,
 	getSpaceFolders,

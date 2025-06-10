@@ -7,12 +7,12 @@ import "./Users.css";
 
 function Users() {
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
-    const [keyValue, setKeyValue] = useState(0);
     const [users, setUsers] = useState([]);
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
         try {
+            setUsers([]);
             const result = await userService.getAllUsers();
             if (Array.isArray(result)) {
                 const clients = result.filter(user => user.role === "client");
@@ -40,7 +40,6 @@ function Users() {
             const result = await userService.createUser(newUser);
             if (result && result._id) {
                 setNewUser({ name: "", email: "", role: "client" });
-                setKeyValue(keyValue => keyValue + 1);
             } else {
                 console.error("Error creating user");
             }
@@ -80,7 +79,7 @@ function Users() {
 
                 <div className="users-list">
                     {users.length > 0 ? (users.map(user => (
-                        <UserCard key={keyValue} user={user} />
+                        <UserCard key={user._id} user={user} />
                     ))) : (<p>There are no users created yet.</p>)
                     }
 
