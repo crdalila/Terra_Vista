@@ -55,6 +55,7 @@ async function syncPendingTasks(userId: string) {
 	}
 
 	const token = user.clickUpToken;
+	console.log("token", token);
 	const project = user.projects[0] as unknown as projectInterface;
 
 	if (!project || !project.clickUpListId) {
@@ -148,7 +149,8 @@ async function syncPendingTasks(userId: string) {
 
 			results.push({ taskId: task._id, clickUpTaskId: response.data.id });
 		} catch (err: any) {
-			console.error(`Error syncing task ${task._id}: ${err.message}`);
+			//console.error(`Error syncing task ${task._id}: ${err.message}`);
+			console.error(err);
 			results.push({ taskId: task._id, success: false, error: err.message });
 		}
 	}

@@ -13,12 +13,12 @@ function ImageUploader ({ taskId }) {
 		if (!imageFile || !taskId) {
 			return;
 		}
-		if (!ALLOWED_TYPES.includes(file.type)) {
+		if (!ALLOWED_TYPES.includes(imageFile.type)) {
 				setError("Use JPG, JPEG, PNG o WEBP.");
 				return;
 			}
 	
-		if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+		if (imageFile.size > MAX_SIZE_MB * 1024 * 1024) {
 			setError(`File too large. Maximum allowed size is ${MAX_SIZE_MB} MB.`);
 			return;
 		}
@@ -26,9 +26,9 @@ function ImageUploader ({ taskId }) {
 		setError("");
 
 		try {
-			await uploadImageToTask(taskId, file);
+			await uploadImageToTask(taskId, imageFile);
 			alert("Image successfully uploaded");
-			fileInputRef.current.value = "";
+			imageInputRef.current.value = "";
 		} catch (err) {
 			console.error(err);
 			setError("Error uploading image");
@@ -36,10 +36,11 @@ function ImageUploader ({ taskId }) {
 	};
 	return (
 		<div className="image-uploader">
-			<h4>Enviar imagen adicional:</h4>
-			<input type="file" accept=".jpg,.jpeg,.png,.webp" ref={fileInputRef} />
-			<button onClick={handleUpload}>Subir imagen</button>
+			<input type="file" accept=".jpg,.jpeg,.png,.webp" ref={imageInputRef} />
+			<button onClick={handleUpload}>Add a screenshot</button>
 			{error && <p style={{ color: "red" }}>{error}</p>}
 		</div>
 	);
 }
+
+export default ImageUploader;

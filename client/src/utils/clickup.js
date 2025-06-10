@@ -11,7 +11,7 @@ export async function sendFeedback(userId, feedback) {
 }
 
 export async function sendCommentToClickUp(clickUpTaskId, comment) {
-    const token = import.meta.env.VITE_CLICKUP_API_KEY;
+    const token = import.meta.env.VITE_CLICKUP_TOKEN;
 
     const response = await fetch(`https://api.clickup.com/api/v2/task/${clickUpTaskId}/comment`, {
         method: "POST",
@@ -53,6 +53,8 @@ export async function uploadImageToTask(taskId, imageFile) {
 
 	const formData = new FormData();
 	formData.append("attachment", imageFile);
+
+	console.log("Sending to:", `https://api.clickup.com/api/v2/task/${taskId}/attachment`);
 
 	const response = await fetch(`https://api.clickup.com/api/v2/task/${taskId}/attachment`, {
 		method: "POST",
