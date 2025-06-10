@@ -7,6 +7,16 @@
     width: fit-content;
 }
 
+.task-card__link a {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+}
+
+.task-id {
+    font-size: .8rem;
+}
+
 .task-card__trash {
     cursor: pointer;
     justify-self: end;

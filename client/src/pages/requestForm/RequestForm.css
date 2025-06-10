@@ -2,10 +2,36 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+}
+
+.request__form label {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.request__form input, .request__form select, .request__form textarea {
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    background-color: var(--main-color);
+    color: var(--text-color);
+
+    padding: .5em 1em;
+    border: none;
+    border-radius: 40px;
+
+    transition: all .3s ease;
+}
+
+.request__form input:hover, .request__form select:hover, .request__form textarea:hover {
+    border-radius: 10px;
 }
 
 .request-form-button {
-    color: black;
-    border: 1px solid black;
-    background-color: var(--items-color);
+    background-color: var(--text-color);
+    color: var(--main-color);
 }

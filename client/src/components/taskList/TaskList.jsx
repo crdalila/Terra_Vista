@@ -35,22 +35,17 @@ function TaskList({ tasks = [], projectId }) {
     return (
         <article className="tasks-list">
             <section className="tasks-list--title">
-                <h2>Issues</h2>
+                <h3>Issues</h3>
+
+                {isClient && (
+                    <section className="tasks-list--buttons">
+                        <button onClick={handleFeedback} className="button-feedback button">Send Feedback<i>!</i></button>
+
+
+                        <Link to="/request" className="button-create-task button">Create Request</Link>
+                    </section>
+                )}
             </section>
-
-            {isClient && (
-                <section className="tasks-list--buttons">
-                    <button onClick={handleFeedback} className="button-feedback button">
-                        Send Feedback
-                    </button>
-
-                    <div className="tasks-buttons">
-                        <Link to="/request" state={{ project: selectedProject }}>
-                            <button className="button-create-task">+ Create Request</button>
-                        </Link>
-                    </div>
-                </section>
-            )}
 
             <section className="tasks-list--tasks">
                 {tasks.length === 0 ? (

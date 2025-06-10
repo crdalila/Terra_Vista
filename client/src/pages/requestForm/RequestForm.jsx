@@ -78,82 +78,65 @@ function RequestForm() {
     };
 
     return (
-        <section className="create-request article">
-            <h3>{isExisting ? (isEditing ? "Edit Request" : "View Request") : "Create Request"}</h3>
+        <article className="create-request article">
+            <section className="page-header">
+                <h2 className="page-title">{isExisting ? (isEditing ? "Edit Request" : "View Request") : "Create Request"}</h2>
+            </section>
 
-            <form onSubmit={handleSubmit} className="request__form">
-                <label htmlFor="name">Title:</label>
-                <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} disabled={!isEditing} required
-                    placeholder="Please enter a title for your request" />
+            <section className="page-content">
+                <form onSubmit={handleSubmit} className="request__form">
+                    <label htmlFor="name">Title:</label>
+                    <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} disabled={!isEditing} required
+                        placeholder="Please enter a title for your request" />
 
-                <label htmlFor="request-type">Request Type:</label>
-                <select name="requestType" id="request-type" value={formData.requestType} onChange={handleChange} disabled={!isEditing} required>
-                    <option value="">-- Select a type --</option>
-                    <option value="Copy Revision">Copy Revision</option>
-                    <option value="Design Issues">Design Issues</option>
-                    <option value="Requested Change">Requested Change</option>
-                    <option value="New Item">New Item</option>
-                </select>
+                    <label htmlFor="request-type">Request Type:</label>
+                    <select name="requestType" id="request-type" value={formData.requestType} onChange={handleChange} disabled={!isEditing} required>
+                        <option value="">-- Select a type --</option>
+                        <option value="Copy Revision">Copy Revision</option>
+                        <option value="Design Issues">Design Issues</option>
+                        <option value="Requested Change">Requested Change</option>
+                        <option value="New Item">New Item</option>
+                    </select>
 
-                <label htmlFor="device">Device:</label>
-                <select name="device" id="device" value={formData.device} onChange={handleChange} disabled={!isEditing} required>
-                    <option value="">-- Select device --</option>
-                    <option value="Desktop">Desktop</option>
-                    <option value="Tablet">Tablet</option>
-                    <option value="Mobile">Mobile</option>
-                </select>
+                    <label htmlFor="device">Device:</label>
+                    <select name="device" id="device" value={formData.device} onChange={handleChange} disabled={!isEditing} required>
+                        <option value="">-- Select device --</option>
+                        <option value="Desktop">Desktop</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Mobile">Mobile</option>
+                    </select>
 
-                <label htmlFor="browser">Browser:</label>
-                <select name="browser" id="browser" value={formData.browser} onChange={handleChange} disabled={!isEditing} required>
-                    <option value="">-- Select browser --</option>
-                    <option value="chrome">Chrome</option>
-                    <option value="firefox">Firefox</option>
-                    <option value="safari">Safari</option>
-                    <option value="other">Other</option>
-                </select>
+                    <label htmlFor="browser">Browser:</label>
+                    <select name="browser" id="browser" value={formData.browser} onChange={handleChange} disabled={!isEditing} required>
+                        <option value="">-- Select browser --</option>
+                        <option value="chrome">Chrome</option>
+                        <option value="firefox">Firefox</option>
+                        <option value="safari">Safari</option>
+                        <option value="other">Other</option>
+                    </select>
 
-                <label htmlFor="request">Request:</label>
-                <textarea name="request" id="request" value={formData.request} onChange={handleChange} disabled={!isEditing} required />
+                    <label htmlFor="request">Request:</label>
+                    <textarea name="request" id="request" value={formData.request} onChange={handleChange} disabled={!isEditing} required />
 
-                <label htmlFor="page">Page:</label>
-                <input type="url" name="page" id="page" value={formData.page} onChange={handleChange} disabled={!isEditing} required />
+                    <label htmlFor="page">Page:</label>
+                    <input type="url" name="page" id="page" value={formData.page} onChange={handleChange} disabled={!isEditing} required />
 
-                <label htmlFor="picture">Screenshot:</label>
-                <input 
-					type="file" 
-					accept="image/jpeg, image/png, image/jpg, image/webp" 
-					name="picture" 
-					id="picture" 
-					disabled={!isEditing}
-                	onChange={(e) => {
-						const file = e.target.files[0];
-						if (file) {
-							const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-							if (!validTypes.includes(file.type)) {
-								alert("Only JPG, JPEG, PNG and WEBP images are allowed.");
-								e.target.value = null;
-								return;
-							}
-							if (file.size > 10 * 1024 * 1024) {
-								alert("File too large. Maximum allowed size is 10 MB.");
-								e.target.value = null;
-								return;
-							}
-							setImage(file);
-						}
-					}}
-				/>
-                {isExisting && !isEditing && (
-                    <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
-                )}
+                    <label htmlFor="picture">Screenshot:</label>
+                    <input type="file" accept="image/*" name="picture" id="picture" value={formData.picture} disabled={!isEditing}
+                        onChange={(e) => setImage(e.target.files[0])} />
 
-                {(isEditing || !isExisting) && (
-                    <button type="submit" disabled={loading} className="request-form-button">
-                        {loading ? "Submitting..." : (isExisting ? "Update" : "Create")}
-                    </button>
-                )}
-            </form>
-        </section>
+                    {isExisting && !isEditing && (
+                        <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
+                    )}
+
+                    {(isEditing || !isExisting) && (
+                        <button type="submit" disabled={loading} className="request-form-button button">
+                            {loading ? "Submitting..." : (isExisting ? "Update" : "Create")}
+                        </button>
+                    )}
+                </form>
+            </section>
+        </article>
     );
 }
 
