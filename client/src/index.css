@@ -273,7 +273,7 @@ h4 {
   display: flex;
   flex-flow: column;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 2em;
 
   min-height: 24em;
@@ -301,10 +301,11 @@ h4 {
 
   text-align: right;
 
-  max-width: 30%;
+  max-width: 40%;
   height: 100%;
 
   margin-right: 2em;
+  margin-bottom: 2em;
 }
 
 .page-buttons {
@@ -343,7 +344,7 @@ h4 {
   flex-flow: column;
   gap: 2em;
 
-  z-index: 200;
+  z-index: 50;
 }
 
 
@@ -398,6 +399,14 @@ body.dark-theme {
     width: 100%;
     max-width: 1000px;
     gap: .5em;
+  }
+
+  .page-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .page-info p {
+    font-size: 1rem;
   }
 
   .page-content {

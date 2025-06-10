@@ -38,6 +38,12 @@
     flex-flow: column;
 }
 
+.instructions-contact--title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-top: 1em;
+}
+
 .icons-instructions-contact {
     width: 10em;
 }
