@@ -32,3 +32,9 @@ export async function sendCommentToClickUp(clickUpTaskId, comment) {
     const data = await response.json();
     return data;
 }
+
+
+// Upload image to task in clickUp
+export async function uploadImageToTask(taskId, imageFile) {
+	const 
+}
