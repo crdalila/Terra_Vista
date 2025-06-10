@@ -36,12 +36,12 @@ function generatePassword() {
     let numbers = "1234567890".split();
     let symbols = "!@#$%^&*".split();
 
-    for (let i = 0; i < 2; i++) {
-        newPassword += lowers[getRandomArbitrary(0, lowers.length - 1)];
-        newPassword += uppers[getRandomArbitrary(0, uppers.length - 1)];
-        newPassword += numbers[getRandomArbitrary(0, numbers.length - 1)];
-        newPassword += symbols[getRandomArbitrary(0, symbols.length - 1)];
-    }
+
+    newPassword += lowers[getRandomArbitrary(0, lowers.length - 1)];
+    newPassword += uppers[getRandomArbitrary(0, uppers.length - 1)];
+    newPassword += numbers[getRandomArbitrary(0, numbers.length - 1)];
+    newPassword += symbols[getRandomArbitrary(0, symbols.length - 1)];
+
     newPassword = newPassword.split('').sort(() => { return 0.5 - Math.random() }).join('');
     return newPassword;
 }
@@ -51,7 +51,7 @@ async function createUser(user) {
     console.log(newPassword);
     const result = await fetchData("/register", "POST",
         { name: user.name, email: user.email, role: user.role, password: newPassword });
-    return result;
+    return { result, newPassword };
 }
 
 
