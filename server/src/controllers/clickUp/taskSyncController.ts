@@ -93,7 +93,7 @@ async function syncPendingTasks(userId: string) {
 				name: task.name, 
 				description: task.request,
 				tags: [task.requestType],
-				time_estimate: Number(task.estimateTime) * 60 * 1000, // Convert to milliseconds
+				time_estimate: Number(task.estimateTime) * 60 * 100000,
 				status: "With Feedback",
 				start_date: Date.now(),
 				priority: task.priority,

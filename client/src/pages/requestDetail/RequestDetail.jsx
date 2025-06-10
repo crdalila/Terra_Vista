@@ -64,7 +64,7 @@ const handleSendComment = async () => {
                 <p><strong>Browser:</strong> {task.browser}</p>
                 <p><strong>Request: </strong> {task.request}</p>
                 <p><strong>Page:</strong> {task.page}</p>
-                <p><strong>Screenshot: </strong> {task.picture}</p>
+                <p><strong>Screenshot: </strong> {task.screenshots}</p>
             </section>
         </article>
     );
