@@ -36,15 +36,15 @@ export const upload = multer({
 	limits: { fileSize: 1024 * 1024 * 50 }
 });
 
-export function removeFile(fileName : string,folder="images") {
-    try{
-        const filePath = path.join(process.cwd(), 'public', folder, `${fileName}`);
-        fs.unlinkSync(filePath);
-        return true;
-    }catch(error){
-        console.log(error);
-        return false;
-    }
+export function removeFile(fileName: string, folder = "images") {
+  try {
+    const filePath = path.join(process.cwd(), 'public', folder, `${fileName}`);
+    fs.unlinkSync(filePath);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 

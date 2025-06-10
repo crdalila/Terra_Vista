@@ -19,6 +19,7 @@ import {
 } from "../../utils/errors/userErrors.ts";
 import { isPasswordCorrect } from "../../utils/passwordChecking.ts";
 import { projectSelect, taskSelect, userSelect } from "../../utils/modelsSelect.ts";
+import { isValidJSON } from "../../utils/isJsonCheck.ts";
 //===============================================================================
 
 /**
@@ -35,6 +36,7 @@ async function register(userData: userInterface) {
     //Error checking for name and email
     if (!userData.name) throw new UserNameNotProvided();
     if (!userData.email) throw new UserEmailNotProvided();
+    if(isValidJSON(userData.email)) throw new UserInvalidCredentials();
 
     if (!isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
     if (!userData.password) throw new UserPasswordNotProvided();
@@ -62,6 +64,7 @@ async function register(userData: userInterface) {
 
 async function firstLogin(email: string, temporalPassword: string, password: string) {
     if (!email) throw new UserEmailNotProvided();
+    if(isValidJSON(email)) throw new UserInvalidCredentials();
     //This regex force the password to have a lower case, 
     //upper case, number, symbol and at least be 8 character long
 
@@ -99,6 +102,10 @@ async function firstLogin(email: string, temporalPassword: string, password: str
 async function login(email: string, password: string) {
     //Error checking for email and password
     if (!email) throw new UserEmailNotProvided();
+    if(isValidJSON(email)) throw new UserInvalidCredentials();
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    //Error checking for email
+    if (!emailRegex.test(email)) throw new UserInvalidEmail();
     if (!password) throw new UserPasswordNotProvided();
     const user = await User.findOne({ email: email }).populate({
         path: 'projects',

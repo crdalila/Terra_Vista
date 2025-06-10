@@ -56,28 +56,30 @@ function ProjectDetail() {
 
     const fetchUsers = async () => {
         try {
-            const result = await userService.getAllUsers();
-            if (Array.isArray(result)) {
-                const clients = result.filter(user => user.role === "client");
-                let clientsWithoutSelectedProject = [];
-                let clientWithSelectedProject = [];
-                clients.forEach((client) => {
-                    let isProjectAlreadyAdded = false;
-                    client.projects.forEach((project) => {
-                        if (project._id == selectedProject._id) {
-                            isProjectAlreadyAdded = true;
+            if (userData && userData.role != "client") {
+                const result = await userService.getAllUsers();
+                if (Array.isArray(result)) {
+                    const clients = result.filter(user => user.role === "client");
+                    let clientsWithoutSelectedProject = [];
+                    let clientWithSelectedProject = [];
+                    clients.forEach((client) => {
+                        let isProjectAlreadyAdded = false;
+                        client.projects.forEach((project) => {
+                            if (project._id == selectedProject._id) {
+                                isProjectAlreadyAdded = true;
+                            }
+                        });
+                        if (!isProjectAlreadyAdded) {
+                            clientsWithoutSelectedProject.push(client);
+                        } else {
+                            clientWithSelectedProject.push(client);
                         }
                     });
-                    if (!isProjectAlreadyAdded) {
-                        clientsWithoutSelectedProject.push(client);
-                    } else {
-                        clientWithSelectedProject.push(client);
-                    }
-                });
-                setUsers(clientsWithoutSelectedProject);
-                setUsersInProject(clientWithSelectedProject);
-            } else {
-                console.error("Can't get users");
+                    setUsers(clientsWithoutSelectedProject);
+                    setUsersInProject(clientWithSelectedProject);
+                } else {
+                    console.error("Can't get users");
+                }
             }
         } catch (err) {
             console.error("Error getting users:", err);
