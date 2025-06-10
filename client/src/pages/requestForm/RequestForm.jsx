@@ -17,16 +17,16 @@ function RequestForm() {
     const isExisting = !!task;
     const [isEditing, setIsEditing] = useState(!isExisting);
     const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState(null);
+
     const [formData, setFormData] = useState({
         name: task?.name || "",
         requestType: task?.requestType || "",
-        status: task?.status || "With Feedback",
         device: task?.device || "",
         browser: task?.browser || "",
         request: task?.request || "",
         page: task?.page || "",
         picture: task?.picture || "",
-        terraComments: task?.terraComments || "",
     });
 
     useEffect(() => {
@@ -42,7 +42,6 @@ function RequestForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form with:", formData);
 
         if (!selectedProject || !userData) {
             console.error("Missing selectedProject or userData", selectedProject, userData);
@@ -55,10 +54,15 @@ function RequestForm() {
                 await taskService.editTask(selectedProject._id, task._id, formData);
                 alert("Request updated successfully"); // TODO otro tipo de alerta
             } else if (!isExisting) {
-                await taskService.createTask(selectedProject._id, {
-                    ...formData,
-                    requester: userData.name
-                });
+                const taskPayload = {
+					...formData,
+					requester: userData.email
+				};
+				if (image) {
+					await taskService.createTaskWithImage(selectedProject._id, taskPayload, image);
+				} else {
+					await taskService.createTask(selectedProject._id, taskPayload);
+				}
                 alert("Request created successfully"); // TODO otro tipo de alerta
             }
             navigate("/project", { state: { reaload: true } });
@@ -88,20 +92,6 @@ function RequestForm() {
                     <option value="New Item">New Item</option>
                 </select>
 
-                <label htmlFor="status">Status:</label>
-                <select name="status" id="status" value={formData.status} onChange={handleChange} disabled={!isEditing || userData.role !== "projectManager"} required>
-                    <option value="">-- Select a status --</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Needs Input">Needs Input</option>
-                    <option value="Assigned">Assigned</option>
-                    <option value="For Dev Testing">For Dev Testing</option>
-                    <option value="With Feedback">With Feedback</option>
-                    <option value="For Manager Testing">For Manager Testing</option>
-                    <option value="For Client Review">For Client Review</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Complete">Complete</option>
-                </select>
-
                 <label htmlFor="device">Device:</label>
                 <select name="device" id="device" value={formData.device} onChange={handleChange} disabled={!isEditing} required>
                     <option value="">-- Select device --</option>
@@ -126,10 +116,30 @@ function RequestForm() {
                 <input type="url" name="page" id="page" value={formData.page} onChange={handleChange} disabled={!isEditing} required />
 
                 <label htmlFor="picture">Screenshot:</label>
-                <input type="url" name="picture" id="picture" value={formData.picture} onChange={handleChange} disabled={!isEditing} />
-
-                <label htmlFor="terraComments">Terra Comments:</label>
-                <textarea name="terraComments" id="terra-comments" value={formData.terraComments} onChange={handleChange} disabled={!isEditing || userData.role !== "projectManager"} />
+                <input 
+					type="file" 
+					accept="image/jpeg, image/png, image/jpg, image/webp" 
+					name="picture" 
+					id="picture" 
+					disabled={!isEditing}
+                	onChange={(e) => {
+						const file = e.target.files[0];
+						if (file) {
+							const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+							if (!validTypes.includes(file.type)) {
+								alert("Only JPG, JPEG, PNG and WEBP images are allowed.");
+								e.target.value = null;
+								return;
+							}
+							if (file.size > 10 * 1024 * 1024) {
+								alert("File too large. Maximum allowed size is 10 MB.");
+								e.target.value = null;
+								return;
+							}
+							setImage(file);
+						}
+					}}
+				/>
 
                 {isExisting && !isEditing && (
                     <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select"
 
 import { AuthContext } from "../../context/AuthContext";
 import { getClickUpSpaces } from "../../utils/clickup";
@@ -17,6 +18,7 @@ function CreateProjectForm() {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -53,16 +55,20 @@ function CreateProjectForm() {
                     console.error("Can't get users");
                 }
             } catch (err) {
-                console.error("Error getting users:", err);
+                console.error("Error getting users: ", err);
             }
         };
 
         fetchUsers();
     }, []);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!projectName || !selectedSpace || selectedUsers.length === 0) {
+            alert("Please fill in all the fields");
+            return;
+        }
         setLoading(true);
 
         try {
@@ -81,8 +87,7 @@ function CreateProjectForm() {
                         console.error(`Error adding user ${userId} to project`, err);
                     }
                 }
-                alert("Project created successfully");
-                navigate(`/`);
+                setShowSuccessModal(true);
             } else {
                 alert("Error creating the project");
             }
@@ -92,58 +97,76 @@ function CreateProjectForm() {
         } finally {
             setLoading(false);
         }
-
     };
+
+    const spaceOptions = spaces.map((space) => ({
+        value: space.id,
+        label: space.name,
+    }));
+
+    const userOptions = users.map((user) => ({
+        value: user._id,
+        label: `${user.name} (${user.email})`,
+    }));
+
     return (
-        <article className="create-project-form article">
-            <form onSubmit={handleSubmit}>
-                <h2>Create a new project</h2>
+        <article className="create-project-form-page article">
 
-                <label htmlFor="projectName">Name: </label>
-                <input
-                    type="text"
-                    id="projectName"
-                    value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
-                    required
-                />
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Project {projectName} successfully created! If you want to give access to more users, you can do it from the project page.</p>
+                        <button className="button-modal button" onClick={() => navigate("/projects")}>Go to projects</button>
+                    </div>
+                </div>
+            )}
 
-                <label htmlFor="space">Select a clickUp Space: </label>
-                <select
-                    id="space"
-                    value={selectedSpace}
-                    onChange={(e) => setSelectedSpace(e.target.value)}
-                    required>
-                    <option value="">-- Select a space --</option>
-                    {spaces.map((space) => (
-                        <option key={space.id} value={space.id}>
-                            {space.name}
-                        </option>
-                    ))}
-                </select>
+            <section className="page-header">
+                <h2 className="page-title">New<br />Project</h2>
+            </section>
 
-                <label htmlFor="users">Select clients to add to this project: </label>
-                <select
-                    id="users"
-                    value={selectedUsers}
-                    multiple
-                    required
-                    onChange={(e) =>
-                        setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                    }
-                >
-                    <option value="">-- Select clients --</option>
-                    {users.map(user => (
-                        <option key={user._id} value={user._id}>
-                            {user.name} ({user.email})
-                        </option>
-                    ))}
-                </select>
+            <section className="page-content">
 
-                <button type="submit" disabled={loading} className="create-project-button button">
-                    {loading ? "Creating..." : "Create Project"}
-                </button>
-            </form>
+                <form onSubmit={handleSubmit}>
+                    <h2>Create a new project</h2>
+
+                    <label htmlFor="projectName">Name: </label>
+                    <input
+                        type="text"
+                        id="projectName"
+                        value={projectName}
+                        onChange={(e) => setProjectName(e.target.value)}
+                        required
+                    />
+
+                    <label htmlFor="space">Select a clickUp Space: </label>
+                    <Select
+                        id="space"
+                        options={spaceOptions}
+                        value={spaceOptions.find(opt => opt.value === selectedSpace)}
+                        onChange={(selectedOption) => setSelectedSpace(selectedOption?.value || "")}
+                        placeholder="Select a clickUp Space"
+                        isClearable
+                    />
+
+                    <label htmlFor="users">Select clients to add to this project: </label>
+                    <Select
+                        id="users"
+                        options={userOptions}
+                        value={userOptions.filter(opt => selectedUsers.includes(opt.value))}
+                        onChange={(selectedOptions) =>
+                            setSelectedUsers(selectedOptions.map(opt => opt.value))
+                        }
+                        isMulti
+                        placeholder="Select clients"
+                        isClearable
+                    />
+
+                    <button type="submit" disabled={loading} className="create-project-button button">
+                        {loading ? "Creating..." : "Create Project"}
+                    </button>
+                </form>
+            </section>
         </article>
     );
 }

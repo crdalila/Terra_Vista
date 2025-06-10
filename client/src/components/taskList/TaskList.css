@@ -1,16 +1,26 @@
+.tasks-list--title {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tasks-list--buttons {
+    display: flex;
+    flex-flow: row;
+    gap: 1em;
+}
+
 .button-create-task {
-    color: black;
-    border: 1px solid black;
+    color: var(--text-color);
     background-color: var(--items-color);
 }
 .button-delete-task {
-    color: black;
-    border: 1px solid black;
+    color: var(--text-color);
     background-color: var(--items-color);
 }
 
 .button-feedback {
-    color: black;
-    border: 1px solid red;
-    background-color: var(--items-color);
+    color: var(--main-color);
+    background-color: var(--text-color);
 }

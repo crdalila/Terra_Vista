@@ -34,12 +34,21 @@ async function getUserWorkspaceSpaces(userId:string) {
 	if (!userId) throw new UserNotFound();
 	
 	const user = (await User.findById(userId)) as userInterface || null;
-	if (!user) throw new UserNotFound();
-	if (!user.clickUpToken) throw new ClickUpTokenNotProvided();
-	//if (!user.clickUpWorkspaceId) throw new error //TODO
+	if (!user) {
+		throw new UserNotFound();
+	}
+	console.log("✅ User found:", user.email);
+	if (!user.clickUpToken) {
+		throw new ClickUpTokenNotProvided();
+	}
+	if (!user.clickUpWorkspaceId) {
+		throw new Error("Missing ClickUp workspaceId");
+	}
 	
 	const result = await getClickUpSpaces(user.clickUpWorkspaceId, user.clickUpToken);
-	if (!result.success) throw new ClickUpAPIError();
+	if (!result.success) {
+		throw new ClickUpAPIError();
+	}
 	
 	return result.data;
 };

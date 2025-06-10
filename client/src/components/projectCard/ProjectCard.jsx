@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 
-import DoughnutChart from "../doughnutChart/DoughnutChart";
-
 import { ProjectContext } from "../../context/ProjectContext";
 import { AuthContext } from "../../context/AuthContext";
 import projectService from "../../utils/projects";
@@ -10,7 +8,7 @@ import projectService from "../../utils/projects";
 import './ProjectCard.css';
 
 function ProjectCard({ project }) {
-	const { selectedProject,setSelectedProject } = useContext(ProjectContext);
+	const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 	const { userData } = useContext(AuthContext);
 
 	const [issueToDelete, setIssueToDelete] = useState(null);
@@ -22,19 +20,36 @@ function ProjectCard({ project }) {
 	}
 
 	const handleRemoveProject = async (projectId) => {
-	try {
-		const result = await projectService.deleteProject(projectId);
+		try {
+			const result = await projectService.deleteProject(projectId);
 
-		if (result.error) {
-			setError(`Error removing project: ${result.message} (status ${result.status})`);
-		} else {
-			window.location.reload(); 
+			if (result.error) {
+				setError(`Error removing project: ${result.message} (status ${result.status})`);
+			} else {
+				window.location.reload();
+			}
+		} catch (error) {
+			setError(`Error removing project: ${error.message}`);
 		}
-	} catch (error) {
-		setError(`Error removing project: ${error.message}`);
-	}
-	setIssueToDelete(null);
-};
+		setIssueToDelete(null);
+	};
+
+	const ProgressBarChart = ({ project }) => {
+		if (!project || !project.tasks || project.tasks.length === 0) {
+			return <p>There are no tasks.</p>;
+		}
+
+		const totalTasks = project.tasks.length;
+		const completedTasks = project.tasks.filter(task => task.done).length;
+		const percentage = Math.round((completedTasks / totalTasks) * 100);
+
+		return (
+			<div className="progress-container">
+				<div className="progress-bar" style={{ width: `${percentage}%` }} />
+				<span className="progress-label">{percentage}% completed</span>
+			</div>
+		);
+	};
 
 
 	return (
@@ -42,12 +57,10 @@ function ProjectCard({ project }) {
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
-					<img src="../../../public/images/icons-card.png" alt="" />
-					<p>{project.description}</p> {/* TODO ADD DESCRIPTION */}
+					<img src="../../../public/images/icons-card.png" alt="icons" className="project--icons" />
+					<p>{project.description}</p>
 				</div>
-				<div className="project--chart">
-					<DoughnutChart project={project} />
-				</div>
+				<ProgressBarChart project={project} />
 			</Link>
 
 			{/*DELETE BUTTON*/}
@@ -73,11 +86,11 @@ function ProjectCard({ project }) {
 					<div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
 						<p>Are you sure you want to delete this project?</p>
 						<div className="delete-confirmation__buttons">
-							<button onClick={() => setIssueToDelete(null)} className="button-cancel">
+							<button onClick={() => setIssueToDelete(null)} className="button-cancel button">
 								Cancel
 							</button>
-							<button onClick={() => handleRemoveProject(issueToDelete._id)} className="button-delete">
-								Delete
+							<button onClick={() => handleRemoveProject(issueToDelete._id)} className="button-delete button">
+								Delete<i>!</i>
 							</button>
 						</div>
 					</div>

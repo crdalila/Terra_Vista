@@ -15,7 +15,6 @@ function TaskCard({ task, projectId }) {
 
     const handleRemoveIssue = async (taskId) => {
         try {
-            console.log("attempting to remove task: ", taskId, "from project: ", projectId);
             const result = await taskUtils.removeTask(projectId, taskId);
 
             if (result.error) {
@@ -25,14 +24,12 @@ function TaskCard({ task, projectId }) {
                     ...prev,
                     tasks: prev.tasks.filter(task => task._id !== taskId),
                 }));
-                console.log("Task removed successfully");
             }
         } catch (error) {
             console.error("Error removing task: ", error);
             setError(`Error removing issue: ${error.message}`);
         }
     };
-
 
 
     return (
@@ -46,10 +43,14 @@ function TaskCard({ task, projectId }) {
 
             {/*LINK TO ISSUE*/}
             <div className="task-card__link">
-                <Link to={`/request`} state={{ task }}> {/* we use state to pass the task */}
+                <Link to={`/request-detail`} state={{ task }}> {/* we use state to pass the task */}
                     <section className="task-id">
                         <p>#{task._id}</p>
                     </section>
+
+                <div className="task-isSend">
+                    {task.isSend ? "Sent" : "!Pending" }
+                </div>
 
                     <section className="task-request">
                         <h4>Name:</h4>
@@ -62,7 +63,8 @@ function TaskCard({ task, projectId }) {
                     </section>
 
                     <section className="task-date">
-                        <p>{task.inputDate}</p>
+                        <p>{new Date(task.inputDate).toLocaleDateString('en-CA').slice(0, 10)}</p>
+                        
                     </section>
                 </Link>
             </div>
