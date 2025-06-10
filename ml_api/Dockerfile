@@ -3,11 +3,11 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Instalar dependencias del sistema (incluyendo OpenMP para XGBoost)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get --no-install-recommends install -y build-essential \
     gcc \
     g++ \
     libomp-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* 
 
 COPY requirements.txt .
 
