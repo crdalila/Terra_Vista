@@ -1,18 +1,15 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { use, useContext, useEffect, useState } from "react";
+import Select from "react-select"
 import { useRef } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
-import { ProjectContext } from "../../context/ProjectContext";
 import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
 import projectService from "../../utils/projects";
 import userService from '../../utils/user';
 import './ProjectDetail.css';
 
-import DoughnutChart from "../../components/doughnutChart/DoughnutChart";
-import user from "../../utils/user";
 
 function ProjectDetail() {
     const navigate = useNavigate();
@@ -28,6 +25,7 @@ function ProjectDetail() {
     const [loading, setLoading] = useState(false);
 
     const [showAddUserForm, setShowAddUserForm] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
 
     // SELECTED PROJECT
     useEffect(() => {
@@ -128,6 +126,26 @@ function ProjectDetail() {
         }
     };
 
+    const handleRemoveUserFromProject = async (userId) => {
+        try {
+            const result = await userService.removeUserFromProject(userId, selectedProject._id);
+
+            if (result.error) {
+                setError(`Error removing user: ${result.message} (status ${result.status})`);
+            } else {
+                fetchUsers();
+            }
+        } catch (error) {
+            setError(`Error removing user: ${error.message}`);
+        }
+        setUserToDelete(null);
+    };
+
+    const userOptions = users.map((user) => ({
+        value: user._id,
+        label: `${user.name} (${user.email})`,
+    }));
+
 
     return (
         <article className="project-page article">
@@ -151,26 +169,33 @@ function ProjectDetail() {
                                 <p>
                                     {user.name} ({user.email})
                                 </p>
+                                <div className="user-card__trash">
+                                    <svg viewBox="0 0 448 512" fill="black" height="18px" width="18px"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            setUserToDelete(user);
+                                        }}>
+                                        {" "}
+                                        <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                                    </svg>
+                                </div>
                             </div>
                         ))}
 
                         <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
                             <label htmlFor="users">Select clients to add to this project: </label>
-                            <select
+                            <Select
                                 id="users"
-                                value={selectedUsers}
-                                multiple
-                                required
-                                onChange={(e) =>
-                                    setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                                }>
-                                <option disabled value="">-- Select clients --</option>
-                                {users.map(user => (
-                                    <option key={user._id} value={user._id}>
-                                        {user.name} ({user.email})
-                                    </option>
-                                ))}
-                            </select>
+                                options={userOptions}
+                                value={userOptions.filter(opt => selectedUsers.includes(opt.value))}
+                                onChange={(selectedOptions) =>
+                                    setSelectedUsers(selectedOptions.map(opt => opt.value))
+                                }
+                                isMulti
+                                placeholder="Select clients"
+                                isClearable
+                            />
 
                             <button type="submit" disabled={loading} className="add-user-button button">
                                 {loading ? "Adding..." : "Add User"}
@@ -195,7 +220,24 @@ function ProjectDetail() {
                     </div>
                 </div>
             </section>
-        </article>
+            {
+                userToDelete && (
+                    <div className="delete-confirmation" onClick={() => setUserToDelete(null)}>
+                        <div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
+                            <p>Are you sure you want to delete this user from the project?</p>
+                            <div className="delete-confirmation__buttons">
+                                <button onClick={() => setUserToDelete(null)} className="button-cancel">
+                                    Cancel
+                                </button>
+                                <button onClick={() => handleRemoveUserFromProject(userToDelete._id)} className="button-delete">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+        </article >
     );
 }
 
