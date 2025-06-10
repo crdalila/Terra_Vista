@@ -1,4 +1,6 @@
-.register, .login {
+.register,
+.login,
+.create-user-account {
     background-color: var(--items-color);
 
     display: flex;
@@ -20,7 +22,9 @@
     transform: translate(-50%, -50%);
 }
 
-.register-title, .login-title {
+.register-title,
+.login-title,
+.create-user-account-title {
     width: 100%;
     display: flex;
     flex-flow: column;
@@ -33,7 +37,9 @@
     width: 10em;
 }
 
-.register-form, .login-form {
+.register-form,
+.login-form,
+.create-user-account-form {
     display: flex;
     flex-flow: column;
     width: 100%;
@@ -41,14 +47,18 @@
     text-align: left;
 }
 
-.register-form label, .login-form label {
+.register-form label,
+.login-form label,
+.create-user-account-form label {
     font-family: var(--main-font);
     font-size: var(--main-size);
     font-weight: var(--main-weight);
     width: 100%;
 }
 
-.register-form input, .login-form input {
+.register-form input,
+.login-form input,
+.create-user-account-form input {
     border: none;
     border-radius: 40px;
     margin: .5em 0;
@@ -60,11 +70,15 @@
     transition: all .3s ease;
 }
 
-.register-form input:hover, .login-form input:hover {
+.register-form input:hover,
+.login-form input:hover,
+.create-user-account-form input:hover {
     border-radius: 10px;
 }
 
-.register-button, .login-button {
+.register-button,
+.login-button,
+.create-user-button {
     background-color: var(--text-color);
     color: var(--items-color);
     cursor: pointer;
@@ -80,6 +94,15 @@
     transition: all .3s ease;
 }
 
-.register-button:hover, .login-button:hover {
+.register-button:hover,
+.login-button:hover,
+.create-user-button:hover {
     border-radius: 10px;
+}
+
+
+
+
+.password-wrapper {
+    position: relative;
 }

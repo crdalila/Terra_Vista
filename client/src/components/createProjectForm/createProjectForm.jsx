@@ -116,7 +116,7 @@ function CreateProjectForm() {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <p>Project {projectName} successfully created! If you want to give access to more users, you can do it from the project page.</p>
-                        <button className="button-modal button" onClick={() => navigate("/projects")}>Go to projects</button>
+                        <button className="button-modal button" onClick={() => navigate("/")}>Go to projects<i>!</i></button>
                     </div>
                 </div>
             )}
@@ -127,7 +127,7 @@ function CreateProjectForm() {
 
             <section className="page-content">
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="create-project-form">
                     <h2>Create a new project</h2>
 
                     <label htmlFor="projectName">Name: </label>
