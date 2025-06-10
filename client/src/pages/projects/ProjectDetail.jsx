@@ -8,6 +8,7 @@ import TaskList from '../../components/taskList/TaskList'
 import { useProject } from "../../context/ProjectContext";
 import projectService from "../../utils/projects";
 import userService from '../../utils/user';
+
 import './ProjectDetail.css';
 
 
@@ -245,7 +246,12 @@ function ProjectDetail() {
                 )}
 
                 <div className="projects-data">
-                    <h3>Notifications</h3>
+                    <div className="projects-data--item">
+                        <h3>Notifications</h3>
+                        <p>Stay on top of what ́s important, without distractions.</p>
+                        <p>Receive automatic notifications about updates, tasks, changes in projects, or team
+                            messages. Everything in one place, synced with ClickUp so you don ́t miss a thing. </p>
+                    </div>
                     <h3>Review history</h3>
                 </div>
 

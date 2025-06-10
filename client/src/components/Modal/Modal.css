@@ -18,4 +18,22 @@
     text-align: center;
     max-width: 400px;
     width: 80%;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.modal-button {
+  background-color: var(--text-color);
+  color: var(--main-color);
+
+  width: fit-content;
+  padding: .5em 1em;
+  border: none;
+  border-radius: 40px;
+
+  font-family: var(--main-font);
+  font-weight: var(--main-weight);
+  font-size: var(--main-size);
 }
