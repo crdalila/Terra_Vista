@@ -2,6 +2,9 @@ import Task from "../../models/task";
 import User from "../../models/user";
 import Project, { projectInterface } from "../../models/project";
 import axios from "axios";
+import path from "path";
+import fs from "fs";
+import FormData from "form-data";
 import { ensureCustomFields } from "../../utils/clickUp/clickUpTaskUtils";
 import { UserNotFound, ClickUpListIdNotProvided } from "../../utils/errors/clickUpError";
 import { getDevFolderQAList } from "../../utils/clickUp/clickUpProjectUtils";
@@ -117,8 +120,30 @@ async function syncPendingTasks(userId: string) {
 
 			console.log(`Task created in ClickUp: ${response.data.id}`);
 
+			const clickUpTaskId = response.data.id;
+
 			task.isSend = true;
-			task.clickUpTaskId = response.data.id;
+			task.clickUpTaskId = clickUpTaskId;
+
+			if (task.screenshots) {
+				const imagePath = path.join(process.cwd(), 'public', 'images', String(task.screenshots));
+				const fileStream = fs.createReadStream(imagePath);
+
+				const formData = new FormData();
+				formData.append("attachment", fileStream, String(task.screenshots));
+
+				await axios.post(
+					`https://api.clickup.com/api/v2/task/${clickUpTaskId}/attachment`,
+					formData,
+					{
+						headers: {
+							...formData.getHeaders(),
+							Authorization: token,
+						}
+					}
+				);
+			}
+
 			await task.save();
 
 			results.push({ taskId: task._id, clickUpTaskId: response.data.id });

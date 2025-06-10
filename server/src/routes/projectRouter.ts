@@ -20,9 +20,9 @@ router.get("/notif/:id", verifyToken, verifyUserHasProject, projectController.ge
 router.get("/:id", verifyToken, verifyUserHasProject, projectController.getProjectById);
 
 router.post("/create", verifyToken, verifyRole, projectController.createProject);
-router.post("/tasks/:id", verifyToken,verifyUserHasProject,upload.single("screenshots"), projectController.createTaskIntoProject);
+router.post("/tasks/:id", verifyToken,verifyUserHasProject,upload.single("picture"), projectController.createTaskIntoProject);
 
-router.put("/tasks/:projectId/:taskId", verifyToken, verifyUserHasProject,upload.single("screenshots"),projectController.editTaskFromProject);
+router.put("/tasks/:projectId/:taskId", verifyToken, verifyUserHasProject,upload.single("picture"),projectController.editTaskFromProject);
 router.put("/finalize/:id", verifyToken,verifyUserHasProject, projectController.finalizeProject);
 router.put("/:id", verifyToken, verifyRole, projectController.editProject);
 
