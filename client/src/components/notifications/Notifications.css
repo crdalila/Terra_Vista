@@ -10,6 +10,8 @@
     max-width: 500px;
     min-height: fit-content;
     max-height: 800px;
+
+    overflow-y: scroll;
     
     display: flex;
     flex-flow: column;

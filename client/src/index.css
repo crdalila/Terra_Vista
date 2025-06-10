@@ -273,7 +273,7 @@ h4 {
   display: flex;
   flex-flow: column;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 2em;
 
   min-height: 24em;
@@ -301,10 +301,11 @@ h4 {
 
   text-align: right;
 
-  max-width: 30%;
+  max-width: 40%;
   height: 100%;
 
   margin-right: 2em;
+  margin-bottom: 2em;
 }
 
 .page-buttons {
@@ -316,22 +317,22 @@ h4 {
 }
 
 .back-button {
-  position: absolute;
-  top: -1em;
-  left: -1em;
+  position: fixed;
+  top: 6em;
+  left: 11em;
 
-  width: 4em;
-  height: 4em;
+  width: 3em;
+  height: 3em;
 
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
   padding: 1em;
 
   background-color: var(--main-color);
   color: var(--text-color);
-  border: none;
-  border-radius: 20px;
+  border: 2px solid var(--text-color);
+  border-radius: 100px;
 
   cursor: pointer;
 }
@@ -341,9 +342,9 @@ h4 {
 
   display: flex;
   flex-flow: column;
-  gap: 2em;
+  gap: 5em;
 
-  z-index: 200;
+  z-index: 50;
 }
 
 
@@ -398,6 +399,14 @@ body.dark-theme {
     width: 100%;
     max-width: 1000px;
     gap: .5em;
+  }
+
+  .page-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .page-info p {
+    font-size: 1rem;
   }
 
   .page-content {
@@ -459,5 +468,9 @@ body.dark-theme {
 
   .button {
     font-size: 1rem;
+  }
+
+  .back-button {
+    display: none;
   }
 }
