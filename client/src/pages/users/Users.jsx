@@ -7,8 +7,8 @@ import "./Users.css";
 
 function Users() {
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
-    const [keyValue, setKeyValue] = useState(0);
     const [users, setUsers] = useState([]);
+    const [tempPass,settempPass] = useState("");
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
@@ -37,10 +37,12 @@ function Users() {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            const result = await userService.createUser(newUser);
+            const {result, newPassword} = await userService.createUser(newUser);
+            
             if (result && result._id) {
                 setNewUser({ name: "", email: "", role: "client" });
-                setKeyValue(keyValue => keyValue + 1);
+                settempPass(newPassword);
+                fetchUsers();
             } else {
                 console.error("Error creating user");
             }
@@ -56,14 +58,6 @@ function Users() {
             </section>
 
             <section className="page-content">
-                <div className="users-list">
-                    {users.length > 0 ? (users.map(user => (
-                        <UserCard key={keyValue} user={user} />
-                    ))) : (<p>There are no users created yet.</p>)
-                    }
-
-                </div>
-
                 <form className="create-user-form" onSubmit={handleCreateUser}>
                     <h3>Create New User</h3>
                     <label>Name:</label>
@@ -85,6 +79,14 @@ function Users() {
 
                     <button type="submit" className="new-user-button button">Create User<i>!</i></button>
                 </form>
+                {tempPass && <p>Temporal Password for new user is : {tempPass}</p>}
+                <div className="users-list">
+                    {users.length > 0 ? (users.map(user => (
+                        <UserCard key={user._id} user={user} />
+                    ))) : (<p>There are no users created yet.</p>)
+                    }
+
+                </div>
             </section>
         </article>
     );
