@@ -11,6 +11,8 @@
     display: flex;
     flex-flow: column;
     gap: 1em;
+
+    position: relative;
 }
 
 .task-id {
@@ -57,4 +59,26 @@
 .button-delete {
     background-color: var(--text-color);
     color: var(--main-color);
+}
+
+.status-sent {
+    text-align: center;
+    color: var(--light-green);
+    font-weight: bold;
+    background-color: rgba(0, 128, 0, 0.1);
+    padding: 0.2em 0.5em;
+    border-radius: 8px;
+}
+
+.status-pending {
+    text-align: center;
+    color: var(--orange);
+    font-weight: bold;
+    background-color: rgba(255, 165, 0, 0.1);
+    padding: 0.2em 0.5em;
+    border-radius: 8px;
+}
+
+.task-date {
+    font-size: .8rem;
 }

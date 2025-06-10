@@ -1,4 +1,6 @@
 
+import './Notifications.css'
+
 function NotificationCard({notif}) {
     return (
         <article className="notification-card">
