@@ -1,26 +1,36 @@
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 
 import { ProjectContext } from "../../context/ProjectContext";
 import { AuthContext } from "../../context/AuthContext";
 import TaskCard from "../taskCard/TaskCard";
-import "./TaskList.css";
 import { sendFeedback } from "../../utils/clickup";
+import Modal from "../Modal/Modal";
+import "./TaskList.css";
 
 function TaskList({ tasks = [], projectId }) {
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
+    const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const isClient = userData && userData.role === "client";
 
     const handleFeedback = async () => {
         try {
             await sendFeedback(userData._id);
-            alert ("Feedback sent successfully");
+            setModalMessage("Feedback sent successfully!");
         } catch (err) {
             console.error("Error sending feedback", err);
-            alert("There was a problem sending the feedback");
+            setModalMessage("Oh no! There was an error sending your feedback. Please try again.");
+        } finally {
+            setShowModal(true);
         }
-    }
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        window.location.reload();
+    };
 
     return (
         <article className="tasks-list">
@@ -31,6 +41,7 @@ function TaskList({ tasks = [], projectId }) {
                     <section className="tasks-list--buttons">
                         <button onClick={handleFeedback} className="button-feedback button">Send Feedback<i>!</i></button>
 
+
                         <Link to="/request" className="button-create-task button">Create Request</Link>
                     </section>
                 )}
@@ -40,10 +51,13 @@ function TaskList({ tasks = [], projectId }) {
                 {tasks.length === 0 ? (
                     <p>You have no tasks for this project yet.</p>
                 ) : (
-                    tasks.map(task =>
-                        <TaskCard task={task} key={task._id} projectId={projectId} />)
+                    tasks.map(task => (
+                        <TaskCard task={task} key={task._id} projectId={projectId} />
+                    ))
                 )}
             </section>
+
+            {showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
         </article>
     );
 }

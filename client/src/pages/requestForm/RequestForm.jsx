@@ -51,13 +51,21 @@ function RequestForm() {
         setLoading(true);
         try {
             if (isExisting && isEditing) {
-                await taskService.editTask(selectedProject._id, task._id, formData);
-                alert("Request updated successfully"); // TODO otro tipo de alerta
-            } else if (!isExisting) {
-                await taskService.createTask(selectedProject._id, {
+                await taskService.editTask(selectedProject._id, task._id, {
                     ...formData,
                     requester: userData.name
                 });
+                alert("Request updated successfully"); // TODO otro tipo de alerta
+            } else if (!isExisting) {
+                const taskPayload = {
+					...formData,
+					requester: userData.email
+				};
+				if (image) {
+					await taskService.createTaskWithImage(selectedProject._id, taskPayload, image);
+				} else {
+					await taskService.createTask(selectedProject._id, taskPayload);
+				}
                 alert("Request created successfully"); // TODO otro tipo de alerta
             }
             navigate("/project", { state: { reaload: true } });
