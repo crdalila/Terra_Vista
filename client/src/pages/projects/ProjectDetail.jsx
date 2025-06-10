@@ -128,9 +128,9 @@ function ProjectDetail() {
         }
     };
 
+
     return (
         <article className="project-page article">
-
             <section className="page-header">
                 <h2 className="page-title">{selectedProject.name}</h2>
                 <div className="page-info">
@@ -141,42 +141,45 @@ function ProjectDetail() {
             </section>
 
             <section className="page-content">
-                {usersInProject.map(user => (
-                    <div className="project-user">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="var(--text-color)" width='24' height='24'>
-                            <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
-                        </svg>
-                        <p key={user._id} value={user._id}>
-                            {user.name} ({user.email})
-                        </p>
-                    </div>
-                ))}
-
-                <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
-                    <label htmlFor="users">Select clients to add to this project: </label>
-                    <select
-                        id="users"
-                        value={selectedUsers}
-                        multiple
-                        required
-                        onChange={(e) =>
-                            setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
-                        }
-                    >
-                        <option disabled value="">-- Select clients --</option>
-                        {users.map(user => (
-                            <option key={user._id} value={user._id}>
-                                {user.name} ({user.email})
-                            </option>
+                {userData && userData.role !== "client" && (
+                    <>
+                        {usersInProject.map(user => (
+                            <div className="project-user" key={user._id}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="var(--text-color)" width='24' height='24'>
+                                    <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
+                                </svg>
+                                <p>
+                                    {user.name} ({user.email})
+                                </p>
+                            </div>
                         ))}
-                    </select>
 
-                    <button type="submit" disabled={loading} className="add-user-button button">
-                        {loading ? "Adding..." : "Add User"}
-                    </button>
-                </form>
+                        <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
+                            <label htmlFor="users">Select clients to add to this project: </label>
+                            <select
+                                id="users"
+                                value={selectedUsers}
+                                multiple
+                                required
+                                onChange={(e) =>
+                                    setSelectedUsers(Array.from(e.target.selectedOptions, option => option.value))
+                                }>
+                                <option disabled value="">-- Select clients --</option>
+                                {users.map(user => (
+                                    <option key={user._id} value={user._id}>
+                                        {user.name} ({user.email})
+                                    </option>
+                                ))}
+                            </select>
 
-                <div className="projects-data"> {/* TODO COMPONENTS */}
+                            <button type="submit" disabled={loading} className="add-user-button button">
+                                {loading ? "Adding..." : "Add User"}
+                            </button>
+                        </form>
+                    </>
+                )}
+
+                <div className="projects-data">
                     <h3>Notifications</h3>
                     <h3>Review history</h3>
                 </div>
@@ -191,9 +194,8 @@ function ProjectDetail() {
                         <TaskList tasks={selectedProject.tasks} projectId={selectedProject._id} />
                     </div>
                 </div>
-
             </section>
-        </article >
+        </article>
     );
 }
 
