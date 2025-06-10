@@ -1,10 +1,12 @@
-import ProjectList from "../../components/projectList/ProjectList";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+
 import { AuthContext } from "../../context/AuthContext";
+import ProjectList from "../../components/projectList/ProjectList";
 import "./Projects.css"
 
 function Projects() {
-    const userData = useContext(AuthContext);
+    const { userData } = useContext(AuthContext);
     const canCreateProject =
         userData && userData.role === "admin" || userData.role === "projectManager";
 
