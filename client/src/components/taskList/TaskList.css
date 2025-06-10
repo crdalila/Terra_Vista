@@ -1,3 +1,10 @@
+.tasks-list {
+    margin-top: 2em;
+    display: flex;
+    flex-flow: column;
+    gap: 2em
+}
+
 .tasks-list--title {
     display: flex;
     flex-flow: row;
@@ -13,11 +20,11 @@
 
 .button-create-task {
     color: var(--text-color);
-    background-color: var(--items-color);
+    background-color: var(--main-color);
 }
 .button-delete-task {
     color: var(--text-color);
-    background-color: var(--items-color);
+    background-color: var(--main-color);
 }
 
 .button-feedback {

@@ -30,7 +30,7 @@
 
     padding: .5em 1em;
     margin-right: 2em;
-    
+
     font-size: 1.2rem;
     font-weight: 600;
 
@@ -100,4 +100,46 @@
 
 .instructions-button {
     border: 2px solid var(--orange);
+}
+
+
+
+/* ASIDE NAVBAR RESPONSIVE */
+@media (max-width: 768px) {
+    .top-nav {
+        z-index: 3;
+    }
+    .aside-nav {
+        position: fixed;
+        top: 0;
+        left: -10em;
+        width: 10em;
+        transition: all 0.3s ease;
+        z-index: 2;
+    }
+
+    /* When open */
+    .aside-nav.open {
+        left: 0;
+    }
+
+    /* Burger toggle */
+    .burger-toggle {
+        position: absolute;
+        top: 3.6em;
+        right: -2.5em;
+        width: 2.5em;
+        height: 2.5em;
+
+        background-color: var(--text-color);
+        color: var(--main-color);
+        border-radius: 0 10px 10px 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 100;
+        cursor: pointer;
+    }
 }
