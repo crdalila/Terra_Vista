@@ -149,3 +149,13 @@
 .task-card__link:hover::after {
     left: -50px;
 }
+
+
+@media (max-width: 768px) {
+    .task-card__link::after {
+        left: -10px;
+    }
+    .status-container {
+        margin-right: .2em;
+    }
+}
