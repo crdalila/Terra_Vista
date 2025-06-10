@@ -20,6 +20,10 @@ async function addUserToProject(userId, projectId) {
     return result;
 }
 
+async function removeUserFromProject(userId, projectId) {
+    const result = await fetchData(`/user/project/${userId}/${projectId}`, "DELETE");
+    return result;
+}
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -94,4 +98,5 @@ export default {
     getUserById,
     changeUserPassword,
     removeUser,
+    removeUserFromProject,
 }
