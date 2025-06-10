@@ -36,7 +36,7 @@ function ProjectCard({ project }) {
 
 	const ProgressBarChart = ({ project }) => {
 		if (!project || !project.tasks || project.tasks.length === 0) {
-			return <p>There are no tasks.</p>;
+			return;
 		}
 
 		const totalTasks = project.tasks.length;
