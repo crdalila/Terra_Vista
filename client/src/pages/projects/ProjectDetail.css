@@ -81,6 +81,11 @@
     border-radius: 10px;
 }
 
+.finalize-project-button {
+    background-color: var(--main-color);
+    color: var(--text-color);
+}
+
 
 
 @media (max-width: 768px) {

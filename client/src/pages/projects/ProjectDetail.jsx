@@ -13,6 +13,7 @@ import './ProjectDetail.css';
 
 function ProjectDetail() {
     const navigate = useNavigate();
+
     const project = useLoaderData();
     const { selectedProject, setSelectedProject } = useProject();
     const projectTaskListRef = useRef(null);
@@ -24,8 +25,10 @@ function ProjectDetail() {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const [showAddUserForm, setShowAddUserForm] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
+
+    const [error, setError] = useState(null);
 
     // SELECTED PROJECT
     useEffect(() => {
@@ -141,6 +144,25 @@ function ProjectDetail() {
         setUserToDelete(null);
     };
 
+    const handleFinalizeProjectClick = () => {
+        setShowDeleteProjectModal(true);
+    };
+
+    const handleConfirmDeleteProject = async () => {
+        try {
+            const result = await projectService.deleteProject(selectedProject._id);
+            if (result.error) {
+                setError(`Error finalizing project: ${result.message} (status ${result.status})`);
+            } else {
+                navigate("/");
+            }
+        } catch (error) {
+            setError(`Error finalizing project: ${error.message}`);
+        } finally {
+            setShowDeleteProjectModal(false);
+        }
+    };
+
     const userOptions = users.map((user) => ({
         value: user._id,
         label: `${user.name} (${user.email})`,
@@ -154,7 +176,15 @@ function ProjectDetail() {
                 <div className="page-info">
                     <h3>Your website is ready for you<i>!</i></h3>
                     <p>Explore your website and observe the details.</p>
-                    <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
+                    <div className="page-buttons">
+                        <button
+                            className="finalize-project-button button"
+                            onClick={handleFinalizeProjectClick}
+                        >
+                            Finalize project<i>!</i>
+                        </button>
+                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
+                    </div>
                 </div>
             </section>
 
@@ -237,6 +267,30 @@ function ProjectDetail() {
                     </div>
                 )
             }
+
+            {showDeleteProjectModal && (
+                <div className="delete-confirmation" onClick={() => setShowDeleteProjectModal(false)}>
+                    <div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
+                        <h3>Finalize Project</h3>
+                        <p>Are you sure you want to finalize and delete this project?</p>
+                        <p><strong>This action cannot be undone.</strong></p>
+                        <div className="delete-confirmation__buttons">
+                            <button
+                                onClick={() => setShowDeleteProjectModal(false)}
+                                className="button-cancel"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleConfirmDeleteProject}
+                                className="button-delete"
+                            >
+                                Finalize Project<i>!</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </article >
     );
 }
