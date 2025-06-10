@@ -48,6 +48,7 @@ function UserCard({ user }) {
                     </svg>
                 </div>
             </div>
+            ))}
             
 
             {/*CONFIRM DELETE*/}
