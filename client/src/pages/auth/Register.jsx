@@ -44,11 +44,14 @@ function Register() {
         }
     };
 
+    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
+    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+
     return (
         <article className="register">
             <div className="register-title">
                 <h2>Register</h2>
-                <img src="../../../public/images/icons-card.png" alt="icons" className="icons-card" />
+                <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
             </div>
 
             <form className="register-form">
