@@ -40,3 +40,19 @@
     flex-flow: row wrap;
     gap: .5em;
 }
+
+.temporal-password {
+    border: 2px solid var(--yellow);
+    border-radius: 20px;
+    padding: .5em 1em;
+    color: var(--text-color);
+    text-align: center;
+    font-size: var(--main-font-size);
+    font-weight: 500;
+
+    transition: all .3s ease;
+}
+
+.temporal-password:hover {
+    border-radius: 10px;
+}

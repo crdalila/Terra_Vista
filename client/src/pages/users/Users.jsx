@@ -12,6 +12,7 @@ function Users() {
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
 	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+    
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
@@ -89,7 +90,7 @@ function Users() {
 
                     <button type="submit" className="new-user-button button">Create User<i>!</i></button>
                 </form>
-                {tempPass && <p>Temporal Password for new user is : {tempPass}</p>}
+                {tempPass && <p className="temporal-password">Temporal Password for new user is : {tempPass}</p>}
                 <div className="users-list">
                     {users.length > 0 ? (users.map(user => (
                         <UserCard key={user._id} user={user} />

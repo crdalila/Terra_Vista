@@ -42,7 +42,12 @@
 
 @media (max-width: 768px) {
     .notifications {
-        max-height: 100vh;
+        max-height: 90vh;
         z-index: 200;
+        top: 5em;
+        transform: translate(0%);
+        padding-bottom: 2em;
+        max-width: 50%;
+        border-radius: 0;
     }
 }

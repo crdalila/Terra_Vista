@@ -10,28 +10,31 @@ import "./RequestDetail.css";
 
 function RequestDetail() {
     const { state } = useLocation();
-	const initialTask = state?.task;
-	const navigate = useNavigate();
+    const initialTask = state?.task;
+    const navigate = useNavigate();
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 
-	const [task, setTask] = useState(initialTask);
+    const [task, setTask] = useState(initialTask);
     const [newComment, setNewComment] = useState("");
 
-	useEffect(() => {
-		const fetchUpdatedTask = async () => {
-			try {
-				const updatedTask = await getTaskById(initialTask._id);
-				setTask(updatedTask);
-			} catch (err) {
-				console.error("Error fetching updated task:", err);
-			}
-		};
+    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
+    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
 
-		if (initialTask?._id) {
-			fetchUpdatedTask();
-		}
-	}, [initialTask]);
+    useEffect(() => {
+        const fetchUpdatedTask = async () => {
+            try {
+                const updatedTask = await getTaskById(initialTask._id);
+                setTask(updatedTask);
+            } catch (err) {
+                console.error("Error fetching updated task:", err);
+            }
+        };
+
+        if (initialTask?._id) {
+            fetchUpdatedTask();
+        }
+    }, [initialTask]);
 
     const handleSendComment = async () => {
         if (!newComment.trim()) return;
@@ -40,7 +43,7 @@ function RequestDetail() {
             await sendCommentToClickUp(task.clickUpTaskId, newComment);
             setNewComment("");
             const updatedTask = await getTaskById(task._id);
-			setTask(updatedTask);
+            setTask(updatedTask);
             alert("Comment sent to ClickUp!");
         } catch (err) {
             console.error(err);
@@ -87,7 +90,7 @@ function RequestDetail() {
                                 />
                                 <button className="button-sendComment" onClick={handleSendComment}>Send</button>
 
-								<ImageUploader taskId={task.clickUpTaskId} />
+                                <ImageUploader taskId={task.clickUpTaskId} />
                             </div>
                         </div>
                     )}
@@ -96,7 +99,7 @@ function RequestDetail() {
                         <div className="request-detail__title">
                             <h3>Request Info</h3>
 
-                            <img src="../../public/images/icons-card.png" alt="icons" className="icons-card" />
+                            <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
                         </div>
 
                         <h4>Project:</h4>
