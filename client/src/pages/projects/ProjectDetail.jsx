@@ -260,7 +260,7 @@ function ProjectDetail() {
                     </>
                 )}
 
-                <div className="projects-data">
+                {/* <div className="projects-data">
                     <div className="projects-data--item">
                         <h3>Notifications</h3>
                         <p>Stay on top of what is important, without distractions.</p>
@@ -269,7 +269,7 @@ function ProjectDetail() {
                         <h3>Review history</h3>
                         <p>Keep track of all your project updates.</p>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="project-detail--chart">
                     <h3>Progress</h3>

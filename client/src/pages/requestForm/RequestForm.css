@@ -39,6 +39,12 @@
     cursor: pointer;
 }
 
+#image-uploader {
+    font-size: var(--main-font-size);
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+}
 
 .request-form-button {
     background-color: var(--text-color);
