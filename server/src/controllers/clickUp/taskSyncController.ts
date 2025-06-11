@@ -55,6 +55,7 @@ async function syncPendingTasks(userId: string) {
 	}
 
 	const token = user.clickUpToken;
+	console.log("token", token);
 	const project = user.projects[0] as unknown as projectInterface;
 	console.log("Token",token);
 	console.log("Project",project);
@@ -77,6 +78,7 @@ async function syncPendingTasks(userId: string) {
 
 	try {
 		customFieldMap = await ensureCustomFields(String(listId), token);
+		console.log("Custom field map:", customFieldMap);
 		console.log("Custom fields loaded:", Object.keys(customFieldMap));
 	} catch (err: any) {
 		console.error("Error loading custom fields:", err.message);
@@ -95,7 +97,7 @@ async function syncPendingTasks(userId: string) {
 				name: task.name, 
 				description: task.request,
 				tags: [task.requestType],
-				time_estimate: Number(task.estimateTime) * 60 * 1000, // Convert to milliseconds
+				time_estimate: Number(task.estimateTime) * 60 * 100000,
 				status: "With Feedback",
 				start_date: Date.now(),
 				priority: task.priority,
@@ -150,7 +152,8 @@ async function syncPendingTasks(userId: string) {
 
 			results.push({ taskId: task._id, clickUpTaskId: response.data.id });
 		} catch (err: any) {
-			console.error(`Error syncing task ${task._id}: ${err.message}`);
+			//console.error(`Error syncing task ${task._id}: ${err.message}`);
+			console.error(err);
 			results.push({ taskId: task._id, success: false, error: err.message });
 		}
 	}

@@ -88,7 +88,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: var(--main-font);
   vertical-align: baseline;
 }
 
@@ -106,7 +106,7 @@ section {
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--main-font);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -301,7 +301,7 @@ h4 {
 
   text-align: right;
 
-  max-width: 40%;
+  max-width: 50%;
   height: 100%;
 
   margin-right: 2em;
