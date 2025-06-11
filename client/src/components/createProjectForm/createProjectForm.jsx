@@ -17,6 +17,7 @@ function CreateProjectForm() {
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [projectName, setProjectName] = useState("");
+    const [projectDescription, setProjectDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -103,7 +104,7 @@ function CreateProjectForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!projectName || !selectedSpace || selectedUsers.length === 0) {
+        if (!projectName || !projectDescription || !selectedSpace || selectedUsers.length === 0) {
             alert("Please fill in all the fields");
             return;
         }
@@ -112,6 +113,7 @@ function CreateProjectForm() {
         try {
             const result = await projectService.createProject({
                 name: projectName,
+                description: projectDescription,
                 clickUpSpaceId: selectedSpace,
             });
 
@@ -180,6 +182,14 @@ function CreateProjectForm() {
                         id="projectName"
                         value={projectName}
                         onChange={(e) => setProjectName(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="projectDescription">Description: </label>
+                    <input
+                        type="text"
+                        id="projectDescription"
+                        value={projectDescription}
+                        onChange={(e) => setProjectDescription(e.target.value)}
                         required
                     />
 
