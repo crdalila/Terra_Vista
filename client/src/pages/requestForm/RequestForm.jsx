@@ -19,8 +19,8 @@ function RequestForm() {
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null);
 
-    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
-    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
 
     const [formData, setFormData] = useState({
         name: task?.name || "",
@@ -89,7 +89,7 @@ function RequestForm() {
             <section className="page-content">
                 <form onSubmit={handleSubmit} className="request__form">
                     <h3>Request</h3>
-                    <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
+                    <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 
                     <label htmlFor="name">Title*:</label>
                     <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} disabled={!isEditing} required

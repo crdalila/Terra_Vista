@@ -224,7 +224,6 @@ body {
   overflow-x: hidden;
   overscroll-behavior: none;
   position: relative;
-  padding-bottom: 2em;
 }
 
 h1,
@@ -347,35 +346,13 @@ h4 {
   z-index: 50;
 }
 
-
-
-
-
-
-
-#theme-toggle {
-  position: fixed;
-  bottom: 1em;
-  left: 1em;
-
-  width: 3em;
-  height: 3em;
-
-  border-radius: 100px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.bi-eye, .bi-eye-slash-fill {
+  background-color: var(--main-color);
 }
 
-body.dark-theme {
-  --main-color: #f8d6ed;
-  --searchbar-color: #ffa4e1cc;
-  --items-color: #e593cd;
-  --button-color: #970065;
-  --input-color: #c781b0;
-  --text-color: #000000;
-}
+
+
+
 
 
 

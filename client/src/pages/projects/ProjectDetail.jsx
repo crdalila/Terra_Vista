@@ -23,6 +23,7 @@ function ProjectDetail() {
 
     const [users, setUsers] = useState([]);
     const [usersInProject, setUsersInProject] = useState([]);
+    
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [finalize, setFinalize] = useState(null);
@@ -32,6 +33,9 @@ function ProjectDetail() {
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
     const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
+    const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+	const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
 
     // SELECTED PROJECT
     useEffect(() => {

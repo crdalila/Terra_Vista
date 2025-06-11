@@ -33,7 +33,7 @@
 
     width: 100%;
     padding: .5em;
-    border: 2px solid var(--blue);
+    border: 2px solid var(--random-color);
     border-radius: 10px;
     background-color: var(--main-color);
     color: var(--text-color);
