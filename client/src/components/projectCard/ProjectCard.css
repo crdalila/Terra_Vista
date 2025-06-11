@@ -69,7 +69,7 @@
     min-height: 50px;
 
     background-color: transparent;
-    border: 2px solid var(--pink);
+    border: 2px solid var(--random-color);
     border-radius: 20px;
 
     overflow: hidden;
@@ -82,7 +82,7 @@
 }
 
 .progress-bar {
-    background-color: var(--pink);
+    background-color: var(--random-color);
     height: 100%;
     position: absolute; 
     top: 0; 
