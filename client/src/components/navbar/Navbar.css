@@ -9,6 +9,7 @@
     position: fixed;
     width: 100vw;
     z-index: 200;
+    padding: 1.5em;
 }
 
 .top-nav ul {

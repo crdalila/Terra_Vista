@@ -14,6 +14,13 @@ function AsideNavbar({isOpen, toggleMenu }) {
     setShowNotif(newShowNotif);
   };
 
+  const handleMenuClick = () => {
+    toggleMenu();
+    if (showNotif) {
+      setShowNotif(false);
+    }
+  };
+
 
   return (
     <article className="aside-navbar-container">
@@ -29,13 +36,13 @@ function AsideNavbar({isOpen, toggleMenu }) {
             <button onClick={handleNotifications} className="notifications-button aside-navbar--button">Notifications</button>
           </li>
           <li>
-            <NavLink to="/" className="aside-navbar--button projects-button" onClick={toggleMenu}>
+            <NavLink to="/" className="aside-navbar--button projects-button" onClick={handleMenuClick}>
               Projects
             </NavLink>
           </li>
           {userData && userData.role === "projectManager" && (
             <li>
-              <NavLink to="/users" className="aside-navbar--button users-button" onClick={toggleMenu}>
+              <NavLink to="/users" className="aside-navbar--button users-button" onClick={handleMenuClick}>
                 Users
               </NavLink>
             </li>
@@ -43,7 +50,7 @@ function AsideNavbar({isOpen, toggleMenu }) {
           <li>
             <NavLink
               to="/instructions"
-              className="aside-navbar--button instructions-button" onClick={toggleMenu}
+              className="aside-navbar--button instructions-button" onClick={handleMenuClick}
             >
               Manual
             </NavLink>

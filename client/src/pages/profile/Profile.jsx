@@ -22,6 +22,10 @@ function Profile() {
 
     const { onLogout, userData } = useContext(AuthContext);
 
+    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
+    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -72,8 +76,10 @@ function Profile() {
             </section>
 
             <section className="page-content">
-                <h3>Edit Password</h3>
                 <form onSubmit={handleSubmit} method="post" className="edit-password-form">
+                    <h3>Edit Password</h3>
+                    <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
+
                     <label htmlFor="current-password">Current password</label>
                     <div className="password-wrapper">
                         <input
