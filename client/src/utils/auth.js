@@ -8,6 +8,10 @@ async function login(email, password) {
     const data = { email, password };
     const result = await FetchData("/login", "POST", data);
 
+	if (result?.error) {
+		return {error: result.message || "Invalid credentials"};
+	}
+
     return result;
 }
 

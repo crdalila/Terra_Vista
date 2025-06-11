@@ -53,10 +53,32 @@ async function removeTask(projectId, taskId) {
     return result;
 }
 
+async function getTaskById(taskId) {
+	try {
+		const response = await fetchData(`/project/task/${taskId}`);
+		console.log("response", response)
+
+		return response;
+	} catch (error) {
+		console.error("Error in getTaskById:", error);
+		throw error;
+	}
+}
+
+export {
+    getTasks,
+    createTask,
+	createTaskWithImage,
+    editTask,
+    removeTask,
+	getTaskById
+}
+
 export default {
     getTasks,
     createTask,
 	createTaskWithImage,
     editTask,
-    removeTask
+    removeTask,
+	getTaskById
 }

@@ -13,9 +13,11 @@ function TaskList({ tasks = [], projectId }) {
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
     const [modalMessage, setModalMessage] = useState("");
     const [showModal, setShowModal] = useState(false);
+	const [isSending, setIsSending] = useState(false);
     const isClient = userData && userData.role === "client";
 
     const handleFeedback = async () => {
+		if (isSending || !userData?._id) return;
         try {
             await sendFeedback(userData._id);
             setModalMessage("Feedback sent successfully!");
@@ -24,6 +26,7 @@ function TaskList({ tasks = [], projectId }) {
             setModalMessage("Oh no! There was an error sending your feedback. Please try again.");
         } finally {
             setShowModal(true);
+			setIsSending(false);
         }
     };
 
@@ -39,7 +42,7 @@ function TaskList({ tasks = [], projectId }) {
 
                 {isClient && (
                     <section className="tasks-list--buttons">
-                        <button onClick={handleFeedback} className="button-feedback button">Send Feedback<i>!</i></button>
+                        <button onClick={handleFeedback} className="button-feedback button" disabled={isSending}>Send Feedback<i>!</i></button>
 
 
                         <Link to="/request" className="button-create-task button">Create Request</Link>

@@ -7,8 +7,8 @@ import "./Users.css";
 
 function Users() {
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
-    const [keyValue, setKeyValue] = useState(0);
     const [users, setUsers] = useState([]);
+    const [tempPass,settempPass] = useState("");
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
 	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
@@ -40,10 +40,12 @@ function Users() {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            const result = await userService.createUser(newUser);
+            const {result, newPassword} = await userService.createUser(newUser);
+            
             if (result && result._id) {
                 setNewUser({ name: "", email: "", role: "client" });
-                setKeyValue(keyValue => keyValue + 1);
+                settempPass(newPassword);
+                fetchUsers();
             } else {
                 console.error("Error creating user");
             }
@@ -87,10 +89,10 @@ function Users() {
 
                     <button type="submit" className="new-user-button button">Create User<i>!</i></button>
                 </form>
-
+                {tempPass && <p>Temporal Password for new user is : {tempPass}</p>}
                 <div className="users-list">
                     {users.length > 0 ? (users.map(user => (
-                        <UserCard key={keyValue} user={user} />
+                        <UserCard key={user._id} user={user} />
                     ))) : (<p>There are no users created yet.</p>)
                     }
 
