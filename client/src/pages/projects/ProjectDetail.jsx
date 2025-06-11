@@ -28,6 +28,9 @@ function ProjectDetail() {
     const [showAddUserForm, setShowAddUserForm] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
 
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+    const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
     // SELECTED PROJECT
     useEffect(() => {
         if (!selectedProject) {
@@ -230,6 +233,8 @@ function ProjectDetail() {
 
                         <form className="add-user-to-project-form" onSubmit={handleAddUsersToProject}>
                             <label htmlFor="users">Select clients to add to this project: </label>
+                            <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
+
                             <Select
                                 id="users"
                                 styles={customSelectStyles}
