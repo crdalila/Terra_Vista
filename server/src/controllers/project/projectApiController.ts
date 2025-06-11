@@ -9,6 +9,7 @@
 import { Request, Response } from 'express'
 //=================================Common Imports================================
 import Project from '../../models/project.ts';
+import Task from "../../models/task.ts";
 import projectController from "./projectController.ts";
 import { projectInterface } from '../../models/project.ts';
 import clickUpController from '../clickUp/clickUpController.ts';
@@ -237,6 +238,22 @@ async function editTaskFromProject(req: Request, res: Response) {
   }
 }
 
+async function getTaskById(req: Request, res: Response): Promise<void>{
+	try {
+		const task = await Task.findById(req.params.id);
+
+		if (!task) {
+			res.status(404).json({ message: "Task not found" });
+			return;
+		}
+
+		res.json(task);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Error fetching task" });
+	}
+};
+
 async function deleteTaskFromProject(req: Request, res: Response) {
   try {
     //Get parameters for function to work
@@ -270,4 +287,5 @@ export default {
   createTaskIntoProject,
   editTaskFromProject,
   deleteTaskFromProject,
+  getTaskById
 }

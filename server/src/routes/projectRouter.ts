@@ -18,6 +18,7 @@ router.get("/notif", verifyToken, verifyRole, projectController.getAllProjectsNo
 router.get("/tasks/:id/:filter", verifyToken, verifyUserHasProject, projectController.getProjectTasks);
 router.get("/notif/:id", verifyToken, verifyUserHasProject, projectController.getProjectNotifsById);
 router.get("/:id", verifyToken, verifyUserHasProject, projectController.getProjectById);
+router.get("/task/:id", verifyToken, projectController.getTaskById);
 
 router.post("/create", verifyToken, verifyRole, projectController.createProject);
 router.post("/tasks/:id", verifyToken,verifyUserHasProject,upload.single("picture"), projectController.createTaskIntoProject);

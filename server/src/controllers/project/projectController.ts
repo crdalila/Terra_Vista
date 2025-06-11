@@ -2,6 +2,7 @@
 // name: projectController.ts
 //=================================Common Imports================================
 import { Types } from "mongoose";
+import axios from "axios";
 import Project, { projectInterface } from "../../models/project.ts";
 import Task, { requestEnum, requestOrder, statusEnum, statusOrder, taskInterface } from "../../models/task.ts"
 //================================Error Management===============================
@@ -9,6 +10,9 @@ import { DataDoesNotExist, ProjectDoesNotExist, TaskDoesNotExist } from "../../u
 import { removeFile } from "../../utils/middlewares/multerMiddleware.ts";
 import { projectSelect } from "../../utils/modelsSelect.ts";
 //===============================================================================
+
+const CLICKUP_API_URL = "https://api.clickup.com/api/v2";
+const CLICKUP_TOKEN = process.env.CLICKUP_API_TOKEN;
 
 async function getProjectById(id: string) {
   //Finds project, makes tasks model be inside
@@ -54,10 +58,31 @@ async function editProject(id: string, data: projectInterface) {
 }
 
 async function removeProject(id: string) {
-  // Finds and deletes project
-  await Project.findByIdAndDelete(id);
+  const project = await Project.findById(id);
 
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
+  const webhookId = project.clickUpWebhookId;
+
+  if (webhookId) {
+    try {
+      await axios.delete(`${CLICKUP_API_URL}/webhook/${webhookId}`, {
+        headers: {
+          Authorization: CLICKUP_TOKEN,
+        },
+      });
+      console.log(`Webhook ${webhookId} successfully deleted.`);
+    } catch (err: any) {
+      console.warn(`Could not delete webhook ${webhookId}:`, err.response?.data || err.message);
+      // Puedes decidir si esto debe interrumpir o no la eliminación del proyecto
+    }
+  }
+
+  await Project.findByIdAndDelete(id);
   return 1;
+
 }
 
 async function finalizeProject(id: string) {
