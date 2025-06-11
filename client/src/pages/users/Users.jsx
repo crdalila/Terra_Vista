@@ -85,7 +85,7 @@ function Users() {
                     <h3>Create New User</h3>
                     <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 
-                    <label>Name:</label>
+                    <label>Name*:</label>
                     <input
                         type="text"
                         name="name"
@@ -93,7 +93,7 @@ function Users() {
                         onChange={handleInputChange}
                         required
                     />
-                    <label>Email:</label>
+                    <label>Email*:</label>
                     <input
                         type="email"
                         name="email"

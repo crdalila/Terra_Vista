@@ -166,7 +166,7 @@ function RequestForm() {
                     />
 
                     {isExisting && !isEditing && (
-                        <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
+                        <button type="button" className="request-form-button button" onClick={() => setIsEditing(true)}>Edit</button>
                     )}
 
                     {(isEditing || !isExisting) && (

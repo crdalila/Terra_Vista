@@ -207,7 +207,7 @@ function CreateProjectForm() {
                     <h2>Create a new project</h2>
                     <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 
-                    <label htmlFor="projectName">Name: </label>
+                    <label htmlFor="projectName">Name*: </label>
                     <input
                         type="text"
                         id="projectName"
@@ -216,7 +216,7 @@ function CreateProjectForm() {
                         required
                     />
 
-                    <label htmlFor="space">Select a clickUp Space: </label>
+                    <label htmlFor="space">Select a clickUp Space*: </label>
                     <Select
                         id="space"
                         styles={customSelectStyles}

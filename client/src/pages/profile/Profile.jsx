@@ -80,7 +80,7 @@ function Profile() {
                     <h3>Edit Password</h3>
                     <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 
-                    <label htmlFor="current-password">Current password</label>
+                    <label htmlFor="current-password">Current password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showOldPassword ? "text" : "password"}
@@ -112,7 +112,7 @@ function Profile() {
                         </button>
                     </div>
 
-                    <label htmlFor="new-password">Password</label>
+                    <label htmlFor="new-password">Password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showNewPassword ? "text" : "password"}
@@ -144,7 +144,7 @@ function Profile() {
                         </button>
                     </div>
 
-                    <label htmlFor="confirm-password">Confirm Password</label>
+                    <label htmlFor="confirm-password">Confirm Password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showConfirmPassword ? "text" : "password"}

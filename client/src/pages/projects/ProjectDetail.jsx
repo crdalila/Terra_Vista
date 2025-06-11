@@ -26,7 +26,7 @@ function ProjectDetail() {
 
     const [users, setUsers] = useState([]);
     const [usersInProject, setUsersInProject] = useState([]);
-    
+
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [finalize, setFinalize] = useState(null);
@@ -38,7 +38,7 @@ function ProjectDetail() {
     const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
 
     const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
-	const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+    const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
 
     // SELECTED PROJECT
     useEffect(() => {
@@ -107,8 +107,8 @@ function ProjectDetail() {
         const percentage = Math.round((completedTasks / totalTasks) * 100);
 
         return (
-            <div className="progress-container" style={{'--random-color': randomColor}}>
-                <div className="progress-bar" style={{ width: `${percentage}%`, '--random-color': randomColor  }} />
+            <div className="progress-container" style={{ '--random-color': randomColor }}>
+                <div className="progress-bar" style={{ width: `${percentage}%`, '--random-color': randomColor }} />
                 <span className="progress-label">{percentage}% completed</span>
             </div>
         );
@@ -217,7 +217,7 @@ function ProjectDetail() {
         }),
     };
 
-    console.log("Finalize",finalize);
+    console.log("Finalize", finalize);
     return (
         <article className="project-page article">
             <section className="page-header">
@@ -225,8 +225,10 @@ function ProjectDetail() {
                 <div className="page-info">
                     <h3>Your website is ready for you<i>!</i></h3>
                     <p>Explore your website and observe the details.</p>
-                    <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
-                    {!selectedProject.isFinalize && <button className="start-project-button button" onClick={ ()=>{setFinalize(true)}}>Finalize Project<i>!</i></button>}
+                    <div className="page-buttons">
+                        {!selectedProject.isFinalize && <button className="finalize-project-button button" onClick={() => { setFinalize(true) }}>Finalize Project<i>!</i></button>}
+                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
+                    </div>
                 </div>
 
                 <button className="back-button" onClick={() => navigate(-1)}>
