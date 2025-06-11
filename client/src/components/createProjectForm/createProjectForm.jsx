@@ -20,6 +20,7 @@ function CreateProjectForm() {
     const [projectDescription, setProjectDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+	const [existingProjects, setExistingProjects] = useState([]);
 
     const customSelectStyles = {
         control: (provided, state) => ({
@@ -61,6 +62,23 @@ function CreateProjectForm() {
 
     const navigate = useNavigate();
 
+	useEffect(() => {
+		const fetchProjects = async () => {
+			try {
+				const data = await projectService.getAllProjects();
+				if (Array.isArray(data)) {
+					setExistingProjects(data);
+				} else {
+					console.error("Can't get projects");
+				}
+			} catch (err) {
+				console.error("Error getting projects:", err);
+			}
+		};
+
+		fetchProjects();
+	}, []);
+
     // GET CLICKUP SPACES:
     useEffect(() => {
         const fetchSpaces = async () => {
@@ -81,6 +99,10 @@ function CreateProjectForm() {
         }
     }, [userId]);
 
+	const usedClickUpSpaceIds = existingProjects.map(project => project.clickUpSpaceId);
+	const spaceOptions = spaces
+		.filter(space => !usedClickUpSpaceIds.includes(space.id))
+		.map(space => ({ value: space.id, label: space.name }));
 
     // GET TERRA_VISTA CLIENTS:
     useEffect(() => {
@@ -88,7 +110,8 @@ function CreateProjectForm() {
             try {
                 const result = await userService.getAllUsers();
                 if (Array.isArray(result)) {
-                    const clients = result.filter(user => user.role === "client");
+                    const clients = result.filter(
+						user => user.role === "client" && (!user.projects || user.projects.length === 0));
                     setUsers(clients);
                 } else {
                     console.error("Can't get users");
@@ -139,11 +162,6 @@ function CreateProjectForm() {
         }
     };
 
-    const spaceOptions = spaces.map((space) => ({
-        value: space.id,
-        label: space.name,
-    }));
-
     const userOptions = users.map((user) => ({
         value: user._id,
         label: `${user.name} (${user.email})`,
@@ -184,14 +202,6 @@ function CreateProjectForm() {
                         onChange={(e) => setProjectName(e.target.value)}
                         required
                     />
-                    <label htmlFor="projectDescription">Description: </label>
-                    <input
-                        type="text"
-                        id="projectDescription"
-                        value={projectDescription}
-                        onChange={(e) => setProjectDescription(e.target.value)}
-                        required
-                    />
 
                     <label htmlFor="space">Select a clickUp Space: </label>
                     <Select
@@ -202,6 +212,15 @@ function CreateProjectForm() {
                         onChange={(selectedOption) => setSelectedSpace(selectedOption?.value || "")}
                         placeholder="Select a clickUp Space"
                         isClearable
+                    />
+
+                    <label htmlFor="projectDescription">Description: </label>
+                    <input
+                        type="text"
+                        id="projectDescription"
+                        value={projectDescription}
+                        onChange={(e) => setProjectDescription(e.target.value)}
+                        required
                     />
 
                     <label htmlFor="users">Select clients to add to this project: </label>
