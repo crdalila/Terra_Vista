@@ -22,6 +22,7 @@ function ProjectDetail() {
 
     const [users, setUsers] = useState([]);
     const [usersInProject, setUsersInProject] = useState([]);
+    
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -30,6 +31,9 @@ function ProjectDetail() {
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
     const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
+    const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+	const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
 
     // SELECTED PROJECT
     useEffect(() => {
@@ -210,7 +214,7 @@ function ProjectDetail() {
                     <>
                         <div className="project-users">
                             {usersInProject.map(user => (
-                                <div className="project-user" key={user._id}>
+                                <div className="project-user" key={user._id} style={{ '--random-color': randomColor }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="var(--text-color)" width='24' height='24'>
                                         <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
                                     </svg>

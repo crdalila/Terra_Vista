@@ -27,14 +27,14 @@ function Login() {
         setShowPassword((prev) => !prev);
     };
 
-    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
-    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
 
     return (
         <article className="login">
             <div className="login-title">
                 <h2>Login</h2>
-                <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
+                    <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
             </div>
 
             <form className="login-form" onSubmit={handleSubmit}>

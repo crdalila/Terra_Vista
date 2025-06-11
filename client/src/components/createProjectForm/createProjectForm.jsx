@@ -20,6 +20,9 @@ function CreateProjectForm() {
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
     const customSelectStyles = {
         control: (provided, state) => ({
             ...provided,
@@ -173,6 +176,7 @@ function CreateProjectForm() {
 
                 <form onSubmit={handleSubmit} className="create-project-form">
                     <h2>Create a new project</h2>
+                    <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 
                     <label htmlFor="projectName">Name: </label>
                     <input

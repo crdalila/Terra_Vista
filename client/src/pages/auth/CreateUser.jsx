@@ -19,13 +19,13 @@ function CreateUser() {
         setShowPassword((prev) => !prev);
     };
 
-    const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
-    const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+    const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
 
     return (
         <div className="create-user-account">
             <h2 className="create-user-account-title">Create User</h2>
-            <img src={iconPath} alt={`icon-${iconIndex}`} className="project--icons" />
+            <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
             <form className="create-user-account-form">
                 <label>Email:</label>
                 <input type="email" autoFocus value={email} onChange={handleEmailChange} />
