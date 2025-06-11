@@ -66,4 +66,4 @@ function sendMailController(req: Request, res: Response) {
     mailData.text, mailData.type));
 }
 
-export { sendMailController };
+export { mailType, mailInterface, sendMail,sendMailController };

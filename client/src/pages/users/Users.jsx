@@ -8,11 +8,11 @@ import "./Users.css";
 function Users() {
     const [newUser, setNewUser] = useState({ name: "", email: "", role: "client" });
     const [users, setUsers] = useState([]);
-    const [tempPass,settempPass] = useState("");
+    const [tempPass, settempPass] = useState("");
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
-	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
-    
+    const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
 
     // Extraemos fetchUsers para usarlo dentro y fuera del useEffect
     const fetchUsers = async () => {
@@ -41,8 +41,8 @@ function Users() {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            const {result, newPassword} = await userService.createUser(newUser);
-            
+            const { result, newPassword } = await userService.createUser(newUser);
+
             if (result && result._id) {
                 setNewUser({ name: "", email: "", role: "client" });
                 settempPass(newPassword);
@@ -52,6 +52,20 @@ function Users() {
             }
         } catch (err) {
             console.error("Failed to create user:", err);
+        }
+    };
+
+    const handleRemoveUser = async (userId) => {
+        try {
+            const result = await userService.removeUser(userId);
+
+            if (result.error) {
+                setError(`Error removing user: ${result.message} (status ${result.status})`);
+            } else {
+                window.location.reload();
+            }
+        } catch (error) {
+            setError(`Error removing user: ${error.message}`);
         }
     };
 
@@ -93,7 +107,8 @@ function Users() {
                 {tempPass && <p className="temporal-password">Temporal Password for new user is : {tempPass}</p>}
                 <div className="users-list">
                     {users.length > 0 ? (users.map(user => (
-                        <UserCard key={user._id} user={user} />
+                        <UserCard key={user._id} user={user} onRemoveUser={handleRemoveUser}
+                        text={"Are you sure you want to delete this user?"} />
                     ))) : (<p>There are no users created yet.</p>)
                     }
 

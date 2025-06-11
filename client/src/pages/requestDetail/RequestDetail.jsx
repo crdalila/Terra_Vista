@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import Modal from "../../components/Modal/Modal";
 import { AuthContext } from "../../context/AuthContext";
 import { ProjectContext } from "../../context/ProjectContext";
 import { getTaskById } from "../../utils/tasks";
@@ -14,12 +14,17 @@ function RequestDetail() {
     const navigate = useNavigate();
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
+	const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     const [task, setTask] = useState(initialTask);
     const [newComment, setNewComment] = useState("");
 
     const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
     const iconPath = `/images/threeIcons/${iconIndex}.svg`;
+
+	const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+    const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
 
     useEffect(() => {
         const fetchUpdatedTask = async () => {
@@ -44,12 +49,19 @@ function RequestDetail() {
             setNewComment("");
             const updatedTask = await getTaskById(task._id);
             setTask(updatedTask);
-            alert("Comment sent to ClickUp!");
+            setModalMessage("Comment sent to ClickUp!");
         } catch (err) {
             console.error(err);
-            alert("Failed to send comment to ClickUp");
-        }
+            setModalMessage("Failed to send comment to ClickUp");
+        } finally {
+			setShowModal(true);
+		}
     };
+
+	const handleModalClose = () => {
+		setShowModal(false);
+		window.location.reload();
+	};
 
     return (
         <article className="request-detail article">
@@ -76,19 +88,21 @@ function RequestDetail() {
                             <h3>Terra Comments:</h3>
 
                             {task.comments.map((c) => (
-                                <div key={c._id} className="comment">
+                                <div key={c._id} className="comment" style={{ '--random-color': randomColor }}>
                                     <p><strong>{new Date(c.date).toLocaleDateString()}</strong>:</p>
                                     <p>{c.comment}</p>
                                 </div>
                             ))}
 
-                            <div className="add-comment">
-                                <textarea
+                            <div className="add-comment" style={{ '--random-color': randomColor }}>
+                                <div className="add-comment__message">
+									<textarea
                                     value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                     placeholder="Add a comment..."
-                                />
-                                <button className="button-sendComment" onClick={handleSendComment}>Send</button>
+                                	/>
+                                	<button className="button-sendComment button" onClick={handleSendComment}>Send<i>!</i></button>
+								</div>
 
                                 <ImageUploader taskId={task.clickUpTaskId} />
                             </div>
@@ -129,6 +143,10 @@ function RequestDetail() {
                     </div>
                 </div>
             </section>
+
+			{showModal && (
+				<Modal message={modalMessage} onClose={handleModalClose} />
+			)}
         </article>
     );
 }
