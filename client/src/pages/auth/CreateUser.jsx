@@ -31,9 +31,9 @@ function CreateUser() {
                 <h2 className="create-user-account-title">Create User</h2>
                 <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
                 <form className="create-user-account-form">
-                    <label>Email:</label>
-                    <input type="email" autoFocus value={email} onChange={handleEmailChange} />
-                    <label>Provisional Password:</label>
+                    <label>Email*:</label>
+                    <input type="email" autoFocus value={email} onChange={handleEmailChange} required />
+                    <label>Provisional Password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showPassword ? "text" : "password"}
