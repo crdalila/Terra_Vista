@@ -49,7 +49,9 @@ async function enrichTaskData(task: any) {
 };
 
 async function syncPendingTasks(userId: string) {
+	console.log("Syncing pending tasks for user:", userId);
 	const user = await User.findById(userId).populate("projects");
+	console.log("user", user);
 	if (!user || !user.clickUpToken) {
 		throw new UserNotFound();
 	}
@@ -64,6 +66,7 @@ async function syncPendingTasks(userId: string) {
 	}
 
 	const listId = project.clickUpListId;
+	console.log("listId", listId);
 
 	const pendingTasks = await Task.find({ requester: userId, isSend: false });
 	console.log("Pending tasks to sync:", pendingTasks.length);

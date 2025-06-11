@@ -18,6 +18,7 @@ function TaskList({ tasks = [], projectId }) {
 
     const handleFeedback = async () => {
 		if (isSending || !userData?._id) return;
+        setIsSending(true)
         try {
             await sendFeedback(userData._id);
             setModalMessage("Feedback sent successfully!");
@@ -64,3 +65,4 @@ function TaskList({ tasks = [], projectId }) {
 }
 
 export default TaskList;
+

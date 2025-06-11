@@ -18,6 +18,8 @@ function RequestForm() {
     const [isEditing, setIsEditing] = useState(!isExisting);
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null);
+    const [hasChanges, setHasChanges] = useState(false);
+
 
     const [formData, setFormData] = useState({
         name: task?.name || "",
@@ -35,10 +37,19 @@ function RequestForm() {
         }
     }, [project, setSelectedProject]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => {
+        const updated = { ...prev, [name]: value };
+        if (!hasChanges && task) {
+            if (value !== task[name]) {
+                setHasChanges(true);
+            }
+        }
+        return updated;
+    });
+};
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -144,11 +155,10 @@ function RequestForm() {
 								}
 								setImage(file);
 							}
-						}}
-					/>
+						}}/>
 
                     {isExisting && !isEditing && (
-                        <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>
+                        <button type="button" className="request-form-button" onClick={() => setIsEditing(true)} navigate="/project">Edit</button>
                     )}
 
                     {(isEditing || !isExisting) && (

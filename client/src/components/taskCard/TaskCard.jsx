@@ -50,7 +50,7 @@ function TaskCard({ task, projectId }) {
                     <section className="task-info">
                         <div className="task-name">
                             <h4>{task.name}</h4>
-                            <p className="task-id">Req#{task._id}</p>
+                            <p className="task-id">Req. #{task._id}</p>
                         </div>
                         <p className="task-date">{new Date(task.inputDate).toLocaleDateString('en-CA').slice(0, 10)}</p>
                         <p>{task.requestType}</p>
