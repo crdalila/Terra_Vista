@@ -305,15 +305,10 @@ function ProjectDetail() {
                             </button>
                         </div>
                     </div>
-<<<<<<< HEAD
+				</div>
                 )
             }
-
 			{showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
-=======
-                </div>
-            )}
->>>>>>> fullstack
         </article >
     );
 }
