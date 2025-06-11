@@ -14,6 +14,10 @@ function ProjectCard({ project }) {
 	const [issueToDelete, setIssueToDelete] = useState(null);
 	const [error, setError] = useState("");
 
+	const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+	const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+
+
 	// SAVES THE SELECTED PROJECT IN PROJECT CONTEXT
 	const handleClick = () => {
 		setSelectedProject(project);
@@ -40,7 +44,7 @@ function ProjectCard({ project }) {
 		}
 
 		const totalTasks = project.tasks.length;
-		const completedTasks = project.tasks.filter(task => task.done).length;
+		let completedTasks = project.tasks.filter(task => task.status == "Complete").length;
 		const percentage = Math.round((completedTasks / totalTasks) * 100);
 
 		return (
@@ -51,13 +55,17 @@ function ProjectCard({ project }) {
 		);
 	};
 
+	const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
+
 
 	return (
-		<div className="project">
+		<div className="project" style={{ '--random-color': randomColor }}>
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
-					<img src="../../../public/images/icons-card.png" alt="icons" className="project--icons" />
+					<img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
 					<p>{project.description}</p>
 				</div>
 				<ProgressBarChart project={project} />

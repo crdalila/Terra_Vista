@@ -15,7 +15,7 @@
 .projects-list--projects {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 3fr));
     gap: 2em;
 }
 
@@ -26,5 +26,12 @@
 @media (max-width: 768px) {
     .projects-list {
         align-items: center;
+    }
+    .project-list--projects {
+        display: flex;
+        flex-flow: column;
+        gap: 2em;
+        justify-content: center;
+        width: 100%;
     }
 }

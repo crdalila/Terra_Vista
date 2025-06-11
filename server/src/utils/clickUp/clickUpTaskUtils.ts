@@ -141,6 +141,7 @@ const REQUIRED_FIELDS = [
 
 // Function to check if all custom fields are present and create them if not
 export async function ensureCustomFields(listId: string, token:string) {
+	console.log("Using ClickUp List ID:", listId);
 	const apiBase = `https://api.clickup.com/api/v2/list/${listId}`;
 
 	// Get existing custom fields

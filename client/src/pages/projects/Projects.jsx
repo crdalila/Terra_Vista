@@ -16,8 +16,8 @@ function Projects() {
                 <h2 className="page-title">Projects</h2>
 
                 <div className="page-info">
-                    <h3>Add projects from ClickUp<i>!</i></h3>
-                    <p>Description</p>
+                    <h3>View and manage all your projects.</h3>
+                    <p>You can track progress, attach documents, and collaborate in real time, all connected to your ClickUp workspace.</p>
                     <div className="page-buttons">
                         {canCreateProject && (
                             <Link to="/create-project" className="create-project-button button">Add Project From ClickUp<i>!</i></Link>

@@ -1,12 +1,17 @@
 
 import NotificationCard from "./NotificationCard";
 import { Fragment } from "react";
-function NotificationList({ projects }) {
 
+import "./Notifications.css";
+function NotificationList({ projects }) {
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+    const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
 
     return (
         <article className="notifications">
-            <h2>notificationsications</h2>
+            <h3>Notifications</h3>
+            <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
+
             {projects.map((project) => {
                 return (
                     <Fragment key={project._id}>

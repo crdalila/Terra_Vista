@@ -1,5 +1,10 @@
 import fetchData from "./fetch";
 
+async function getAllProjects() {
+	const result = await fetchData("/project", "GET");
+	return result;
+}
+
 async function getUserProjects(userId) {
     const result = await fetchData(`/user/projects/${userId}`, "GET");
     return result;
@@ -20,9 +25,16 @@ async function deleteProject(projectId) {
     return result;
 }
 
+async function finalizeProject(projectId) {
+    const result = await fetchData(`/project/finalize/${projectId}`, "PUT");
+    return result;
+}
+
 export default {
+	getAllProjects,
     getUserProjects,
     getProjectId,
-    createProject, 
-    deleteProject
+    createProject,
+    deleteProject,
+    finalizeProject
 };

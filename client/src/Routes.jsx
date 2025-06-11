@@ -19,6 +19,7 @@ import RequestDetail from "./pages/requestDetail/RequestDetail";
 import projectUtils from "./utils/projects";
 import { getUserAllProjects } from "./utils/user";
 import getUserByCookies from "./utils/cookies";
+import Credits from "./pages/credits/Credits";
 
 const router = createBrowserRouter([
     {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
                     {
                         path: '/users',
                         element: <Users />
+                    },
+                    {
+                        path: '/credits',
+                        element: <Credits />
                     }
                 ],
             }

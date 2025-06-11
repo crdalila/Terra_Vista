@@ -22,6 +22,10 @@ function Profile() {
 
     const { onLogout, userData } = useContext(AuthContext);
 
+    const randomIconIndex = Math.floor(Math.random() * 12) + 1;
+	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -59,25 +63,24 @@ function Profile() {
 
                     <div className="page-buttons">
                         <button className="logout-button button" onClick={onLogout}>
-                            Logout
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512" width='20' height='20'>
-                                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
-                            </svg>
+                            Logout<i>!</i>
                         </button>
                     </div>
                 </div>
 
                 <button className="back-button" onClick={() => navigate(-1)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-left" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-caret-left" viewBox="0 0 16 16">
                         <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753" />
                     </svg>
                 </button>
             </section>
 
             <section className="page-content">
-                <h3>Edit Password</h3>
                 <form onSubmit={handleSubmit} method="post" className="edit-password-form">
-                    <label htmlFor="current-password">Current password</label>
+                    <h3>Edit Password</h3>
+                    <img src={iconPath} alt={`icon-${randomIconIndex}`} className="project--icons" />
+
+                    <label htmlFor="current-password">Current password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showOldPassword ? "text" : "password"}
@@ -92,7 +95,7 @@ function Profile() {
                             className="toggle-password-button"
                             style={{
                                 position: "absolute",
-                                top: "1.2em",
+                                top: "1.5em",
                                 right: "1em",
                             }}
                         >
@@ -109,7 +112,7 @@ function Profile() {
                         </button>
                     </div>
 
-                    <label htmlFor="new-password">Password</label>
+                    <label htmlFor="new-password">Password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showNewPassword ? "text" : "password"}
@@ -124,7 +127,7 @@ function Profile() {
                             className="toggle-password-button"
                             style={{
                                 position: "absolute",
-                                top: "1.2em",
+                                top: "1.5em",
                                 right: "1em",
                             }}
                         >
@@ -141,7 +144,7 @@ function Profile() {
                         </button>
                     </div>
 
-                    <label htmlFor="confirm-password">Confirm Password</label>
+                    <label htmlFor="confirm-password">Confirm Password*:</label>
                     <div className="password-wrapper">
                         <input
                             type={showConfirmPassword ? "text" : "password"}
@@ -156,7 +159,7 @@ function Profile() {
                             className="toggle-password-button"
                             style={{
                                 position: "absolute",
-                                top: "1.2em",
+                                top: "1.5em",
                                 right: "1em",
                             }}
                         >

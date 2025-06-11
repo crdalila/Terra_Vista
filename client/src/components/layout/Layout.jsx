@@ -4,6 +4,9 @@ import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import TopNavbar from "../navbar/TopNavbar";
 import AsideNavbar from "../navbar/AsideNavbar";
+import Footer from "../footer/Footer";
+
+import useScrollToTop from "../../components/scrollToTop/ScrollToTop";
 
 const Layout = () => {
   const { userData, loading } = useContext(AuthContext);
@@ -21,10 +24,14 @@ const Layout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useScrollToTop();
+
+
   if (!userData) {
     if (loading) return <div>Loading...</div>;
     return <Navigate to="/login" />;
   }
+
 
   return (
     <>
@@ -34,6 +41,7 @@ const Layout = () => {
         toggleMenu={() => setIsMenuOpen((prev) => !prev)}
       />
       <Outlet />
+      <Footer />
     </>
   );
 };
