@@ -4,7 +4,7 @@ function Footer() {
     return (
         <article className="footer">
             <section className="footer-image">
-                <img src="../../../public/images/logo_terra_vista.png" alt="logo" className="footer-logo" />
+                <img src="../../../public/images/terra_vista10k.png" alt="logo" className="footer-logo" />
             </section>
 
             <section className="footer-copyright">
