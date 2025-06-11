@@ -1,5 +1,8 @@
-import Task from "../../models/task";
+import Task, { taskInterface } from "../../models/task";
 import { Request, Response } from "express";
+import { mailInterface, mailType, sendMail } from "../../utils/mailer";
+import { userInterface } from "../../models/user";
+import userController from "../user/userController";
 
 export async function handleClickUpWebhook(req: Request, res: Response) {
 	const event = req.body.event;
@@ -17,7 +20,7 @@ export async function handleClickUpWebhook(req: Request, res: Response) {
 
 			if (clickUpTaskId && newStatus) {
 				await Task.findOneAndUpdate(
-					{ clickUpTaskId }, 
+					{ clickUpTaskId },
 					{ status: newStatus },
 					{ new: true }
 				);
@@ -37,33 +40,44 @@ export async function handleClickUpWebhook(req: Request, res: Response) {
 
 				if (text && !isNaN(parsedDate.getTime())) {
 					await Task.findOneAndUpdate(
-						{ clickUpTaskId }, 
-						{ 
-							$push: { 
+						{ clickUpTaskId },
+						{
+							$push: {
 								comments: {
 									author,
 									comment: text,
 									date: parsedDate
 								}
-							} 
+							}
 						},
 						{ new: true }
 					);
+
+					sendEmailToUserThatCreatedTheTask(clickUpTaskId,text);
 				} else {
 					console.warn("Ignored comment without author, text, or date:", {
-					author,
-					comment: text,
-					date: parsedDate
+						author,
+						comment: text,
+						date: parsedDate
 					});
 				}
 			} else {
 				console.log("Not enough data to update task comment");
 			}
 		}
-		
+
 		res.status(200).send("OK");
 	} catch (err) {
 		console.error("Error al procesar el webhook:", err);
 		res.status(500).send("Internal Server Error");
 	}
+}
+
+async function sendEmailToUserThatCreatedTheTask(clickUpTaskId: string, text: string) {
+	const task: taskInterface = await (Task.findOne({ clickUpTaskId })) as taskInterface;
+	const user: userInterface =
+		await userController.getUserById(task.requester.toString()) as userInterface;
+
+	sendMail(user.name, user.email,
+		"New Comment in your task", text, mailType.comment);
 }
