@@ -37,7 +37,7 @@ function ImageUploader ({ taskId }) {
 	return (
 		<div className="image-uploader">
 			<input type="file" accept=".jpg,.jpeg,.png,.webp" ref={imageInputRef} />
-			<button onClick={handleUpload}>Add a screenshot</button>
+			<button className="button-sendSecreenshot" onClick={handleUpload}>Add a screenshot</button>
 			{error && <p style={{ color: "red" }}>{error}</p>}
 		</div>
 	);

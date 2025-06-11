@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../context/AuthContext";
 import { ProjectContext } from "../../context/ProjectContext";
@@ -11,6 +11,7 @@ import "./RequestDetail.css";
 function RequestDetail() {
     const { state } = useLocation();
 	const initialTask = state?.task;
+	const navigate = useNavigate();
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 

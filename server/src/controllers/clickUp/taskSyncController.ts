@@ -76,6 +76,7 @@ async function syncPendingTasks(userId: string) {
 
 	try {
 		customFieldMap = await ensureCustomFields(String(listId), token);
+		console.log("Custom field map:", customFieldMap);
 		console.log("Custom fields loaded:", Object.keys(customFieldMap));
 	} catch (err: any) {
 		console.error("Error loading custom fields:", err.message);
