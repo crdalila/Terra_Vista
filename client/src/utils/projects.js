@@ -1,5 +1,10 @@
 import fetchData from "./fetch";
 
+async function getAllProjects() {
+	const result = await fetchData("/project", "GET");
+	return result;
+}
+
 async function getUserProjects(userId) {
     const result = await fetchData(`/user/projects/${userId}`, "GET");
     return result;
@@ -26,6 +31,7 @@ async function finalizeProject(projectId) {
 }
 
 export default {
+	getAllProjects,
     getUserProjects,
     getProjectId,
     createProject,

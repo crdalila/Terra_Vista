@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 
 import taskService from "../../utils/tasks";
 import { AuthContext } from "../../context/AuthContext";
+import Modal from "../../components/Modal/Modal";
 import { ProjectContext } from "../../context/ProjectContext";
 import "./RequestForm.css";
 
@@ -13,6 +14,8 @@ function RequestForm() {
     const { task, project } = state || {};
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
+	const [modalMessage, setModalMessage] = useState("");
+	const [showModal, setShowModal] = useState(false);
 
     const isExisting = !!task;
     const [isEditing, setIsEditing] = useState(!isExisting);
@@ -58,7 +61,7 @@ function RequestForm() {
                     ...formData,
                     requester: userData.name
                 });
-                alert("Request updated successfully"); // TODO otro tipo de alerta
+                setModalMessage("Request updated successfully");
             } else if (!isExisting) {
                 const taskPayload = {
                     ...formData,
@@ -69,15 +72,21 @@ function RequestForm() {
                 } else {
                     await taskService.createTask(selectedProject._id, taskPayload);
                 }
-                alert("Request created successfully"); // TODO otro tipo de alerta
+                setModalMessage("Request created successfully");
             }
             navigate("/project", { state: { reaload: true } });
         } catch (err) {
             console.error("Error submitting task", err);
-            alert("There was a problem submitting the request"); // TODO otro tipo de alerta
+            setModalMessage("There was a problem submitting the request");
         } finally {
+			setShowModal(true);
             setLoading(false);
         }
+    };
+
+	const handleModalClose = () => {
+        setShowModal(false);
+        window.location.reload();
     };
 
     return (
@@ -167,6 +176,8 @@ function RequestForm() {
                     )}
                 </form>
             </section>
+
+			{showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
         </article>
     );
 }
