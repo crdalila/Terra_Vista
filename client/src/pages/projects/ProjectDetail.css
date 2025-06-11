@@ -64,7 +64,7 @@
 
     background-color: var(--main-color);
 
-    border: 2px solid var(--orange);
+    border: 2px solid var(--random-color);
     border-radius: 40px;
 
     padding: .5em 1em;
