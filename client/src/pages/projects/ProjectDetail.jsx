@@ -104,8 +104,8 @@ function ProjectDetail() {
         const percentage = Math.round((completedTasks / totalTasks) * 100);
 
         return (
-            <div className="progress-container">
-                <div className="progress-bar" style={{ width: `${percentage}%` }} />
+            <div className="progress-container" style={{'--random-color': randomColor}}>
+                <div className="progress-bar" style={{ width: `${percentage}%`, '--random-color': randomColor  }} />
                 <span className="progress-label">{percentage}% completed</span>
             </div>
         );
