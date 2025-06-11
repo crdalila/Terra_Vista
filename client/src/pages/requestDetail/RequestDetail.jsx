@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import Modal from "../../components/Modal/Modal";
 import { AuthContext } from "../../context/AuthContext";
 import { ProjectContext } from "../../context/ProjectContext";
 import { getTaskById } from "../../utils/tasks";
@@ -14,6 +14,8 @@ function RequestDetail() {
     const navigate = useNavigate();
     const { userData } = useContext(AuthContext);
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
+	const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     const [task, setTask] = useState(initialTask);
     const [newComment, setNewComment] = useState("");
@@ -44,12 +46,19 @@ function RequestDetail() {
             setNewComment("");
             const updatedTask = await getTaskById(task._id);
             setTask(updatedTask);
-            alert("Comment sent to ClickUp!");
+            setModalMessage("Comment sent to ClickUp!");
         } catch (err) {
             console.error(err);
-            alert("Failed to send comment to ClickUp");
-        }
+            setModalMessage("Failed to send comment to ClickUp");
+        } finally {
+			setShowModal(true);
+		}
     };
+
+	const handleModalClose = () => {
+		setShowModal(false);
+		window.location.reload();
+	};
 
     return (
         <article className="request-detail article">
@@ -129,6 +138,10 @@ function RequestDetail() {
                     </div>
                 </div>
             </section>
+
+			{showModal && (
+				<Modal message={modalMessage} onClose={handleModalClose} />
+			)}
         </article>
     );
 }

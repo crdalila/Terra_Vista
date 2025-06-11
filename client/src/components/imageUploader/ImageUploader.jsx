@@ -1,9 +1,12 @@
 import { uploadImageToTask } from "../../utils/clickup";
 import { useState, useRef } from "react";
+import Modal from "../Modal/Modal";
 
 function ImageUploader ({ taskId }) {
 	const [error, setError] = useState(null);
 	const imageInputRef = useRef(null);
+	const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
 	const MAX_SIZE_MB = 5;
 	const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
@@ -27,19 +30,31 @@ function ImageUploader ({ taskId }) {
 
 		try {
 			await uploadImageToTask(taskId, imageFile);
-			alert("Image successfully uploaded");
+			setModalMessage("Image successfully uploaded");
 			imageInputRef.current.value = "";
 		} catch (err) {
 			console.error(err);
 			setError("Error uploading image");
+		} finally {
+			setShowModal(true);
 		}
 	};
+
+	const handleModalClose = () => {
+        setShowModal(false);
+        window.location.reload();
+    };
+
 	return (
-		<div className="image-uploader">
-			<input type="file" accept=".jpg,.jpeg,.png,.webp" ref={imageInputRef} />
-			<button className="button-sendSecreenshot" onClick={handleUpload}>Add a screenshot</button>
-			{error && <p style={{ color: "red" }}>{error}</p>}
-		</div>
+		<>
+			<div className="image-uploader">
+				<input type="file" accept=".jpg,.jpeg,.png,.webp" ref={imageInputRef} />
+				<button className="button-sendSecreenshot" onClick={handleUpload}>Add a screenshot</button>
+				{error && <p style={{ color: "red" }}>{error}</p>}
+			</div>
+	
+			{showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
+		</>
 	);
 }
 

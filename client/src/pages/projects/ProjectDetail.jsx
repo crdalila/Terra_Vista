@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { use, useContext, useEffect, useState } from "react";
 import Select from "react-select"
 import { useRef } from "react";
+import Modal from "../../components/Modal/Modal";
 
 import { AuthContext } from "../../context/AuthContext";
 import TaskList from '../../components/taskList/TaskList'
@@ -17,6 +18,8 @@ function ProjectDetail() {
     const project = useLoaderData();
     const { selectedProject, setSelectedProject } = useProject();
     const projectTaskListRef = useRef(null);
+	const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     const { userData } = useContext(AuthContext);
 
@@ -118,21 +121,28 @@ function ProjectDetail() {
         e.preventDefault();
 
         if (!selectedUsers.length) {
-            alert("Please select at least one user.");
+            setModalMessage("Please select at least one user.");
             return;
         }
         try {
             for (const userId of selectedUsers) {
                 await userService.addUserToProject(userId, selectedProject._id);
             }
-            alert("Users added successfully.");
+            setModalMessage("Users added successfully.");
             setSelectedUsers([]); // Limpiar selección
             fetchUsers();
         } catch (err) {
             console.error("Error adding users to project", err);
-            alert("Failed to add users to the project.");
-        }
+            setModalMessage("Failed to add users to the project.");
+        } finally {
+			setShowModal(true);
+		}
     };
+
+	const handleModalClose = () => {
+		setShowModal(false);
+		window.location.reload();
+	};
 
     const handleRemoveUserFromProject = async (userId) => {
         try {
@@ -298,6 +308,8 @@ function ProjectDetail() {
                     </div>
                 )
             }
+
+			{showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
         </article >
     );
 }

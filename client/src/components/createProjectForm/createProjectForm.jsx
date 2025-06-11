@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select"
+import Modal from "../../components/Modal/Modal";
 
 import { AuthContext } from "../../context/AuthContext";
 import { getClickUpSpaces } from "../../utils/clickup";
@@ -21,6 +22,8 @@ function CreateProjectForm() {
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 	const [existingProjects, setExistingProjects] = useState([]);
+	const [modalMessage, setModalMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
     const randomIconIndex = Math.floor(Math.random() * 12) + 1;
 	const iconPath = `/images/threeIcons/${randomIconIndex}.svg`;
@@ -131,7 +134,7 @@ function CreateProjectForm() {
         e.preventDefault();
 
         if (!projectName || !projectDescription || !selectedSpace || selectedUsers.length === 0) {
-            alert("Please fill in all the fields");
+            setModalMessage("Please fill in all the fields");
             return;
         }
         setLoading(true);
@@ -155,14 +158,20 @@ function CreateProjectForm() {
                 }
                 setShowSuccessModal(true);
             } else {
-                alert("Error creating the project");
+                setModalMessage("Error creating the project");
             }
         } catch (err) {
             console.error("Error creating the project", err);
-            alert("Unexpected error");
+            setModalMessage("Unexpected error");
         } finally {
+			setShowModal(true);
             setLoading(false);
         }
+    };
+
+	const handleModalClose = () => {
+        setShowModal(false);
+        window.location.reload();
     };
 
     const userOptions = users.map((user) => ({
@@ -246,6 +255,7 @@ function CreateProjectForm() {
                     </button>
                 </form>
             </section>
+			{showModal && <Modal message={modalMessage} onClose={handleModalClose} />}
         </article>
     );
 }
