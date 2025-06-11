@@ -258,7 +258,7 @@ function ProjectDetail() {
                 <div className="projects-data">
                     <div className="projects-data--item">
                         <h3>Notifications</h3>
-                        <p>Stay on top of what ́s important, without distractions.</p>
+                        <p>Stay on top of what is important, without distractions.</p>
                     </div>
                     <div className="projects-data--item">
                         <h3>Review history</h3>
