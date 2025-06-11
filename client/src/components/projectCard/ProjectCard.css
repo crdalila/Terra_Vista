@@ -2,14 +2,39 @@
     display: flex;
     flex-flow: column;
 
-    background-color: var(--items-color);
-    padding: 2em;
+    background-color: var(--random-color);
+    padding: 2em 2em 4em 2em;
     border-radius: 20px;
 
     position: relative;
 
     width: 100%;
     max-width: 500px;
+
+    position: relative;
+    /* Ajusta según tu diseño */
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.project::after {
+    content: '';
+    position: absolute;
+    left: -50%;
+    /* Lado izquierdo */
+    bottom: 30px;
+    width: 200%;
+    height: 100%;
+    background-color: var(--items-color);
+    border-bottom-left-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+    z-index: 0;
+    transition: all .3s ease;
+}
+
+.project:hover::after {
+    bottom: 40px;
 }
 
 .project--data {
@@ -17,6 +42,7 @@
     flex-flow: column;
     gap: 2em;
     align-items: flex-start;
+    z-index: 2;
 }
 
 .project--icons {
@@ -33,6 +59,7 @@
     right: 2em;
 
     cursor: pointer;
+    z-index: 2;
 }
 
 

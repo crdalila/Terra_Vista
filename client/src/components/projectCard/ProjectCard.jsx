@@ -14,6 +14,10 @@ function ProjectCard({ project }) {
 	const [issueToDelete, setIssueToDelete] = useState(null);
 	const [error, setError] = useState("");
 
+	const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+	const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+
+
 	// SAVES THE SELECTED PROJECT IN PROJECT CONTEXT
 	const handleClick = () => {
 		setSelectedProject(project);
@@ -57,7 +61,7 @@ function ProjectCard({ project }) {
 
 
 	return (
-		<div className="project">
+		<div className="project" style={{ '--random-color': randomColor }}>
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
