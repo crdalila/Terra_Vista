@@ -25,6 +25,7 @@ function ProjectDetail() {
     const [usersInProject, setUsersInProject] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [finalize, setFinalize] = useState(null);
 
     const [showAddUserForm, setShowAddUserForm] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
@@ -149,7 +150,7 @@ function ProjectDetail() {
     const handleFinalizeProject = async () => {
         try {
             const result = await projectService.finalizeProject(selectedProject._id);
-            console.log("Project is finalized",result);
+            window.location.reload();
             if (result.error) {
                 setError(`Error finalizing project: ${result.message} (status ${result.status})`);
             } else {
@@ -202,7 +203,7 @@ function ProjectDetail() {
         }),
     };
 
-
+    console.log("Finalize",finalize);
     return (
         <article className="project-page article">
             <section className="page-header">
@@ -211,7 +212,7 @@ function ProjectDetail() {
                     <h3>Your website is ready for you<i>!</i></h3>
                     <p>Explore your website and observe the details.</p>
                     <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
-                    <button className="start-project-button button" onClick={handleFinalizeProject}>Finalize Project<i>!</i></button>
+                    {!selectedProject.isFinalize && <button className="start-project-button button" onClick={ ()=>{setFinalize(true)}}>Finalize Project<i>!</i></button>}
                 </div>
 
                 <button className="back-button" onClick={() => navigate(-1)}>
@@ -222,12 +223,12 @@ function ProjectDetail() {
             </section>
 
             <section className="page-content">
-                {userData && userData.role !== "client" && (
+                {userData && userData.role !== "client" && !selectedProject.isFinalize && (
                     <>
                         <div className="project-users">
                             {usersInProject.map(user => (
-                                <UserCard user={user} onRemoveUser={handleRemoveUserFromProject}
-                                text={"Are you sure you want to delete this user from the project?"}/>
+                                <UserCard key={user._id} user={user} onRemoveUser={handleRemoveUserFromProject}
+                                    text={"Are you sure you want to delete this user from the project?"} />
                             ))}
                         </div>
 
@@ -277,7 +278,21 @@ function ProjectDetail() {
                     </div>
                 </div>
             </section>
-            
+            {finalize && (
+                <div className="delete-confirmation" onClick={() => setFinalize(null)}>
+                    <div className="delete-confirmation__content" onClick={(e) => e.stopPropagation()}>
+                        <p>Are you sure you want to finalize this project?</p>
+                        <div className="delete-confirmation__buttons">
+                            <button onClick={() => setFinalize(null)} className="button-cancel">
+                                Cancel
+                            </button>
+                            <button onClick={handleFinalizeProject} className="button-delete">
+                                Finalize
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </article >
     );
 }
