@@ -122,8 +122,30 @@ function RequestForm() {
                     <input type="url" name="page" id="page" value={formData.page} onChange={handleChange} disabled={!isEditing} required />
 
                     <label htmlFor="picture">Screenshot:</label>
-                    <input type="file" accept="image/*" name="picture" id="picture" value={formData.picture} disabled={!isEditing}
-                        onChange={(e) => setImage(e.target.files[0])} />
+                    <input 
+						type="file" 
+						accept="image/jpeg, image/png, image/jpg, image/webp" 
+						name="picture" 
+						id="picture" 
+						disabled={!isEditing}
+						onChange={(e) => {
+							const file = e.target.files[0];
+							if (file) {
+								const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+								if (!validTypes.includes(file.type)) {
+									alert("Only JPG, JPEG, PNG and WEBP images are allowed.");
+									e.target.value = null;
+									return;
+								}
+								if (file.size > 10 * 1024 * 1024) {
+									alert("File too large. Maximum allowed size is 10 MB.");
+									e.target.value = null;
+									return;
+								}
+								setImage(file);
+							}
+						}}
+					/>
 
                     {isExisting && !isEditing && (
                         <button type="button" className="request-form-button" onClick={() => setIsEditing(true)}>Edit</button>

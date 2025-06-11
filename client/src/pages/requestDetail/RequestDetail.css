@@ -10,3 +10,21 @@
 .request-detail__title {
     margin-bottom: 2em;
 }
+
+.button-sendSecreenshot, .button-sendComment {
+	background-color: var(--text-color);
+    color: var(--items-color);
+    cursor: pointer;
+    padding: .5em 2em;
+    margin-top: 2em;
+	margin-left: 2em;
+    border-radius: 40px;
+    font-weight: 200;
+    width: fit-content;
+    transition: all .3s ease;
+}
+
+.button-sendSecreenshot, .button-sendComment :hover {
+    border-radius: 10px;
+	
+}
