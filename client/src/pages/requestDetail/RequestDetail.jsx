@@ -23,6 +23,9 @@ function RequestDetail() {
     const [iconIndex] = useState(() => Math.floor(Math.random() * 12) + 1);
     const iconPath = `/images/threeIcons/${iconIndex}.svg`;
 
+	const colorList = ['#FFB41D', '#F96E43', '#3D9DD8', '#F78BD8', '#189B5C', '#7CE55E'];
+    const randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+
     useEffect(() => {
         const fetchUpdatedTask = async () => {
             try {
@@ -85,19 +88,21 @@ function RequestDetail() {
                             <h3>Terra Comments:</h3>
 
                             {task.comments.map((c) => (
-                                <div key={c._id} className="comment">
+                                <div key={c._id} className="comment" style={{ '--random-color': randomColor }}>
                                     <p><strong>{new Date(c.date).toLocaleDateString()}</strong>:</p>
                                     <p>{c.comment}</p>
                                 </div>
                             ))}
 
-                            <div className="add-comment">
-                                <textarea
+                            <div className="add-comment" style={{ '--random-color': randomColor }}>
+                                <div className="add-comment__message">
+									<textarea
                                     value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                     placeholder="Add a comment..."
-                                />
-                                <button className="button-sendComment" onClick={handleSendComment}>Send</button>
+                                	/>
+                                	<button className="button-sendComment button" onClick={handleSendComment}>Send<i>!</i></button>
+								</div>
 
                                 <ImageUploader taskId={task.clickUpTaskId} />
                             </div>

@@ -25,10 +25,16 @@ async function deleteProject(projectId) {
     return result;
 }
 
+async function finalizeProject(projectId) {
+    const result = await fetchData(`/project/finalize/${projectId}`, "PUT");
+    return result;
+}
+
 export default {
 	getAllProjects,
     getUserProjects,
     getProjectId,
-    createProject, 
-    deleteProject
+    createProject,
+    deleteProject,
+    finalizeProject
 };

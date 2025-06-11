@@ -69,7 +69,7 @@
     min-height: 50px;
 
     background-color: transparent;
-    border: 2px solid var(--pink);
+    border: 2px solid var(--random-color);
     border-radius: 20px;
 
     overflow: hidden;
@@ -82,13 +82,15 @@
 }
 
 .progress-bar {
-    background-color: var(--pink);
-    transition: all 3s ease;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: var(--random-color);
+    height: 100%;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    transition: all .6s ease; 
+    z-index: 1;
 }
+
 
 .progress-label {
     width: 100%;
@@ -98,4 +100,5 @@
     font-size: var(--main-font-size);
     font-weight: var(--main-weight);
     color: var(--text-color);
+    z-index: 2;
 }

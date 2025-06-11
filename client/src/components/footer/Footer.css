@@ -1,0 +1,17 @@
+.footer {
+    min-height: 500px;
+    width: 100vw;
+    background-color: var(--text-color);
+    color: var(--main-color);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    text-align: center;
+    padding-bottom: 4em;
+}
+
+.footer-logo {
+    width: 3000px;
+}
