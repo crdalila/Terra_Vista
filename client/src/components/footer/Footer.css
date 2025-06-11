@@ -9,9 +9,46 @@
     align-items: center;
     gap: 1em;
     text-align: center;
-    padding-bottom: 4em;
+    padding: 4em;
 }
 
 .footer-logo {
     width: 3000px;
+}
+
+.footer-info {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    gap: 4em;
+
+    width: 100%;
+}
+
+.footer-info__item {
+    display: flex;
+    flex-flow: column;
+    gap: 2em;
+    align-items: flex-end;
+}
+
+.footer-info__item h3 {
+    width: 100%;
+    text-align: right;
+}
+
+.footer-info__links {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    gap: 1em;
+
+    font-weight: 500;
+}
+
+.footer-link {
+    display: flex;
+    flex-flow: row;
+    gap: .5em;
+    align-items: center;
 }
