@@ -57,6 +57,8 @@ async function syncPendingTasks(userId: string) {
 	const token = user.clickUpToken;
 	console.log("token", token);
 	const project = user.projects[0] as unknown as projectInterface;
+	console.log("Token",token);
+	console.log("Project",project);
 
 	if (!project || !project.clickUpListId) {
 		console.error("user has no project")
@@ -64,7 +66,7 @@ async function syncPendingTasks(userId: string) {
 	}
 
 	const listId = project.clickUpListId;
-
+	console.log("listId",listId);
 	const pendingTasks = await Task.find({ requester: userId, isSend: false });
 	console.log("Pending tasks to sync:", pendingTasks.length);
 	if (pendingTasks.length === 0) {

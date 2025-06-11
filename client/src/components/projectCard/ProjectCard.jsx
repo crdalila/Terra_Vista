@@ -44,7 +44,11 @@ function ProjectCard({ project }) {
 		}
 
 		const totalTasks = project.tasks.length;
+<<<<<<< HEAD
+		let completedTasks = project.tasks.filter(task => task.status == "Complete").length;
+=======
 		const completedTasks = project.tasks.filter(task => task.status === "completed").length;
+>>>>>>> fullstack
 		const percentage = Math.round((completedTasks / totalTasks) * 100);
 
 		return (
