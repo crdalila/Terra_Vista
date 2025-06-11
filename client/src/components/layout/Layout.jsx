@@ -4,6 +4,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import TopNavbar from "../navbar/TopNavbar";
 import AsideNavbar from "../navbar/AsideNavbar";
+import Footer from "../footer/Footer";
 
 import useScrollToTop from "../../components/scrollToTop/ScrollToTop";
 
@@ -40,6 +41,7 @@ const Layout = () => {
         toggleMenu={() => setIsMenuOpen((prev) => !prev)}
       />
       <Outlet />
+      <Footer />
     </>
   );
 };
