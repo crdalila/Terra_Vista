@@ -61,7 +61,7 @@ function ProjectCard({ project }) {
 
 
 	return (
-		<div className="project" style={{ '--random-color': randomColor, opacity: project.isFinalize ? .5 : 1, }}>
+		<div className="project" style={{ '--random-color': randomColor, opacity: project.isFinalize ? .5 : 1 }}>
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>
