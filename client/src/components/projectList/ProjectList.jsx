@@ -11,7 +11,7 @@ function ProjectList() {
     return (
         <article className="projects-list">
             <section className="projects-list--projects">
-                {projects.length === 0 ? (
+                {!projects || !Array.isArray(projects) || projects.length === 0 ? (
                     <p>You have no projects in progress.</p>
                 ) : (
                     projects.toReversed().map((project) => (
