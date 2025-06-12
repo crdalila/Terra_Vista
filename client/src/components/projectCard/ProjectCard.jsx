@@ -44,7 +44,7 @@ function ProjectCard({ project }) {
 		}
 
 		const totalTasks = project.tasks.length;
-		let completedTasks = project.tasks.filter(task => task.status == "Complete").length;
+		let completedTasks = project.tasks.filter(task => task.status == "complete").length;
 		const percentage = Math.round((completedTasks / totalTasks) * 100);
 
 		return (
@@ -61,7 +61,7 @@ function ProjectCard({ project }) {
 
 
 	return (
-		<div className="project" style={{ '--random-color': randomColor }}>
+		<div className="project" style={{ '--random-color': randomColor, opacity: project.isFinalize ? .5 : 1, }}>
 			<Link to={`/project`} onClick={handleClick} className="project--data">
 				<div className="project--info">
 					<h3>{project.name}</h3>

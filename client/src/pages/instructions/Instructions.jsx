@@ -7,7 +7,7 @@ function Instructions() {
     return (
         <article className="instructions article">
             <section className="page-header">
-                <h2 className="page-title">Manual</h2>
+                <h2 className="page-title">FAQ</h2>
                 <div className="page-info">
                     <h3>Quick guide to make the most of Terra Vista.</h3>
                     <p>Check this manual to learn how to use each section of the platform.</p>

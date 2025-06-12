@@ -103,7 +103,7 @@ function ProjectDetail() {
         }
 
         const totalTasks = project.tasks.length;
-        const completedTasks = project.tasks.filter(task => task.status == "Complete").length;
+        const completedTasks = project.tasks.filter(task => task.status == "complete").length;
         const percentage = Math.round((completedTasks / totalTasks) * 100);
 
         return (
@@ -227,7 +227,7 @@ function ProjectDetail() {
                     <p>Explore your website and observe the details.</p>
                     <div className="page-buttons">
                         {!selectedProject.isFinalize && <button className="finalize-project-button button" onClick={() => { setFinalize(true) }}>Finalize Project<i>!</i></button>}
-                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to tasks<i>!</i></button>
+                        <button className="start-project-button button" onClick={handleScrollToTasks}>Go to requests<i>!</i></button>
                     </div>
                 </div>
 

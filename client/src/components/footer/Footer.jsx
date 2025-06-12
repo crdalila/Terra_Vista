@@ -26,7 +26,7 @@ function Footer() {
                 <div className="footer-info__item">
                     <h3>Credits</h3>
                     <div className="footer-info__links">
-                        {/* <Link to='/credits' className="footer-link button">Meet the team of Terra Vista</Link> */}
+                        <Link to='/credits' className="footer-link button">Meet the team of Terra Vista</Link>
                     </div>
                 </div>
             </section>
