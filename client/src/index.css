@@ -332,6 +332,8 @@ h4 {
   border-radius: 100px;
 
   cursor: pointer;
+
+  z-index: 200;
 }
 
 .page-content {

@@ -76,7 +76,7 @@ function Users() {
                 <div className="page-info">
                     <h3>Connect with your team.</h3>
                     <p>Add, edit, or view the profiles of users who are part of Terra Vista. Manage permissions,
-                        assign tasks, or communicate directly with your team from this centralized section</p>
+                        assign tasks, or communicate directly with your team from this centralized section.</p>
                 </div>
             </section>
 
