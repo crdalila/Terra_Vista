@@ -1,25 +1,25 @@
 import fetchData from "./fetch";
 
 export async function getClickUpSpaces(userId) {
-    const result = await fetchData(`/clickUp/spaces/${userId}`, "GET");
-    return result;
+	const result = await fetchData(`/clickUp/spaces/${userId}`, "GET");
+	return result;
 }
 
 export async function sendFeedback(userId, feedback) {
-    const result = await fetchData(`/clickUp/sync/${userId}`, "POST", feedback);
-    return result;
+	const result = await fetchData(`/clickUp/sync/${userId}`, "POST", feedback);
+	return result;
 }
 
 export async function sendCommentToClickUp(clickUpTaskId, comment) {
-    const result = await fetchData(`/clickUp/comment/${clickUpTaskId}`, "POST", comment);
-    return result;
+	const result = await fetchData(`/clickUp/comment/${clickUpTaskId}`, "POST", comment);
+	return result;
 }
 
 
 // Upload image to task in clickUp
 export async function uploadImageToTask(taskId, imageFile) {
 	if (!taskId || !imageFile) {
-		throw new Error ("There aren't enought data to sent the image")
+		throw new Error("There aren't enought data to sent the image")
 	}
 
 	const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
@@ -38,19 +38,7 @@ export async function uploadImageToTask(taskId, imageFile) {
 
 	console.log("Sending to:", `https://api.clickup.com/api/v2/task/${taskId}/attachment`);
 
-	const response = await fetch(`https://api.clickup.com/api/v2/task/${taskId}/attachment`, {
-		method: "POST",
-		headers: {
-			Authorization: import.meta.env.VITE_CLICKUP_TOKEN,
-		},
-		body: formData,
-	});
+	const result = await fetchData(`/clickUp/comment/${taskId}`, "POST", formData);
 
-	const data = await response.json();
-
-	if (!response.ok) {
-		throw new Error(data.err || "Error loading the image");
-	}
-
-	return data;
+	return result;
 }

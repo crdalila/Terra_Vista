@@ -101,20 +101,6 @@ async function updateTask(req: Request, res: Response) {
 	}
 }
 
-/*
-// Update task status in ClickUp
-async function updateTaskStatus(req: Request, res: Response) {
-	try {
-		const { userId, taskid } = req.params;
-		const { status } = req.body;
-		const result = await clickUpController.updateTaskStatus(userId, taskid, status);
-		res.status(200).json({ success: true, data: result });
-	} catch (error: any) {
-		const myError = catchError(error);
-		res.status(myError.statusCode).json(myError.message);
-	}
-}*/
-
 // Delete task
 async function deleteTask(req: Request, res: Response) {
 	try {
@@ -174,6 +160,24 @@ async function sendCommentToClickUp(req: Request, res: Response) {
 	res.json(response);
 }
 
+async function uploadImageToTask(req: Request, res: Response) {
+	const token = process.env.CLICKUP_API_TOKEN;
+	const taskId = req.params.taskId;
+	const {formData} = req.body;
+
+	const response = await axios.post(
+		`https://api.clickup.com/api/v2/task/${taskId}/attachment`,
+		formData, 
+		{
+			headers: {
+				Authorization: token,
+			},
+		}
+	);
+
+	res.json(response);
+}
+
 
 //===============================================================================
 // Exports
@@ -187,8 +191,8 @@ export default {
 	createTask,
 	updateTask,
 	deleteTask,
-	//updateTaskStatus,
 	sendCommentToClickUp,
+	uploadImageToTask,
 	getClickUpInfo,
 	getPendingTasks
 }
