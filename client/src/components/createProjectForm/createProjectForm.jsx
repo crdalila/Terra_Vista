@@ -133,8 +133,10 @@ function CreateProjectForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+		setModalMessage("");
         if (!projectName || !projectDescription || !selectedSpace || selectedUsers.length === 0) {
             setModalMessage("Please fill in all the fields");
+			setShowModal(true);
             return;
         }
         setLoading(true);
@@ -159,12 +161,13 @@ function CreateProjectForm() {
                 setShowSuccessModal(true);
             } else {
                 setModalMessage("Error creating the project");
+				setShowModal(true);
             }
         } catch (err) {
             console.error("Error creating the project", err);
             setModalMessage("Unexpected error");
-        } finally {
 			setShowModal(true);
+        } finally {
             setLoading(false);
         }
     };
