@@ -174,6 +174,24 @@ async function sendCommentToClickUp(req: Request, res: Response) {
 	res.json(response);
 }
 
+async function uploadImageToTask(req: Request, res: Response) {
+	const token = process.env.CLICKUP_API_TOKEN;
+	const taskId = req.params.taskId;
+	const {formData} = req.body;
+
+	const response = await axios.post(
+		`https://api.clickup.com/api/v2/task/${taskId}/attachment`,
+		formData, 
+		{
+			headers: {
+				Authorization: token,
+			},
+		}
+	);
+
+	res.json(response);
+}
+
 
 //===============================================================================
 // Exports
@@ -189,6 +207,7 @@ export default {
 	deleteTask,
 	//updateTaskStatus,
 	sendCommentToClickUp,
+	uploadImageToTask,
 	getClickUpInfo,
 	getPendingTasks
 }
