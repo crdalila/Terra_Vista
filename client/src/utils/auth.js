@@ -16,9 +16,9 @@ async function login(email, password) {
 }
 
 async function register(email, password) {
-    if (!email || !email.includes("@")) {
-        return { error: "Not valid email" };
-    }
+    // if (!email || !email.includes("@")) {
+    //     return { error: "Not valid email" };
+    // }
     if (!password) {
         return { error: "Please introduce the password" };
     }

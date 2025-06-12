@@ -36,16 +36,16 @@ async function register(userData: userInterface) {
     //Error checking for name and email
     if (!userData.name) throw new UserNameNotProvided();
     if (!userData.email) throw new UserEmailNotProvided();
-    if(isValidJSON(userData.email)) throw new UserInvalidCredentials();
+    //if(isValidJSON(userData.email)) throw new UserInvalidCredentials();
 
     if (!isPasswordCorrect(userData.password)) throw new UserInvalidPassword();
     if (!userData.password) throw new UserPasswordNotProvided();
 
     //This regex force the email to have a text similar to 
     // x@x.x
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    //const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     //Error checking for email
-    if (!emailRegex.test(userData.email)) throw new UserInvalidEmail();
+    //if (!emailRegex.test(userData.email)) throw new UserInvalidEmail();
 
     const oldUser = await User.findOne({ email: userData.email });
 
