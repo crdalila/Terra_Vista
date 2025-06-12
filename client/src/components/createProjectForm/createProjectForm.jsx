@@ -166,7 +166,6 @@ function CreateProjectForm() {
         } catch (err) {
             console.error("Error creating the project", err);
             setModalMessage("Unexpected error");
-			setShowModal(true);
         } finally {
             setLoading(false);
         }

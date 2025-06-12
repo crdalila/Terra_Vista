@@ -11,7 +11,7 @@ const CreditCard = ({ name = "Name", link = "" }) => {
                 </a></h4>
             </div>
             <img alt="random icon"
-                class="project--icons"
+                className="project--icons"
                 src="/images/threeIcons/9.svg" />
         </div>
     );
