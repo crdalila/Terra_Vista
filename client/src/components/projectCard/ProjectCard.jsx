@@ -44,7 +44,7 @@ function ProjectCard({ project }) {
 		}
 
 		const totalTasks = project.tasks.length;
-		let completedTasks = project.tasks.filter(task => task.status == "Complete").length;
+		let completedTasks = project.tasks.filter(task => task.status == "complete").length;
 		const percentage = Math.round((completedTasks / totalTasks) * 100);
 
 		return (
