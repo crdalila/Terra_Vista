@@ -38,7 +38,7 @@ function TaskList({ tasks = [], projectId }) {
     return (
         <article className="tasks-list">
             <section className="tasks-list--title">
-                <h3>Issues</h3>
+                <h3>Requests</h3>
 
                 {isClient && (
                     <section className="tasks-list--buttons">

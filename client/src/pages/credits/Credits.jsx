@@ -27,28 +27,28 @@ function Credits() {
 
             <section className="page-content">
                 <h3>Marketing</h3>
-                <CreditCard name="Inés SecondName" link="" />
-                <CreditCard name="Ibai SecondName" link="" />
+                <CreditCard name="Inés Valdizán" link="www.linkedin.com/in/maría-inés-valdizán-martínez/" />
+                <CreditCard name="Ibai Irastorza" link="https://www.linkedin.com/in/ibaiirastorza/" />
                 <CreditCard name="Lu SecondName" link="" />
                 <CreditCard name="Alonso SecondName" link="" />
                 <CreditCard name="Luis SecondName" link="" />
 
                 <h3>Full Stack</h3>
-                <CreditCard name="Anaís Cabado" link="https://www.linkedin.com/in/anais-cabado-design/" />
+                <CreditCard name="Anaís Cabado (Done0424)" link="https://www.linkedin.com/in/anais-cabado-design/" />
                 <CreditCard name="Dalila Cabrera" link="https://www.linkedin.com/in/dalila-cabrera/" />
                 <CreditCard name="Sandra Fernández" link="https://www.linkedin.com/in/sandra-fernandez-menendez/" />
                 <CreditCard name="Kai Jauregi" link="https://www.linkedin.com/in/kaijauregi/" />
 
                 <h3>Data Science</h3>
-                <CreditCard name="Ana SecondName" link="" />
+                <CreditCard name="Ana Barrios" link="https://www.linkedin.com/in/ana-barrios-alconada-839963226/" />
                 <CreditCard name="Mikel SecondName" link="" />
-                <CreditCard name="Nagore SecondName" link="" />
-                <CreditCard name="Angelos SecondName" link="" />
-                <CreditCard name="Itsazain SecondName" link="" />
+                <CreditCard name="Nagore Juarez" link="https://www.linkedin.com/in/nagore-juarez-rodriguez/" />
+                <CreditCard name="Angelos Ampatzidis" link="https://www.linkedin.com/in/angelos-ampatzidis/" />
+                <CreditCard name="Itsazain M. Bilbao" link="linkedin.com/in/itsazain-m-bilbao/" />
                 <CreditCard name="Miguel SecondName" link="" />
 
                 <h3>Cybersecurity</h3>
-                <CreditCard name="Mikel SecondName" link="" />
+                <CreditCard name="Mikel Rubio" link="https://www.linkedin.com/in/mikelrubio16/" />
                 <CreditCard name="Mariana SecondName" link="" />
                 <CreditCard name="Asisko SecondName" link="" />
                 <CreditCard name="Ander SecondName" link="" />
