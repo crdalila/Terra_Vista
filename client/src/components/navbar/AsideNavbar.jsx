@@ -52,7 +52,7 @@ function AsideNavbar({isOpen, toggleMenu }) {
               to="/instructions"
               className="aside-navbar--button instructions-button" onClick={handleMenuClick}
             >
-              Manual
+              FAQ
             </NavLink>
           </li>
         </ul>
