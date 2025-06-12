@@ -175,7 +175,6 @@ async function sendCommentToClickUp(req: Request, res: Response) {
 }
 
 async function uploadImageToTask(req: Request, res: Response) {
-	const token = process.env.CLICKUP_API_TOKEN;
 	const taskId = req.params.taskId;
 	const {formData} = req.body;
 
