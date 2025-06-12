@@ -50,3 +50,33 @@
     background-color: var(--text-color);
     color: var(--main-color);
 }
+
+.image-preview {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    padding: 1em;
+    border-radius: 40px;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.image-preview p {
+    margin-bottom: 1em;
+    font-size: var(--main-font-size);
+    font-weight: 600;
+    font-family: var(--main-font);
+    word-break: break-word;
+}
+
+.image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    transition: transform 0.3s ease;
+}
+
+.image-preview img:hover {
+    transform: scale(1.05);
+}

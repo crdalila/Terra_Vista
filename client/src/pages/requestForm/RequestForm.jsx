@@ -16,6 +16,8 @@ function RequestForm() {
     const { selectedProject, setSelectedProject } = useContext(ProjectContext);
 	const [modalMessage, setModalMessage] = useState("");
 	const [showModal, setShowModal] = useState(false);
+	const [previewUrl, setPreviewUrl] = useState(null);
+
 
     const isExisting = !!task;
     const [isEditing, setIsEditing] = useState(!isExisting);
@@ -161,9 +163,18 @@ function RequestForm() {
                                     return;
                                 }
                                 setImage(file);
+								setPreviewUrl(URL.createObjectURL(file)); 
                             }
                         }}
                     />
+
+					{image && previewUrl && (
+						<div className="image-preview">
+							<p>Selected file: {image.name}</p>
+							<img src={previewUrl} alt="Preview" style={{ maxWidth: "200px", marginTop: "0.5rem" }} />
+						</div>
+					)}
+
 
                     {isExisting && !isEditing && (
                         <button type="button" className="request-form-button button" onClick={() => setIsEditing(true)}>Edit</button>

@@ -52,7 +52,7 @@ function TaskList({ tasks = [], projectId }) {
 
             <section className="tasks-list--tasks">
                 {tasks.length > 0 && (
-                    tasks.map(task => (
+                    tasks.toReversed().map(task => (
                         <TaskCard task={task} key={task._id} projectId={projectId} />
                     ))
                 )}

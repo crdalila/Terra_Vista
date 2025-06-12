@@ -103,7 +103,7 @@ function ProjectDetail() {
         }
 
         const totalTasks = project.tasks.length;
-        const completedTasks = project.tasks.filter(task => task.status == "Complete").length;
+        const completedTasks = project.tasks.filter(task => task.status == "complete").length;
         const percentage = Math.round((completedTasks / totalTasks) * 100);
 
         return (
