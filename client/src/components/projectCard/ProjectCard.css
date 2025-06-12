@@ -1,0 +1,104 @@
+.project {
+    display: flex;
+    flex-flow: column;
+
+    background-color: var(--random-color);
+    padding: 2em 2em 4em 2em;
+    border-radius: 20px;
+
+    position: relative;
+
+    width: 100%;
+    max-width: 500px;
+
+    position: relative;
+    /* Ajusta según tu diseño */
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.project::after {
+    content: '';
+    position: absolute;
+    left: -50%;
+    /* Lado izquierdo */
+    bottom: 30px;
+    width: 200%;
+    height: 100%;
+    background-color: var(--items-color);
+    border-bottom-left-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+    z-index: 0;
+    transition: all .3s ease;
+}
+
+.project:hover::after {
+    bottom: 40px;
+}
+
+.project--data {
+    display: flex;
+    flex-flow: column;
+    gap: 2em;
+    align-items: flex-start;
+    z-index: 2;
+}
+
+.project--icons {
+    width: 8em;
+}
+
+.project--chart {
+    width: 5em;
+}
+
+.project-card__trash {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+
+    cursor: pointer;
+    z-index: 2;
+}
+
+
+.progress-container {
+    width: 100%;
+    position: relative;
+    min-height: 50px;
+
+    background-color: transparent;
+    border: 2px solid var(--random-color);
+    border-radius: 20px;
+
+    overflow: hidden;
+    margin: 1rem 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5em 1em;
+}
+
+.progress-bar {
+    background-color: var(--random-color);
+    height: 100%;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    transition: all .6s ease; 
+    z-index: 1;
+}
+
+
+.progress-label {
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+    font-size: var(--main-font-size);
+    font-weight: var(--main-weight);
+    color: var(--text-color);
+    z-index: 2;
+}

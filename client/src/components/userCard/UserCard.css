@@ -1,0 +1,16 @@
+.user-card {
+    background-color: var(--main-color);
+    padding: .5em 1em;
+    border: 2px solid var(--random-color);
+    border-radius: 40px;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    text-align: center;
+
+    cursor: pointer;
+}

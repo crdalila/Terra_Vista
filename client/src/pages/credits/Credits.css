@@ -1,0 +1,72 @@
+.credit-card {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    background-color: var(--random-color);
+    padding: 2em 2em 4em 2em;
+    border-radius: 20px;
+
+    position: relative;
+
+    width: 100%;
+    max-width: 400px;
+
+    position: relative;
+    /* Ajusta según tu diseño */
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.credit-card::after {
+    content: '';
+    position: absolute;
+    left: -50%;
+    /* Lado izquierdo */
+    bottom: 30px;
+    width: 200%;
+    height: 100%;
+    background-color: var(--items-color);
+    border-bottom-left-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+    z-index: 0;
+    transition: all .3s ease;
+}
+
+.credit-card:hover::after {
+    bottom: 40px;
+}
+
+.credit-card h4, .credit-card a, .credit-card img {
+    z-index: 2;
+}
+
+.credit-card--link {
+    display: flex;
+    flex-flow: row;
+    gap: .5em;
+    align-items: center;
+
+    margin-top: 2em;
+}
+
+
+
+#credits-page--content {
+    display: flex;
+    flex-flow: column;
+    gap: 4em;
+}
+
+.credits-page--item {
+    display: flex;
+    flex-flow: column;
+    gap: 2em;
+}
+
+.credits-page--users {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1em;
+}

@@ -1,0 +1,62 @@
+.instructions {
+    display: flex;
+    flex-flow: column;
+    gap: 2em;
+}
+
+.instructions-item {
+    display: flex;
+    flex-flow: row;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+.icons-instructions {
+    width: 8em;
+    margin-top: .5em;
+}
+
+
+.instructions-contact {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 2em;
+
+    background-color: var(--items-color);
+
+    width: 100%;
+    padding: 2em;
+
+    position: static;
+    bottom: 0;
+    left: 0;
+}
+
+.instructions-contact--info {
+    display: flex;
+    flex-flow: column;
+}
+
+.instructions-contact--title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-top: 1em;
+}
+
+.icons-instructions-contact {
+    width: 10em;
+}
+
+
+
+@media (max-width: 1400px) {
+    .instructions-contact {
+        flex-flow: column;
+    }
+
+    .instructions-item {
+        flex-flow: column;
+        margin-top: 1em;
+    }
+}
