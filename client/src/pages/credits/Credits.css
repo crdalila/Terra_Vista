@@ -1,0 +1,9 @@
+.credit-card {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+
+    background-color: var(--items-color);
+    padding: 2em;
+    border-radius: 20px;
+}
