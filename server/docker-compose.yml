@@ -1,0 +1,49 @@
+services:
+
+  app:
+    container_name: ${APP_HOST}
+    build: .
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:3000
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    networks:
+      - terravista_network
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: ${DB_HOST}
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:27017
+    networks:
+      - terravista_network
+    volumes:
+      - mongo_data:/data/db
+
+  ml-api:
+    container_name: ml_api
+    build: ../ml_api
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    volumes:
+      - ../ml_api:/app
+    networks:
+      - terravista_network
+  
+volumes:
+  node_modules:
+  mongo_data:
+
+networks:
+  terravista_network:
+    
