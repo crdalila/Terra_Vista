@@ -1,10 +1,10 @@
-<img width="30%" height="30%" src="./client/public/images/logo_terra_vista.svg">
+<img width="30%" height="30%" src="./client/public/images/logo_terra_vista.png">
 
 This webside is made as a challenge from the company [Terra](https://terrahq.com/).
 In this challenge, we need to create a website where the client can add different tasks in the project they are doing with Terra,and be connected to ClickUp to improve the project managers life.
 
 <h1 style="padding:0px;margin:0px;">Project Objectives</h1> 
-<img width="10%" height="10%" src="./client/public/images/icons-card.png"> 
+<img width="10%" height="10%" src="./client/public/images/threeIcons/1.svg"> 
 <br><br>
 
 
@@ -14,7 +14,7 @@ In this challenge, we need to create a website where the client can add differen
 - Give the client a much cleaner and better way to ask for the needs they will have in their projects
 
 <h1 style="padding:0px;margin:0px;">Functionality</h1> 
-<img width="10%" height="10%" src="./client/public/images/icons-card.png"> 
+<img width="10%" height="10%" src="./client/public/images/threeIcons/2.svg"> 
 <br>
 
 ### Backend
@@ -53,7 +53,7 @@ In this challenge, we need to create a website where the client can add differen
 
 
 <h1 style="padding:0px;margin:0px;">Technologies</h1> 
-<img width="10%" height="10%" src="./client/public/images/icons-card.png"> 
+<img width="10%" height="10%" src="./client/public/images/threeIcons/3.svg"> 
 <br>
 
 
@@ -89,7 +89,7 @@ In this challenge, we need to create a website where the client can add differen
 
 
 <h1 style="padding:0px;margin:0px;">Project Structure</h1> 
-<img width="10%" height="10%" src="./client/public/images/icons-card.png"> 
+<img width="10%" height="10%" src="./client/public/images/threeIcons/4.svg"> 
 <br><br><br>
 
 ```
