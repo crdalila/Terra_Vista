@@ -11,6 +11,7 @@ import Task from '../../models/task';
 import syncPendingTasks from './taskSyncController';
 //================================Error Management===============================
 import catchError from "../../utils/errors/controllerError";
+import axios from 'axios';
 //===============================================================================
 
 
@@ -68,7 +69,7 @@ async function syncPendingTasksHandler(req: Request, res: Response) {
 	try {
 		const { userId } = req.params;
 		const result = await syncPendingTasks(userId);
-		res.status(200).json(result );
+		res.status(200).json(result);
 	} catch (err: any) {
 		res.status(500).json({ success: false, error: err.message });
 	}
@@ -79,7 +80,7 @@ async function createTask(req: Request, res: Response) {
 	try {
 		const { userId, listId } = req.params;
 		const taskData = req.body;
-		const result = await clickUpController.createTask(listId,userId, taskData);
+		const result = await clickUpController.createTask(listId, userId, taskData);
 		res.status(200).json({ success: true, data: result });
 	} catch (error: any) {
 		const myError = catchError(error);
@@ -153,11 +154,31 @@ async function getPendingTasks(req: Request, res: Response) {
 	}
 }
 
+async function sendCommentToClickUp(req: Request, res: Response) {
+	const token = process.env.CLICKUP_API_TOKEN;
+	const clickUpTaskId = req.params.taskId;
+	const { comment } = req.body;
+
+	const response = await axios.post(
+		`https://api.clickup.com/api/v2/task/${clickUpTaskId}/comment`,
+		{
+			comment_text: comment,
+		},
+		{
+			headers: {
+				Authorization: token,
+				'Content-Type': 'application/json',
+			},
+		}
+	);
+	res.json(response);
+}
+
 
 //===============================================================================
 // Exports
 
-export default{
+export default {
 	getSpaces,
 	ensureDevFolderQAList,
 	getFolders,
@@ -167,6 +188,7 @@ export default{
 	updateTask,
 	deleteTask,
 	//updateTaskStatus,
+	sendCommentToClickUp,
 	getClickUpInfo,
 	getPendingTasks
 }
