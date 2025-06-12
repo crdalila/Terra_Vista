@@ -10,13 +10,11 @@ function TaskDetail() {
 
     useEffect(() => {
         if (!task) {
-            navigate("/project"); // Volver si no hay task
+            navigate("/project");
         }
     }, [task, navigate]);
 
     if (!task) return null;
-
-    //TODO buttons edit tasks
 
     return (
         <article className="task-detail article">

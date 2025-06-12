@@ -86,7 +86,7 @@ async function createProject(req: Request, res: Response) {
     //Get parameters for function to work
     const projectManagerId = ((req as IGetUserAuthInfoRequest).user as JwtPayload)._id;
     const projectData: projectInterface = req.body;
-    const { clickUpSpaceId } = projectData; //TODO
+    const { clickUpSpaceId } = projectData;
 
     if (!projectManagerId) throw new UserNotFound();
     if (!clickUpSpaceId) throw new ClickUpSpaceIdNotProvided();

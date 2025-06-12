@@ -37,6 +37,7 @@ router.post("/sync/:userId", clickUpApiController.syncPendingTasksHandler);
 // Get tasks not sent to clickUp
 router.get("/pending/:userId", clickUpApiController.getPendingTasks);
 
-router.post("/comment/:taskId",clickUpApiController.sendCommentToClickUp)
+router.post("/comment/:taskId",clickUpApiController.sendCommentToClickUp);
+router.post("/attachment/:taskId",clickUpApiController.uploadImageToTask);
 
 export default router;
