@@ -113,3 +113,16 @@
 .password-wrapper {
     position: relative;
 }
+
+
+.toggle-password-button {
+    position: "absolute";
+    top: "1.2em";
+    right: "1em";
+}
+
+@media (max-width: 768px) {
+    .toggle-password-button {
+        right: 0.5em;
+    }
+}
