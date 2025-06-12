@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Instalar dependencias del sistema (incluyendo OpenMP para XGBoost)
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
@@ -11,13 +11,13 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 
-# Actualizar pip
+# Update pip
 RUN pip install --upgrade pip
 
-# Instalar dependencias Python
+# Install required Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verificar que todo se instaló correctamente
+# Check if all packages are installed
 RUN python -c "import numpy, sklearn, pandas, xgboost; print('All packages loaded successfully')"
 
 COPY . .
